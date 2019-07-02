@@ -1,4 +1,4 @@
-﻿
+
 
 body {
 
@@ -883,12 +883,21 @@ h2 {
 
 
     .playingNowWrapper, .movieWrapper {
-        height: 13rem;
+        height: 20rem;
         width: 9rem;
     }
 
+    /*.playingNowWrapper:first-child, .movieWrapper:first-child {
+        margin-top: 0;
+    }
+
+    .playingNowWrapper:not(:first-child), .movieWrapper:not(:first-child) {
+        margin-top: 7rem;
+    }*/
+
     .playingNowWrapper > p, .movieWrapper > p {
         /*top: -8rem;*/
+        font-size: 1rem;
     }
 
     .movieImg {
@@ -941,7 +950,7 @@ h2 {
     }
 
     .movieImg {
-        height: 200px;
+        height: 167px;
     }
 }
 
