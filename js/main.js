@@ -4,7 +4,7 @@ var wrapper;
 var total_results;
 var title;
 var imdb = 'https://www.imdb.com/title/';
-var baseUrl = "http://sg.media-imdb.com/suggests/";
+var baseUrl = "https://sg.media-imdb.com/suggests/";
 var valid;
 
 var onInputResults;
@@ -191,9 +191,7 @@ function showResults() {
                     $('#searchMovie').val(movieName);
                     searchMovie();
                 })
-            }).error(function (typeerror) {
-                console.log(typeerror);
-            })
+            });
         }
 
     })
