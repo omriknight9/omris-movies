@@ -102,8 +102,6 @@ function showResults() {
                           + cleanInput.toLowerCase()
                           + ".json";
 
-            console.log(queryUrl);
-
             $.ajax({
 
                 url: queryUrl,
