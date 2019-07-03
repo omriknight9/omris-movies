@@ -806,6 +806,15 @@ h2 {
     }
 }
 
+@media only screen and (max-width: 920px) {
+    .inputColumn {
+        width: 70%;
+    }
+
+    .results {
+        width: 80%;
+    }
+}
 
 @media only screen and (max-width: 765px) {
     #popcornImg {
@@ -839,14 +848,13 @@ h2 {
         width: 30%;
     }
 
-    .inputColumn {
+    /*.inputColumn {
         width: 70%; 
     }
 
     .results {
         width: 80%;
-
-    }
+    }*/
 
     .container {
         margin-bottom: 3rem;
@@ -986,6 +994,10 @@ h2 {
 
 @media only screen and (max-width: 400px) {
 
+    .resultRow .description {
+        width: 65%;
+    }
+
     .imdbImage {
 
         height: 200px;
@@ -1009,6 +1021,10 @@ h2 {
 }
 
 @media only screen and (max-width: 350px) {
+
+    .resultRow .description {
+        padding-left: 2rem;
+    }
 
     .header > h1 {
         font-size: 1.5rem;
