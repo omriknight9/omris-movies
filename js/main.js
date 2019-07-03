@@ -4,6 +4,7 @@ var wrapper;
 var total_results;
 var title;
 var imdb = 'https://www.imdb.com/title/';
+var baseUrl = "http://sg.media-imdb.com/suggests/";
 var valid;
 
 var onInputResults;
@@ -69,101 +70,134 @@ $(document).ready(function () {
         }
     });
 
-    $('#searchMovie').on('input', function () {
-        $('.movieUl').css('display', 'block');
-        
-        $('.resultWrapper').remove();
-
-        //$('.movieLi').remove();
-        backColor(this);
-        $('.inputError').fadeOut(200);
-        $('.noMovieError').fadeOut(500);
-
-        //console.log($(this).val());
-
-        //if ($(this).val().length > 4 && $(this).val() !== '') {
-
-        //    $('.results').css('display', 'block');
-
-        //    var resultWrapper = $('<div>', {
-        //        class: 'resultWrapper'
-        //    }).appendTo($('.movieUl'));
-
-
-        //    $.ajax({
-        //        type: 'GET',
-        //        crossDomain: true,
-        //        url: 'http://www.omdbapi.com/?apikey=' + omdbKey + '&type=movie&s=' + $(this).val(),
-        //        dataType: "jsonp",
-        //        ifModified: true,
-        //        success: function (data) {
-        //            onInputResults = data.Search;
-        //            //console.log(data);
-
-                    
-
-        //            try {
-        //                for (var i = 0; i < onInputResults.length; i++) {
-
-        //                    title = onInputResults[i].Title;
-
-        //                    var year = title + ' (' + onInputResults[i].Year + ')';
-
-        //                    var posterImg = onInputResults[i].Poster;
-
-        //                    if (posterImg == 'N/A') {
-        //                        posterImg = './images/stock.png'
-        //                    }
-
-
-        //                    var movieLI = $('<li>', {
-        //                        class: 'movieLi',
-        //                        html: '<span>' + year + '</span>',
-  
-        //                        click: function () {
-
-        //                            var str = $(this)[0].textContent;
-        //                            str = str.substring(0, str.indexOf('('));
-       
-        //                            $('#searchMovie').val(str);
-
-        //                            $('.movieUl').css('display', 'none');
-        //                            $('.results').css('display', 'none');
-
-        //                            searchMovie();
-
-
-        //                        },
-        //                    }).appendTo(resultWrapper);
-
-        //                    var movieResultImage = $('<img>', {
-        //                        class: 'movieResultImage',
-        //                        src: posterImg,
-        //                    }).appendTo(movieLI);
-
-
-        //                }
-        //            } catch (e) {
-        //                //console.log(e);
-        //                return;
-        //            }
-
-        //        },
-        //        error: function (err) {
-
-        //            //console.log(err);
-        //        }
-        //    })
-
-        //} else {
-        //    $('.results').css('display', 'none');
-        //}
-
-    })
+    showResults();
 
     getPlayingNow();
 
 })
+
+function showResults() {
+
+    $(document).mouseup(function (e) {
+        var container = $(".results");
+
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.hide();
+        }
+    });
+
+    $('#searchMovie').on('keyup', function () {
+        var cleanInput = $('#searchMovie').val().replace(/\s/g, "");
+
+        if (cleanInput.length === 0) {
+            //$('.results').innerHTML = "";
+            $('.results').html('');
+            $('.results').css('display', 'none');
+        }
+
+        if (cleanInput.length > 0) {
+
+
+            var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/"
+                          + cleanInput.toLowerCase()
+                          + ".json";
+
+            console.log(queryUrl);
+
+            $.ajax({
+
+                url: queryUrl,
+                dataType: 'jsonp',
+                cache: true,
+                jsonp: false,
+                jsonpCallback: "imdb$" + cleanInput.toLowerCase()
+
+            }).done(function (result) {
+
+                if (result.d.length > 0) {
+                    $('.results').html('');
+                    $('.results').css('display', 'none');
+                }
+
+                $('.results').css('display', 'block');
+                $('.results').animate({ scrollTop: 0 }, 'fast');
+
+                for (var i = 0; i < result.d.length; i++) {
+
+                    var category = result.d[i].id.slice(0, 2);
+
+                    //category === "nm"
+
+                    if (category === "tt") {
+                        //row for risplaying one result
+                        var resultRow = document.createElement('div');
+                        resultRow.setAttribute('class', 'resultRow');
+                        var destinationUrl;
+
+                        destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
+
+                        //if (category === "tt") {
+                        //    destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
+                        //} else {
+
+                        //    destinationUrl = "http://www.imdb.com/name/" + result.d[i].id;
+                        //}
+
+                        resultRow.setAttribute('href', destinationUrl);
+                        resultRow.setAttribute('target', '_blank');
+
+                        var posterWrapper = document.createElement('div');
+                        posterWrapper.setAttribute('class', 'posterWrapper');
+
+                        var poster = document.createElement('img');
+                        poster.setAttribute('class', 'poster');
+
+                        if (result.d[i].i) {
+                            var imdbPoster = result.d[i].i[0];
+                            imdbPoster = imdbPoster.replace("._V1_.jpg", "._V1._SX40_CR0,0,40,54_.jpg");
+                            var posterUrl =
+                                "http://i.embed.ly/1/display/resize?key=798c38fecaca11e0ba1a4040d3dc5c07&url="
+                                + imdbPoster
+                                + "&height=54&width=40&errorurl=http%3A%2F%2Flalwanivikas.github.io%2Fimdb-autocomplete%2Fimg%2Fnoimage.png&grow=true"
+                            poster.setAttribute('src', posterUrl);
+                        }
+
+                        //creating and setting description
+                        var description = document.createElement('div');
+                        description.setAttribute('class', 'description');
+                        var name = document.createElement('h4');
+                        var snippet = document.createElement('h5');
+
+                        if (category === "tt" && result.d[i].y) {
+                            name.innerHTML = result.d[i].l + " (" + result.d[i].y + ")";
+                        } else {
+                            name.innerHTML = result.d[i].l;
+                        }
+                        snippet.innerHTML = result.d[i].s;
+
+                        $(description).append(name);
+                        $(description).append(snippet);
+                        $(resultRow).append(posterWrapper);
+                        $(posterWrapper).append(poster);
+                        $(resultRow).append(description);
+                        //$("#result").append(resultRow);
+                        $('.results').append(resultRow);
+                    }
+                }
+
+                $('.resultRow').click(function () {
+                    
+                    $('.results').fadeOut('fast');
+                    var movieName = $(this).find('.description h4').html();
+                    
+                    $('#searchMovie').val(movieName);
+                    searchMovie();
+                })
+            });
+        }
+
+    })
+}
 
 function goToTop() {
     $('html,body').animate({ scrollTop: 0 }, 'slow');
@@ -177,9 +211,7 @@ function scrollBtn() {
     else {
         $('.goToTopBtn').fadeOut();
     }
-
 }
-
 
 function getPlayingNow() {
 
@@ -196,13 +228,7 @@ function getPlayingNow() {
         ifModified: true,
         success: function (data) {
 
-
-            //console.log(data);
-
             playingNow = data.results;
-
-
-
             for (var i = 0; i < data.results.length; i++) {
 
                 try {
@@ -212,7 +238,6 @@ function getPlayingNow() {
 
                     movieImage = playingNow[i].backdrop_path;
                     
-
                     movieId = playingNow[i].id;
                     var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
                     var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
@@ -220,7 +245,6 @@ function getPlayingNow() {
                     if (path == 'undefined' || path == null) {
                         tmdbPathPosterPath = './images/stock.png';
                     }
-
 
                     wrapper = $('<div>', {
                         class: 'playingNowWrapper',
@@ -249,29 +273,27 @@ function getPlayingNow() {
                     //console.log(e);
                     //return;
                 }
-
-
-
             }
-
         },
         error: function (err) {
-
             //console.log(err);
         }
     })
 }
 
-
 function searchMovie() {
 
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
-
+    var regex = /[^A-Za-z0-9]+/g;
 
     valid = true;
 
     var inputVal = $('#searchMovie').val();
+
+    var noParentheses = inputVal.replace(/\([^()]*\)/g, "");
+
+    var inputValClean = noParentheses.replace(regex, " ");
 
     if ((inputVal == '' || inputVal == null || ($("#searchMovie").val().length) <= 2)) {
         $('.inputError').fadeIn(500);
@@ -279,10 +301,8 @@ function searchMovie() {
         {
             'color': 'red'
             //'border-color': 'red',
-
         });
         valid = false;
-
     }
 
     if (valid) {
@@ -315,13 +335,12 @@ function searchMovie() {
 
                 width = 1;
             }
-
         }
-
 
         $('.chosenMovie').remove();
         $('.movieWrapper').remove();
-        var val = $('#searchMovie').val();
+        //var val = $('#searchMovie').val();
+        var val = inputValClean;
         //var page = 1;
         var total_pages;
 
@@ -347,8 +366,6 @@ function searchMovie() {
                 for (var i = 0; i < total_results; i++) {
 
                     try {
-
-
                         var path = topTen[i].poster_path;
                         title = topTen[i].title;
 
@@ -391,17 +408,12 @@ function searchMovie() {
                     } catch (e) {
                         return;
                     }
-
                 }
-
             },
             error: function (err) {
-
                 //console.log(err);
             }
         })
-
-
 
         setTimeout(function () {
 
@@ -419,7 +431,6 @@ function searchMovie() {
                         rest = data.results;
 
                         for (var j = 0; j < data.total_results; j++) {
-
 
                             try {
                                 var path = rest[j].poster_path;
@@ -477,8 +488,6 @@ function searchMovie() {
                     }
                 });
             }
-
-
         }, 500)
 
         $('#searchMovie').val('');
@@ -490,12 +499,8 @@ function searchMovie() {
             }
             
         }, 3500)
-        
-
     }
-
 }
-
 
 function thanos() {
     $('.thanos').show();
@@ -511,7 +516,6 @@ function thanos() {
         //$('.thanosImg').show(500);
         $('.container').css('opacity', '1');
     }, 8000);
-
 }
 
 function goHome() {
@@ -547,7 +551,6 @@ function movieClicked(movieId, div, path) {
     $('.movieWrapper').remove();
 
     $('.movieImg').remove();
-
 
     var width = 1;
     var id2 = setInterval(frame, 30);
@@ -589,7 +592,6 @@ function movieClicked(movieId, div, path) {
                 //$('.thanosImg').click(function () {
                 //    thanos();
                 //});
-
             }
 
             movieImage = data.backdrop_path;
@@ -648,7 +650,6 @@ function movieClicked(movieId, div, path) {
                 text: 'Revenue: ' + ' $ ' + withCommas,
             }).appendTo(movieDetails);
 
-
             var hoursRuntime = convertMinsToHrsMins(data.runtime);
 
             var runtime = $('<p>', {
@@ -675,10 +676,6 @@ function movieClicked(movieId, div, path) {
 
                 arr.push(data.genres[i].name);
                 arr.join(' , ');
-        
-                //arr.split(',').join(', ');
-                
-
             }
 
             var movieGenre = $('<span>', {
@@ -730,7 +727,6 @@ function movieClicked(movieId, div, path) {
                             actorImgPath = './images/actor.png';
                         }
 
-
                         var characterWrapper = $('<div>', {
                             class: 'castName',
                         }).appendTo($('.castWrapper'));
@@ -744,7 +740,6 @@ function movieClicked(movieId, div, path) {
                             class: 'actorImg',
                             src: actorImgPath,
                             id: data.cast[i].id,
-                            //value: $(this)[0].attributes.id.textContent,
                             click: function () {
                                 goToActorImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
                             }
@@ -761,11 +756,9 @@ function movieClicked(movieId, div, path) {
                             text: data.cast[i].character
                         }).appendTo(characterWrapper);
 
-
                     } catch (e) {
                         return;
                     }
-
                 }
 
                 $('.actorImg').trigger("click");
@@ -783,7 +776,6 @@ function movieClicked(movieId, div, path) {
     $('.chosenMovie').off();
     $('.actorImg').off();
 
-
     setTimeout(function () {
         $.ajax({
             type: 'GET',
@@ -799,16 +791,12 @@ function movieClicked(movieId, div, path) {
 
                     var galleryImgPath;
 
-                    //console.log(test);
-
                     if (galleryImg == null || galleryImg == '') {
                         
                         galleryImgPath = './images/noImage.png';
                     } else {
                         galleryImgPath = 'https://image.tmdb.org/t/p/w500/' + galleryImg;
                     }
-
-                    //console.log(galleryImgPath);
 
                     var movieGalleryImg = $('<img>', {
                         class: 'movieGalleryImg',
@@ -826,7 +814,6 @@ function movieClicked(movieId, div, path) {
         })
     }, 500)
 
-
      setTimeout(function () {
         $.ajax({
             type: 'GET',
@@ -835,10 +822,6 @@ function movieClicked(movieId, div, path) {
             dataType: "json",
             ifModified: true,
             success: function (data) {
-                
-                
-                //console.log(data);
-
 
                 for (var i = 0; i < data.results.length; i++) {
    
@@ -850,11 +833,8 @@ function movieClicked(movieId, div, path) {
                         width: '420',
                         height: '315'
 
-
                     }).appendTo($('.moveiVideos'));
-                    
                 }
-
             },
             error: function (err) {
 
@@ -884,17 +864,8 @@ function movieClicked(movieId, div, path) {
 
         }
 
-            //console.log($('.movieGalleryImg'));
-            //console.log(tmp2);
-
     }, 4000)
-
-
-
 }
-
-
-
 
 function goToActorImdb(imdbActorId, that) {
 
@@ -907,8 +878,6 @@ function goToActorImdb(imdbActorId, that) {
 
         success: function (data) {
 
-            //console.log(data);
-
             that.attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
             that.attr('target', '_blank');
 
@@ -917,14 +886,8 @@ function goToActorImdb(imdbActorId, that) {
 
             //console.log(err);
         }
-
     })
-
-
 }
-
-
-
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -941,9 +904,6 @@ function convertMinsToHrsMins(mins) {
     } else {
         return h + ' Hour ' + ' And ' + m + ' Minutes';
     }
-
-    
-    
 }
 
 function backColor(elem) {
@@ -1003,7 +963,6 @@ function changeMonthName(month) {
             monthName = 'December';
             break;
         }
-
     }
 }
 
@@ -1029,8 +988,6 @@ function changeDayName(day) {
         default: {
             dayName = day + 'th';
         }
-
-
     }
 }
 
