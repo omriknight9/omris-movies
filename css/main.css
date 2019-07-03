@@ -800,6 +800,11 @@ h2 {
 
 
 @media only screen and (max-width: 1000px) {
+
+    .resultRow .description {
+        padding-left: 2rem;
+    }
+
     .playingNowHeader {
         margin-top: 5rem;
         text-align: center;
