@@ -246,13 +246,13 @@ body {
 #searchBox {
     width: 100%;
     position: relative;
-  
 }
 
 #searchMovie {
     background: none;
     display: block;
     margin-top: 6rem;
+    width: 100%;
     /*width: 140%;*/
     /*color: white !important;*/
     height: 2rem;
@@ -260,7 +260,8 @@ body {
     border: 0; 
     /*padding: 7px 0;*/ 
     border-bottom: 1px solid #ccc;
-    font: 15px/24px 'Muli', sans-serif; color: #333; width: 100%; box-sizing: border-box; letter-spacing: 1px;
+    /*font: 15px/24px 'Muli', sans-serif; color: #333; width: 100%; box-sizing: border-box; letter-spacing: 1px;*/
+    font-size: 1.2rem;
 }
 
 #searchImg {
@@ -274,13 +275,14 @@ body {
 .results {
     position: absolute;
     display: none;
-    z-index: 100;
-    top: 12rem;
+    z-index: 101;
+    top: 11.5rem;
     background-color: white;
     width: 30%;
     height: 20rem;
     overflow-y: scroll;
     box-shadow: 0 2px 2px 2px #848484;
+    border-radius: 5px;
 
 }
 
@@ -309,6 +311,39 @@ body {
     /*justify-content: center;*/
 }
 
+.resultRow {
+    padding: 0 2rem 0 1rem;
+    cursor: pointer;
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-around;
+    /*height: 2rem;*/
+    border-bottom: 1.3px solid #4caf50;
+}
+
+.resultRow .description {
+    width: 70%;
+}
+
+.posterWrapper {
+    width: 16%;
+    padding-top: 1rem;
+}
+
+.resultRow h5 {
+    margin-bottom: 1rem;
+}
+
+.resultRow:nth-child(odd) {
+    /*background-color: lightgray;*/
+}
+
+.poster {
+    width: 50px;
+    height: 70px;
+}
+
+
 .movieResultImage {
     width: 100px;
     height: 140px;
@@ -322,14 +357,11 @@ body {
     justify-content: center;
 }
 
-
 .inputColumn {
     width: 30%; 
     margin-top: 3rem;
     position: relative;
-
 }
-
 
 #searchMovie:focus {
     outline: none;
@@ -381,8 +413,6 @@ h2 {
 	text-align: center;
 	font-weight: 300;
 }
-
-
 
 .spinner {
     display: none;
