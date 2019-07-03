@@ -191,7 +191,9 @@ function showResults() {
                     $('#searchMovie').val(movieName);
                     searchMovie();
                 })
-            });
+            }).error(function (typeerror) {
+                console.log(typeerror);
+            })
         }
 
     })
