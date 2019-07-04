@@ -680,6 +680,7 @@ h2 {
 }
 
 .castWrapper::-webkit-scrollbar {
+    -webkit-appearance: none;
     width: 12px;
     background-color: #F5F5F5;
     /*border-radius: 50%;*/
