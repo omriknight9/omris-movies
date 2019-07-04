@@ -70,11 +70,129 @@ $(document).ready(function () {
         }
     });
 
-    showResults();
+
+    test();
 
     getPlayingNow();
 
 })
+
+function test() {
+    $(document).mouseup(function (e) {
+        var container = $(".results");
+
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.hide();
+        }
+    });
+
+    $('#searchMovie').on('keyup', function () {
+        var cleanInput = $('#searchMovie').val().replace(/\s/g, "");
+
+        if (cleanInput.length === 0) {
+            //$('.results').innerHTML = "";
+            $('.results').html('');
+            $('.results').css('display', 'none');
+        }
+
+        if (cleanInput.length > 0) {
+
+            var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/"
+                          + cleanInput.toLowerCase()
+                          + ".json";
+
+            var test2;
+
+                var ajax = $.ajax({
+
+                    url: queryUrl,
+                    dataType: 'jsonp',
+                    cache: true,
+                    jsonp: false,
+                    jsonpCallback: "imdb$" + cleanInput.toLowerCase(),
+
+                    success: function (result) {
+                        if (result.d == 'undefind' || result.d == null) {
+                            return;
+                        }
+
+                        if (result.d.length > 0) {
+                            $('.results').html('');
+                            $('.results').css('display', 'none');
+                        }
+
+                        $('.results').css('display', 'block');
+                        $('.results').animate({ scrollTop: 0 }, 'fast');
+
+                        for (var i = 0; i < result.d.length; i++) {
+
+                            var category = result.d[i].id.slice(0, 2);
+
+                            if (category === "tt") {
+                                //row for risplaying one result
+                                var resultRow = document.createElement('div');
+                                resultRow.setAttribute('class', 'resultRow');
+                                var destinationUrl;
+
+                                destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
+
+                                resultRow.setAttribute('href', destinationUrl);
+                                resultRow.setAttribute('target', '_blank');
+
+                                var posterWrapper = document.createElement('div');
+                                posterWrapper.setAttribute('class', 'posterWrapper');
+
+                                var poster = document.createElement('img');
+                                poster.setAttribute('class', 'poster');
+
+                                if (result.d[i].i) {
+                                    var imdbPoster = result.d[i].i[0];
+                                    imdbPoster = imdbPoster.replace("._V1_.jpg", "._V1._SX100_CR0,0,100,148.jpg");
+                                    var posterUrl =
+                                        "http://i.embed.ly/1/display/resize?key=798c38fecaca11e0ba1a4040d3dc5c07&url="
+                                        + imdbPoster
+                                        + "&height=54&width=40&errorurl=http%3A%2F%2Flalwanivikas.github.io%2Fimdb-autocomplete%2Fimg%2Fnoimage.png&grow=true"
+                                    poster.setAttribute('src', imdbPoster);
+                                }
+
+                                //creating and setting description
+                                var description = document.createElement('div');
+                                description.setAttribute('class', 'description');
+                                var name = document.createElement('h4');
+                                var snippet = document.createElement('h5');
+
+                                if (category === "tt" && result.d[i].y) {
+                                    name.innerHTML = result.d[i].l + " (" + result.d[i].y + ")";
+                                } else {
+                                    name.innerHTML = result.d[i].l;
+                                }
+                                snippet.innerHTML = result.d[i].s;
+
+                                $(description).append(name);
+                                $(description).append(snippet);
+                                $(resultRow).append(posterWrapper);
+                                $(posterWrapper).append(poster);
+                                $(resultRow).append(description);
+                                $('.results').append(resultRow);
+                            }
+                        }
+
+                        $('.resultRow').click(function () {
+
+                            $('.results').fadeOut('fast');
+                            var movieName = $(this).find('.description h4').html();
+
+                            $('#searchMovie').val(movieName);
+                            searchMovie();
+                        })
+                    },
+
+                })
+            }
+
+        })
+}
+
 
 function showResults() {
 
@@ -101,98 +219,122 @@ function showResults() {
             var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/"
                           + cleanInput.toLowerCase()
                           + ".json";
+            try {
+                var ajax = $.ajax({
 
-            $.ajax({
+                    url: queryUrl,
+                    dataType: 'jsonp',
+                    cache: true,
+                    jsonp: false,
+                    jsonpCallback: "imdb$" + cleanInput.toLowerCase(),
 
-                url: queryUrl,
-                dataType: 'jsonp',
-                cache: true,
-                jsonp: false,
-                jsonpCallback: "imdb$" + cleanInput.toLowerCase()
-
-            }).done(function (result) {
-
-                if (result.d.length > 0) {
-                    $('.results').html('');
-                    $('.results').css('display', 'none');
-                }
-
-                $('.results').css('display', 'block');
-                $('.results').animate({ scrollTop: 0 }, 'fast');
-
-                for (var i = 0; i < result.d.length; i++) {
-
-                    var category = result.d[i].id.slice(0, 2);
-
-                    //category === "nm"
-
-                    if (category === "tt") {
-                        //row for risplaying one result
-                        var resultRow = document.createElement('div');
-                        resultRow.setAttribute('class', 'resultRow');
-                        var destinationUrl;
-
-                        destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
-
-                        //if (category === "tt") {
-                        //    destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
-                        //} else {
-
-                        //    destinationUrl = "http://www.imdb.com/name/" + result.d[i].id;
-                        //}
-
-                        resultRow.setAttribute('href', destinationUrl);
-                        resultRow.setAttribute('target', '_blank');
-
-                        var posterWrapper = document.createElement('div');
-                        posterWrapper.setAttribute('class', 'posterWrapper');
-
-                        var poster = document.createElement('img');
-                        poster.setAttribute('class', 'poster');
-
-                        if (result.d[i].i) {
-                            var imdbPoster = result.d[i].i[0];
-                            //imdbPoster = imdbPoster.replace("._V1_.jpg", "._V1._SX40_CR0,0,40,54_.jpg");
-                            imdbPoster = imdbPoster.replace("._V1_.jpg", "._V1._SX100_CR0,0,100,148.jpg");
-                            var posterUrl =
-                                "http://i.embed.ly/1/display/resize?key=798c38fecaca11e0ba1a4040d3dc5c07&url="
-                                + imdbPoster
-                                + "&height=54&width=40&errorurl=http%3A%2F%2Flalwanivikas.github.io%2Fimdb-autocomplete%2Fimg%2Fnoimage.png&grow=true"
-                            poster.setAttribute('src', imdbPoster);
+                    error: function (e) {
+                        console.log(e);
+       
+                        if (e.readyState == 4) {
+                            return;
+                            
                         }
-
-                        //creating and setting description
-                        var description = document.createElement('div');
-                        description.setAttribute('class', 'description');
-                        var name = document.createElement('h4');
-                        var snippet = document.createElement('h5');
-
-                        if (category === "tt" && result.d[i].y) {
-                            name.innerHTML = result.d[i].l + " (" + result.d[i].y + ")";
-                        } else {
-                            name.innerHTML = result.d[i].l;
-                        }
-                        snippet.innerHTML = result.d[i].s;
-
-                        $(description).append(name);
-                        $(description).append(snippet);
-                        $(resultRow).append(posterWrapper);
-                        $(posterWrapper).append(poster);
-                        $(resultRow).append(description);
-                        //$("#result").append(resultRow);
-                        $('.results').append(resultRow);
                     }
-                }
 
-                $('.resultRow').click(function () {
-                    
-                    $('.results').fadeOut('fast');
-                    var movieName = $(this).find('.description h4').html();
-                    
-                    $('#searchMovie').val(movieName);
-                    searchMovie();
+                }).done(function (result) {
+
+                    if (result.d == 'undefind' || result.d == null) {
+                        return;
+                    }
+
+                    if (result.d.length > 0) {
+                        $('.results').html('');
+                        $('.results').css('display', 'none');
+                    }
+
+                    $('.results').css('display', 'block');
+                    $('.results').animate({ scrollTop: 0 }, 'fast');
+
+                    for (var i = 0; i < result.d.length; i++) {
+
+                        var category = result.d[i].id.slice(0, 2);
+
+                        //category === "nm"
+
+                        if (category === "tt") {
+                            //row for risplaying one result
+                            var resultRow = document.createElement('div');
+                            resultRow.setAttribute('class', 'resultRow');
+                            var destinationUrl;
+
+                            destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
+
+                            //if (category === "tt") {
+                            //    destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
+                            //} else {
+
+                            //    destinationUrl = "http://www.imdb.com/name/" + result.d[i].id;
+                            //}
+
+                            resultRow.setAttribute('href', destinationUrl);
+                            resultRow.setAttribute('target', '_blank');
+
+                            var posterWrapper = document.createElement('div');
+                            posterWrapper.setAttribute('class', 'posterWrapper');
+
+                            var poster = document.createElement('img');
+                            poster.setAttribute('class', 'poster');
+
+                            if (result.d[i].i) {
+                                var imdbPoster = result.d[i].i[0];
+                                //imdbPoster = imdbPoster.replace("._V1_.jpg", "._V1._SX40_CR0,0,40,54_.jpg");
+                                imdbPoster = imdbPoster.replace("._V1_.jpg", "._V1._SX100_CR0,0,100,148.jpg");
+                                var posterUrl =
+                                    "http://i.embed.ly/1/display/resize?key=798c38fecaca11e0ba1a4040d3dc5c07&url="
+                                    + imdbPoster
+                                    + "&height=54&width=40&errorurl=http%3A%2F%2Flalwanivikas.github.io%2Fimdb-autocomplete%2Fimg%2Fnoimage.png&grow=true"
+                                poster.setAttribute('src', imdbPoster);
+                            }
+
+                            //creating and setting description
+                            var description = document.createElement('div');
+                            description.setAttribute('class', 'description');
+                            var name = document.createElement('h4');
+                            var snippet = document.createElement('h5');
+
+                            if (category === "tt" && result.d[i].y) {
+                                name.innerHTML = result.d[i].l + " (" + result.d[i].y + ")";
+                            } else {
+                                name.innerHTML = result.d[i].l;
+                            }
+                            snippet.innerHTML = result.d[i].s;
+
+                            $(description).append(name);
+                            $(description).append(snippet);
+                            $(resultRow).append(posterWrapper);
+                            $(posterWrapper).append(poster);
+                            $(resultRow).append(description);
+                            //$("#result").append(resultRow);
+                            $('.results').append(resultRow);
+                        }
+                    }
+
+                    $('.resultRow').click(function () {
+
+                        $('.results').fadeOut('fast');
+                        var movieName = $(this).find('.description h4').html();
+
+                        $('#searchMovie').val(movieName);
+                        searchMovie();
+                    })
                 })
-            });
+
+                  .fail(function (xhr, status, error) {
+                      console.log(xhr);
+                      console.log(status);
+                      console.log(error);
+                      return;
+                  })
+            } catch (e) {
+
+            }
+
         }
 
     })
