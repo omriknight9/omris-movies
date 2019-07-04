@@ -537,17 +537,14 @@ h2 {
 }
 
 .playingNowWrapper, .movieWrapper {
-    /*position: relative;*/
     display: flex;
     box-sizing: border-box;
     align-items: center;
     flex-direction: column;
     justify-content: flex-end;
     width: 13rem;
-    /*height: 19rem;*/
     margin-left: 1rem;
     margin-right: 1rem;
-    /*margin-bottom: 9rem;*/
     margin-top: 7rem;
     text-align: center;
     transition: .3s;
@@ -863,6 +860,7 @@ h2 {
 
     .container {
         margin-bottom: 3rem;
+        margin-top: -5rem;
     }
 
     .imdbImage {
@@ -917,7 +915,7 @@ h2 {
 
     .container {
         margin: 0;
-        margin-top: 5rem;
+        margin-top: -5rem;
     }
 
     .singleMovieContainer {
@@ -994,6 +992,11 @@ h2 {
 
     .movieImg {
         height: 167px;
+    }
+
+    .container {
+        margin: 0;
+        margin-top: -2rem;
     }
 }
 
