@@ -998,6 +998,10 @@ h2 {
         margin: 0;
         margin-top: -2rem;
     }
+
+    .singleMovieContainer {
+       margin: 0 3rem 34rem 3rem;
+    }
 }
 
 @media only screen and (max-width: 400px) {
