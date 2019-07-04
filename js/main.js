@@ -30,10 +30,6 @@ var tmp;
 var tmp2;
 var page;
 
-//var omdbKey = '59556c8e';
-
-var omdbKey = 'a9da0769';
-
 var tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
 
 var nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + tmdbKey + "&language=en-US&page=1";
@@ -42,11 +38,7 @@ var searchMorePagesUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + 
 var movieInfoUrl = "https://api.themoviedb.org/3/movie/";
 var movieActorsUrl = "https://api.themoviedb.org/3/person/";
 
-
 $(document).ready(function () {
-
-    //goToTop();
-
     page = 0;
 
     window.onscroll = function () {
@@ -70,7 +62,6 @@ $(document).ready(function () {
         }
     });
 
-
     showResults();
 
     getPlayingNow();
@@ -90,7 +81,6 @@ function showResults() {
         var cleanInput = $('#searchMovie').val().replace(/\s/g, "");
 
         if (cleanInput.length === 0) {
-            //$('.results').innerHTML = "";
             $('.results').html('');
             $('.results').css('display', 'none');
         }
