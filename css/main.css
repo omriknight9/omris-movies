@@ -685,6 +685,7 @@ h2 {
     background-color: #F5F5F5;
     /*border-radius: 50%;*/
     border-radius: 5px;
+    height: 1rem;
 }
 
 .castWrapper::-webkit-scrollbar-thumb {
