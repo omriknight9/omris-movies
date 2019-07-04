@@ -326,8 +326,9 @@ body {
 }
 
 .posterWrapper {
-    width: 16%;
+    width: 25%;
     padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .resultRow h5 {
@@ -339,10 +340,10 @@ body {
 }
 
 .poster {
-    width: 50px;
-    height: 70px;
+    width: 65px;
+    height: 90px;
+    border-radius: 5px;
 }
-
 
 .movieResultImage {
     width: 100px;
