@@ -19,6 +19,7 @@ body {
 }
 
 ::-webkit-scrollbar {
+    -webkit-appearance: none;
     width: 12px;
     background-color: #F5F5F5;
 }
@@ -27,7 +28,6 @@ body {
     background-color: black;
 
 }
-
 
 /*.header2 {
   position: fixed;
