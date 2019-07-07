@@ -495,7 +495,7 @@ h2 {
     width: 500px;
     height: 281px;
     border-radius: 5px;
-    box-shadow: 0 3px 15px 3px #848484;
+    box-shadow: 0 3px 8px 3px #848484;
     cursor: url('../images/imdb_small.png'), auto;
 }
 
@@ -510,24 +510,33 @@ h2 {
     width: 70%;
     margin: 2rem auto auto auto;
     border-radius: 5px;
-    box-shadow: 0 3px 15px 3px #848484;
+    box-shadow: 0 3px 8px 3px #848484;
 }
 
 .movieDetails {
     width: 70%;
     margin: 2rem auto auto auto;
     border-radius: 5px;
-    box-shadow: 0 3px 15px 3px #848484;
+    box-shadow: 0 3px 8px 3px #848484;
 }
 
 .movieDetails p {
     padding-left: 1rem;
     padding-right: 1rem;
+    padding-top: 1rem;
 }
 
+/*.movieDetails p:first-child {
+    padding-bottom: 0;
+}*/
+
+.movieGenreWrapper{
+    padding: 1rem;
+}
+
+
 .movieDescription {
-    padding-right: 1rem;
-    padding-left: 1rem;
+    padding: 1rem;
 }
 
 .chosenMovie {
@@ -663,7 +672,7 @@ h2 {
     overflow-x: scroll;
     width: 71%;
     height: 30rem;
-    box-shadow: 0 3px 15px 3px #848484;
+    box-shadow: 0 3px 8px 3px #848484;
     margin-bottom: 2rem;
     margin-top: 2rem;
 }
@@ -697,7 +706,7 @@ h2 {
     width: 500px;
     height: 281px;
     border-radius: 10px;
-    box-shadow: 0 3px 15px 3px #848484;
+    box-shadow: 0 3px 8px 3px #848484;
     transition: .3s;
     -webkit-transition: .3s;
     -moz-transition: .3s;
