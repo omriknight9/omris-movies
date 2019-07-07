@@ -708,7 +708,19 @@ function movieClicked(movieId, div, path) {
                         var actorImgPath = 'https://image.tmdb.org/t/p/w500' + data.cast[i].profile_path;
 
                         if (data.cast[i].profile_path == 'undefined' || data.cast[i].profile_path == null || data.cast[i].profile_path == '') {
-                            actorImgPath = './images/actor.png';
+
+                            switch (data.cast[i].gender) {
+                                case 0:
+                                    actorImgPath = './images/actor.png';
+                                    break;
+                                case 1:
+                                    actorImgPath = './images/actress.png';
+                                    break;
+                                case 2:
+                                    actorImgPath = './images/actor.png';
+                                    break;
+                            }
+
                         }
 
                         var characterWrapper = $('<div>', {
