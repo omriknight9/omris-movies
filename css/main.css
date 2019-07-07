@@ -193,22 +193,6 @@ body {
     z-index: 999;
 }
 
-.thanosWrapper {
-    width: 100%;
-    position: absolute;
-    top: 14rem;
-    text-align: center;
-    z-index: 2;
-}
-
-.thanos {
-    display: none;
-    width: 400px;
-    height: 200px;
-    z-index: 999;
-    border-radius: 5px;
-}
-
 .boardWrapper {
     width: 100%;
     display: flex;
@@ -947,11 +931,6 @@ h2 {
 
 @media only screen and (max-width: 550px) {
 
-    .thanos {
-        width: 300px;
-        height: 150px;
-    }
-
     .spiderman {
         width: 25%;
     }
@@ -1014,13 +993,6 @@ h2 {
         -moz-transform: scale(.4);
         -ms-transform: scale(.4);
         -o-transform: scale(.4);
-    }
-}
-
-@media only screen and (max-width: 370px) {
-
-    .thanos {
-        width: 250px;
     }
 }
 
