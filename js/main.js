@@ -492,16 +492,277 @@ function goHome() {
     }
 }
 
+function test() {
+    console.log('asdoqiwrhasd');
+}
+
+function promiseTest() {
+    var promise = new Promise(function(resolve, reject) {
+        setTimeout(function(){
+            resolve(test());
+        }, 250);
+    })
+
+    promise.then(function (successMessage) {
+        console.log("Yay! " + successMessage);
+    })
+}
+
+function getMovieInfo(movieId) {
+
+    $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: movieInfoUrl + movieId + "?api_key=" + tmdbKey + "",
+        dataType: "json",
+        ifModified: true,
+        success: function (data) {
+            page = 1;
+
+            $('.logo').css('cursor', 'pointer');
+            imdbId = data.imdb_id;
+            movieImage = data.backdrop_path;
+            var movieReleaseDate = data.release_date;
+            date = new Date(movieReleaseDate);
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            var day = date.getDate();
+
+            changeMonthName(month);
+            changeDayName(day);
+
+            var detailsWrapper = $('<div>', {
+                class: 'detailsWrapper',
+            }).appendTo($('.chosenMovie'));
+
+            var imdbLink = $('<a>', {
+                class: 'imdbLink',
+                target: '_blank',
+                href: imdb + imdbId
+            }).appendTo(detailsWrapper);
+
+            var imdbImage = $('<img>', {
+                class: 'imdbImage',
+                src: 'https://image.tmdb.org/t/p/w500' + movieImage
+            }).appendTo(imdbLink);
+
+            var descriptionWrapper = $('<div>', {
+                class: 'descriptionWrapper',
+            }).appendTo(detailsWrapper);
+
+            var description = $('<p>', {
+                class: 'movieDescription',
+                text: data.overview,
+            }).appendTo(descriptionWrapper);
+
+            var withCommas = numberWithCommas(data.revenue);
+
+            var movieDetails = $('<div>', {
+                class: 'movieDetails',
+            }).appendTo(detailsWrapper);
+
+            var revenue = $('<p>', {
+                class: 'movieRevenue',
+                text: 'Revenue: ' + ' $ ' + withCommas,
+            }).appendTo(movieDetails);
+
+            var hoursRuntime = convertMinsToHrsMins(data.runtime);
+
+            var runtime = $('<p>', {
+                class: 'movieRuntime',
+                text: 'Runtime: ' + hoursRuntime,
+            }).appendTo(movieDetails);
+
+            var releaseDate = $('<p>', {
+                class: 'releaseDate',
+                text: 'Release Date: ' + monthName + ' ' + dayName + ' ' + year,
+            }).appendTo(movieDetails);
+
+            var movieGenreWrapper = $('<div>', {
+                class: 'movieGenreWrapper',
+            }).appendTo(movieDetails);
+
+            var movieGenreHead = $('<span>', {
+                class: 'movieGenreHead',
+                text: 'Genres: ',
+            }).appendTo(movieGenreWrapper);
+
+            for (var i = 0; i < data.genres.length; i++) {
+                arr.push(data.genres[i].name);
+                arr.join(' , ');
+            }
+
+            var movieGenre = $('<span>', {
+                class: 'movieGenre',
+                text: arr,
+            }).appendTo(movieGenreWrapper);
+
+            var castWrapper = $('<div>', {
+                class: 'castWrapper',
+
+            }).appendTo($('.chosenMovie'));
+
+            var moveiGallery = $('<div>', {
+                class: 'moveiGallery',
+            }).appendTo($('.chosenMovie'));
+
+            var moveiVideos = $('<div>', {
+                class: 'moveiVideos',
+
+            }).appendTo($('.chosenMovie'));
+
+            $('.movieGenre').html($('.movieGenre').html().split(',').join(', '));
+
+        },
+        error: function (err) {
+            //console.log(err);
+        }
+    })
+}
+
+function getCredits(movieId) {
+
+    $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: movieInfoUrl + movieId + "/credits?api_key=" + tmdbKey + "",
+        dataType: "json",
+        ifModified: true,
+        success: function (data) {
+
+            for (var i = 0; i < 21; i++) {
+
+                try {
+                    var actorImgPath = 'https://image.tmdb.org/t/p/w500' + data.cast[i].profile_path;
+
+                    if (data.cast[i].profile_path == 'undefined' || data.cast[i].profile_path == null || data.cast[i].profile_path == '') {
+
+                        switch (data.cast[i].gender) {
+                            case 0:
+                                actorImgPath = './images/actor.png';
+                                break;
+                            case 1:
+                                actorImgPath = './images/actress.png';
+                                break;
+                            case 2:
+                                actorImgPath = './images/actor.png';
+                                break;
+                        }
+
+                    }
+
+                    var characterWrapper = $('<div>', {
+                        class: 'castName',
+                    }).appendTo($('.castWrapper'));
+
+                    var imageLink = $('<a>', {
+                        class: 'imageLink',
+
+                    }).appendTo(characterWrapper);
+
+                    var actorImg = $('<img>', {
+                        class: 'actorImg',
+                        src: actorImgPath,
+                        id: data.cast[i].id,
+                        click: function () {
+                            goToActorImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
+                        }
+                    }).appendTo(imageLink);
+
+                    var actorName = $('<span>', {
+                        class: 'actorName',
+                        text: data.cast[i].name + ': '
+                    }).appendTo(characterWrapper);
+
+                    var characterName = $('<span>', {
+                        class: 'characterName',
+                        text: data.cast[i].character
+                    }).appendTo(characterWrapper);
+
+                } catch (e) {
+                    return;
+                }
+            }
+
+            $('.actorImg').trigger("click");
+            $('.actorImg').off();
+
+        },
+        error: function (err) {
+
+            //console.log(err);
+        }
+    })
+}
+
+function getImages(movieId) {
+    $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: movieInfoUrl + movieId + "/images?api_key=" + tmdbKey + "",
+        dataType: "json",
+        ifModified: true,
+        success: function (data) {
+
+            for (var i = 0; i < data.backdrops.length; i++) {
+
+                var galleryImg = data.backdrops[i].file_path;
+                var galleryImgPath;
+
+                if (galleryImg == null || galleryImg == '') {
+
+                    galleryImgPath = './images/noImage.png';
+                } else {
+                    galleryImgPath = 'https://image.tmdb.org/t/p/w500/' + galleryImg;
+                }
+
+                var movieGalleryImg = $('<img>', {
+                    class: 'movieGalleryImg',
+                    src: galleryImgPath,
+                }).appendTo($('.moveiGallery'));
+            }
+        },
+        error: function (e) {
+            //console.log(e);
+        }
+    })
+}
+
+function getVideos(movieId) {
+    $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: movieInfoUrl + movieId + "/videos?api_key=" + tmdbKey + "",
+        dataType: "json",
+        ifModified: true,
+        success: function (data) {
+
+            for (var i = 0; i < data.results.length; i++) {
+
+                var movieUrl = youtubeVideo + data.results[i].key;
+
+                var movieVideo = $('<iframe>', {
+                    class: 'movieVideo',
+                    src: movieUrl,
+                    width: '420',
+                    height: '315'
+
+                }).appendTo($('.moveiVideos'));
+            }
+        },
+        error: function (err) {
+            //console.log(err);
+        }
+    })
+}
+
 function movieClicked(movieId, div, path) {
 
     $('.container').addClass('singleMovieContainer');
-
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
 
     $('.container').css('margin-top', '3rem');
-
-    //$('body').css('background', 'url(' + path + ') no-repeat center');
 
     $('.spinner').fadeIn('fast');
     $('.spinnerWrapper').fadeIn('fast');
@@ -541,301 +802,45 @@ function movieClicked(movieId, div, path) {
         }
     }
 
-    $.ajax({
-        type: 'GET',
-        crossDomain: true,
-        url: movieInfoUrl + movieId + "?api_key=" + tmdbKey + "",
-        dataType: "json",
-        ifModified: true,
-        success: function (data) {
-            page = 1;
-
-            $('.logo').css('cursor', 'pointer');
-
-            imdbId = data.imdb_id;
-
-            movieImage = data.backdrop_path;
-
-            var movieReleaseDate = data.release_date;
-
-            date = new Date(movieReleaseDate);
-
-            var month = date.getMonth();
-
-            var year = date.getFullYear();
-
-            var day = date.getDate();
-
-            changeMonthName(month);
-            
-            changeDayName(day);
-
-            var detailsWrapper = $('<div>', {
-                class: 'detailsWrapper',
-            }).appendTo($('.chosenMovie'));
-
-            var imdbLink = $('<a>', {
-                class: 'imdbLink',
-                target: '_blank',
-                href: imdb + imdbId
-            }).appendTo(detailsWrapper);
-
-
-            var imdbImage = $('<img>', {
-                class: 'imdbImage',
-                //src: '../images/imdb.png'
-                src: 'https://image.tmdb.org/t/p/w500' + movieImage
-            }).appendTo(imdbLink);
-
-
-            var descriptionWrapper = $('<div>', {
-                class: 'descriptionWrapper',
-
-            }).appendTo(detailsWrapper);
-
-            var description = $('<p>', {
-                class: 'movieDescription',
-                text: data.overview,
-            }).appendTo(descriptionWrapper);
-
-            var withCommas = numberWithCommas(data.revenue);
-
-            var movieDetails = $('<div>', {
-                class: 'movieDetails',
-
-            }).appendTo(detailsWrapper);
-
-            var revenue = $('<p>', {
-                class: 'movieRevenue',
-                text: 'Revenue: ' + ' $ ' + withCommas,
-            }).appendTo(movieDetails);
-
-            var hoursRuntime = convertMinsToHrsMins(data.runtime);
-
-            var runtime = $('<p>', {
-                class: 'movieRuntime',
-                text: 'Runtime: ' + hoursRuntime,
-            }).appendTo(movieDetails);
-
-            var releaseDate = $('<p>', {
-                class: 'releaseDate',
-                text: 'Release Date: ' + monthName + ' ' + dayName + ' ' + year,
-            }).appendTo(movieDetails);
-
-            var movieGenreWrapper = $('<div>', {
-                class: 'movieGenreWrapper',
-            }).appendTo(movieDetails);
-
-
-            var movieGenreHead = $('<span>', {
-                class: 'movieGenreHead',
-                text: 'Genres: ',
-            }).appendTo(movieGenreWrapper);
- 
-            for (var i = 0; i < data.genres.length; i++) {
-
-                arr.push(data.genres[i].name);
-                arr.join(' , ');
-            }
-
-            var movieGenre = $('<span>', {
-                class: 'movieGenre',
-                text: arr,
-            }).appendTo(movieGenreWrapper);
-
-            var castWrapper = $('<div>', {
-                class: 'castWrapper',
-
-            }).appendTo($('.chosenMovie'));
-
-            var moveiGallery = $('<div>', {
-                class: 'moveiGallery',
-
-            }).appendTo($('.chosenMovie'));
-
-            var moveiVideos = $('<div>', {
-                class: 'moveiVideos',
-
-            }).appendTo($('.chosenMovie'));
-
-            $('.movieGenre').html($('.movieGenre').html().split(',').join(', '));
-
-        },
-        error: function (err) {
-            //console.log(err);
-        }
+    var promise = new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(getMovieInfo(movieId));
+        }, 250);
     })
 
-    setTimeout(function () {
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getCredits(movieId);
+        }, 550);
+    })
 
-        $.ajax({
-            type: 'GET',
-            crossDomain: true,
-            url: movieInfoUrl + movieId + "/credits?api_key=" + tmdbKey + "",
-            dataType: "json",
-            ifModified: true,
-            success: function (data) {
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getImages(movieId);
+        }, 1000);
+    })
 
-                //console.log(data);
-
-                for (var i = 0; i < 21; i++) {
-
-                    try {
-                        var actorImgPath = 'https://image.tmdb.org/t/p/w500' + data.cast[i].profile_path;
-
-                        if (data.cast[i].profile_path == 'undefined' || data.cast[i].profile_path == null || data.cast[i].profile_path == '') {
-
-                            switch (data.cast[i].gender) {
-                                case 0:
-                                    actorImgPath = './images/actor.png';
-                                    break;
-                                case 1:
-                                    actorImgPath = './images/actress.png';
-                                    break;
-                                case 2:
-                                    actorImgPath = './images/actor.png';
-                                    break;
-                            }
-
-                        }
-
-                        var characterWrapper = $('<div>', {
-                            class: 'castName',
-                        }).appendTo($('.castWrapper'));
-
-                        var imageLink = $('<a>', {
-                            class: 'imageLink',
-
-                        }).appendTo(characterWrapper);
-
-                        var actorImg = $('<img>', {
-                            class: 'actorImg',
-                            src: actorImgPath,
-                            id: data.cast[i].id,
-                            click: function () {
-                                goToActorImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
-                            }
-                        }).appendTo(imageLink);
-
-
-                        var actorName = $('<span>', {
-                            class: 'actorName',
-                            text: data.cast[i].name + ': '
-                        }).appendTo(characterWrapper);
-
-                        var characterName = $('<span>', {
-                            class: 'characterName',
-                            text: data.cast[i].character
-                        }).appendTo(characterWrapper);
-
-                    } catch (e) {
-                        return;
-                    }
-                }
-
-                $('.actorImg').trigger("click");
-
-                $('.actorImg').off();
-
-            },
-            error: function (err) {
-
-                //console.log(err);
-            }
-        })
-    }, 100)
-
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getVideos(movieId)
+        }, 1200);
+    })
+   
     $('.chosenMovie').off();
     $('.actorImg').off();
 
     setTimeout(function () {
-        $.ajax({
-            type: 'GET',
-            crossDomain: true,
-            url: movieInfoUrl + movieId + "/images?api_key=" + tmdbKey + "",
-            dataType: "json",
-            ifModified: true,
-            success: function (data) {
-
-                for (var i = 0; i < data.backdrops.length; i++) {
-
-                    var galleryImg = data.backdrops[i].file_path;
-
-                    var galleryImgPath;
-
-                    if (galleryImg == null || galleryImg == '') {
-                        
-                        galleryImgPath = './images/noImage.png';
-                    } else {
-                        galleryImgPath = 'https://image.tmdb.org/t/p/w500/' + galleryImg;
-                    }
-
-                    var movieGalleryImg = $('<img>', {
-                        class: 'movieGalleryImg',
-                        src: galleryImgPath,
-
-
-                    }).appendTo($('.moveiGallery'));
-
-                }
-
-            },
-            error: function (e) {
-                //console.log(e);
-            }
-        })
-    }, 500)
-
-     setTimeout(function () {
-        $.ajax({
-            type: 'GET',
-            crossDomain: true,
-            url: movieInfoUrl + movieId + "/videos?api_key=" + tmdbKey + "",
-            dataType: "json",
-            ifModified: true,
-            success: function (data) {
-
-                for (var i = 0; i < data.results.length; i++) {
-   
-                    var movieUrl = youtubeVideo + data.results[i].key;
-
-                    var movieVideo = $('<iframe>', {
-                        class: 'movieVideo',
-                        src: movieUrl,
-                        width: '420',
-                        height: '315'
-
-                    }).appendTo($('.moveiVideos'));
-                }
-            },
-            error: function (err) {
-
-                //console.log(err);
-            }
-        })
-     }, 600)
-        setTimeout(function () {
-
         for (var j = 0; j < $('.movieGalleryImg').length ; j++) {
-            //console.log(j);
             tmp = $($('.movieGalleryImg')[j].attributes.src)[0].textContent;
-
             $($('.movieGalleryImg')[j]).attr('src', 'asd');
-
             $($('.movieGalleryImg')[j]).attr('src', tmp);
-
         }
 
         for (var k = 0; k < $('.actorImg').length ; k++) {
-            //console.log(k);
             tmp2 = $($('.actorImg')[k].attributes.src)[0].textContent;
-
             $($('.actorImg')[k]).attr('src', 'asd');
-
             $($('.actorImg')[k]).attr('src', tmp2);
-
         }
-
     }, 4000)
 }
 
@@ -962,4 +967,3 @@ function changeDayName(day) {
         }
     }
 }
-
