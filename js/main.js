@@ -41,8 +41,6 @@ var movieActorsUrl = "https://api.themoviedb.org/3/person/";
 $(document).ready(function () {
     page = 0;
 
-    //window.history.pushState('page2', 'Title', '/index.html');
-
     getPathFromUrl('https://omriknight9.github.io/index.html');
 
     window.onscroll = function () {
@@ -73,7 +71,6 @@ $(document).ready(function () {
 })
 
 function getPathFromUrl(url) {
-    //window.history.pushState('page2', 'Title', url.split("?")[0]);
     return url.split("?")[0];
 }
 
