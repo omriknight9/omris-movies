@@ -285,7 +285,7 @@ function searchMovie() {
 
     var inputValClean = noParentheses.replace(regex, " ");
 
-    if ((inputVal == '' || inputVal == null || ($("#searchMovie").val().length) <= 2)) {
+    if ((inputVal == '' || inputVal == null)) {
         $('.inputError').fadeIn(500);
         $('#searchMovie').focus().css(
         {
