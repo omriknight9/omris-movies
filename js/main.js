@@ -89,10 +89,12 @@ function showResults() {
         if (cleanInput.length === 0) {
             $('.results').html('');
             $('.results').css('display', 'none');
+
         }
 
         if (cleanInput.length > 0) {
-
+            $('.inputError').fadeOut(200);
+            $('#searchMovie').css('color', 'black');
             var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/"
                           + cleanInput.toLowerCase()
                           + ".json";
