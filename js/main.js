@@ -73,7 +73,7 @@ $(document).ready(function () {
 })
 
 function getPathFromUrl(url) {
-    window.history.pushState('page2', 'Title', url.split("?")[0]);
+    //window.history.pushState('page2', 'Title', url.split("?")[0]);
     return url.split("?")[0];
 }
 
