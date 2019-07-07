@@ -486,22 +486,6 @@ function searchMovie() {
     }
 }
 
-function thanos() {
-    $('.thanos').show();
-
-    var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', './sounds/thanos.mp3');
-    //$('.thanosImg').hide();
-    audioElement.play();
-    $('.container').css('opacity', '.5');
-
-    setTimeout(function () {
-        $('.thanos').hide(500);
-        //$('.thanosImg').show(500);
-        $('.container').css('opacity', '1');
-    }, 8000);
-}
-
 function goHome() {
     if (page !== 0) {
         location.reload();
@@ -569,14 +553,6 @@ function movieClicked(movieId, div, path) {
             $('.logo').css('cursor', 'pointer');
 
             imdbId = data.imdb_id;
-
-            if (imdbId == 'tt4154796') {
-                thanos();
-
-                //$('.thanosImg').click(function () {
-                //    thanos();
-                //});
-            }
 
             movieImage = data.backdrop_path;
 
