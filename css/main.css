@@ -399,7 +399,7 @@ body {
     -webkit-flex-wrap: wrap;
     -ms-flex-wrap: wrap;
     justify-content: center;
-    margin: 0 3rem 34rem 3rem;
+    margin: -5rem 3rem 42rem 3rem;
 }
 
 h2 {
@@ -592,6 +592,7 @@ h2 {
 
 .playingNowHeader {
     margin-top: 7rem;
+    margin-bottom: 0;
     text-align: center;
     font-size: 2.5rem;
 }
@@ -845,7 +846,7 @@ h2 {
 
     .container {
         margin-bottom: 3rem;
-        margin-top: -5rem;
+        /*margin-top: -5rem;*/
     }
 
     .imdbImage {
