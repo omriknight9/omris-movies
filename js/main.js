@@ -43,7 +43,7 @@ $(document).ready(function () {
 
     //window.history.pushState('page2', 'Title', '/index.html');
 
-    getPathFromUrl('/index.html');
+    getPathFromUrl('https://omriknight9.github.io/index.html');
 
     window.onscroll = function () {
         myFunction();
