@@ -41,6 +41,8 @@ var movieActorsUrl = "https://api.themoviedb.org/3/person/";
 $(document).ready(function () {
     page = 0;
 
+    window.history.pushState('page2', 'Title', '/index.html');
+
     window.onscroll = function () {
         myFunction();
         scrollBtn();
@@ -494,6 +496,14 @@ function goHome() {
 
 function getMovieInfo(movieId) {
 
+    var inputVal2 = $('.movieTitle').html();
+    var movieUrl = inputVal2.replace(/[^A-Za-z0-9]+/g, "");
+
+    window.history.pushState('page2', 'Title', '?' + movieUrl);
+    window.addEventListener('popstate', function (event) {
+        window.location.reload();
+    });
+
     $.ajax({
         type: 'GET',
         crossDomain: true,
@@ -743,6 +753,7 @@ function getVideos(movieId) {
 }
 
 function movieClicked(movieId, div, path) {
+
 
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
