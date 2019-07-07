@@ -499,44 +499,12 @@ function goHome() {
     }
 }
 
-function capitalize(str) {
-    console.log(str);
-    var splitStr = str.toLowerCase().split(' ');
-    console.log(splitStr);
-    for (var i = 0; i < splitStr.length; i++) {
-        // You do not need to check if i is larger than splitStr length, as your for does that for you
-        // Assign it back to the array
-        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-        console.log(splitStr);
-    }
-    console.log(splitStr);
-    // Directly return the joined string
-    return splitStr.join(' ');
-}
-
-function capitalizeFirstLetter(str) {
-    return str.toLowerCase().split(' ').map(function (word) {
-        return word.replace(word[0], word[0].toUpperCase());
-    }).join(' ');
-};
-
 function getMovieInfo(movieId) {
 
     var inputVal2 = $('.movieTitle').html();
 
-    capitalizeFirstLetter(inputVal2);
-
-    setTimeout(function () {
-
-        console.log(inputVal2);
-    }, 1000)
-
-
-
     var movieUrl = inputVal2.replace(/[^A-Za-z0-9]+/g, "");
-    
-    console.log(movieUrl);
-
+   
     window.history.pushState('page2', 'Title', '?' + movieUrl);
     window.addEventListener('popstate', function (event) {
         window.location.reload();
