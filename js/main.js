@@ -492,22 +492,6 @@ function goHome() {
     }
 }
 
-function test() {
-    console.log('asdoqiwrhasd');
-}
-
-function promiseTest() {
-    var promise = new Promise(function(resolve, reject) {
-        setTimeout(function(){
-            resolve(test());
-        }, 250);
-    })
-
-    promise.then(function (successMessage) {
-        console.log("Yay! " + successMessage);
-    })
-}
-
 function getMovieInfo(movieId) {
 
     $.ajax({
@@ -716,10 +700,12 @@ function getImages(movieId) {
                     galleryImgPath = 'https://image.tmdb.org/t/p/w500/' + galleryImg;
                 }
 
-                var movieGalleryImg = $('<img>', {
-                    class: 'movieGalleryImg',
-                    src: galleryImgPath,
-                }).appendTo($('.moveiGallery'));
+                if (i !== 0) {
+                    var movieGalleryImg = $('<img>', {
+                        class: 'movieGalleryImg',
+                        src: galleryImgPath,
+                    }).appendTo($('.moveiGallery'));
+                }
             }
         },
         error: function (e) {
