@@ -41,7 +41,11 @@ var movieActorsUrl = "https://api.themoviedb.org/3/person/";
 $(document).ready(function () {
     page = 0;
 
-    //getPathFromUrl('https://omriknight9.github.io/omris-movies');
+    var x = location.href;
+
+    if (x.includes('?')) {
+        location.href = x.split("?")[0];
+    }
 
     window.onscroll = function () {
         myFunction();
@@ -69,11 +73,6 @@ $(document).ready(function () {
     getPlayingNow();
 
 })
-
-function getPathFromUrl(url) {
-    window.history.pushState('page2', 'Title', '/omris-movies');
-    return url.split("?")[0];
-}
 
 function showResults() {
     $(document).mouseup(function (e) {
