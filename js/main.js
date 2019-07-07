@@ -41,7 +41,9 @@ var movieActorsUrl = "https://api.themoviedb.org/3/person/";
 $(document).ready(function () {
     page = 0;
 
-    window.history.pushState('page2', 'Title', '/index.html');
+    //window.history.pushState('page2', 'Title', '/index.html');
+
+    getPathFromUrl('/index.html');
 
     window.onscroll = function () {
         myFunction();
@@ -69,6 +71,10 @@ $(document).ready(function () {
     getPlayingNow();
 
 })
+
+function getPathFromUrl(url) {
+    return url.split("?")[0];
+}
 
 function showResults() {
     $(document).mouseup(function (e) {
