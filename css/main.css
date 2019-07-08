@@ -1,6 +1,7 @@
 
 body {
-    font-family: 'Roboto Slab', sans-serif;
+    /*font-family: 'Roboto Slab', sans-serif;*/
+    font-family: 'Kurale', sans-serif;
     font-weight: 500;
     background-color: white;
     position: relative;
@@ -215,13 +216,8 @@ body {
 
 .header > h1 {
     margin: 0;
-}
-
-#popcornImg {
-    position: absolute;
-    right: 0;
-    top: .3rem;
-    width: 95px;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
 }
 
 #searchBox {
@@ -496,13 +492,15 @@ h2 {
     margin: 2rem auto auto auto;
     border-radius: 5px;
     box-shadow: 0 3px 8px 3px #848484;
+    text-align: left;
 }
 
 .movieDetails {
-    width: 70%;
+    width: 50%;
     margin: 2rem auto auto auto;
     border-radius: 5px;
     box-shadow: 0 3px 8px 3px #848484;
+    text-align: left;
 }
 
 .movieDetails p {
@@ -813,8 +811,9 @@ h2 {
 }
 
 @media only screen and (max-width: 765px) {
-    #popcornImg {
-        width: 80px;
+
+    .header > h1 {
+        font-size: 1.5rem;
     }
 
     .headerWrapper {
@@ -1004,7 +1003,7 @@ h2 {
         padding-left: 2rem;
     }
 
-    .header > h1 {
+    /*.header > h1 {
         font-size: 1.5rem;
-    }
+    }*/
 }
