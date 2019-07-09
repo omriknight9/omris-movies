@@ -504,10 +504,14 @@ h2 {
     text-align: left;
 }
 
+.descriptionWrapper, .objectDescription, .objectDetails {
+    padding: 1rem;
+}
+
 .objectDetails p {
-    padding-left: 1rem;
+    /*padding-left: 1rem;
     padding-right: 1rem;
-    padding-top: 1rem;
+    padding-top: 1rem;*/
 }
 
 .objectGenreWrapper {
@@ -516,7 +520,7 @@ h2 {
 
 
 .objectDescription {
-    padding: 1rem;
+    /*padding: 1rem;*/
 }
 
 .chosenMovie {
@@ -931,7 +935,9 @@ h2 {
     }
 
     .descriptionWrapper, .objectDescription, .objectDetails {
-        width: 100%;
+        /*width: 100%;*/
+        width: 90%;
+        padding: 1rem;
     }
 }
 
