@@ -284,6 +284,9 @@ function getPlayingNow() {
 }
 
 function searchMovie() {
+
+    window.history.pushState({ "html": location.href, "pageTitle": location.href.pageTitle }, "", location.href.split("?")[0]);
+
     $('.playingNowHeader').hide();
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
