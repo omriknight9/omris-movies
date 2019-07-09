@@ -381,8 +381,9 @@ body {
 
 .noMovieError {
     display: none;
+    width: 100%;
     position: absolute;
-    text-align: left;
+    text-align: center;
     color: red;
 }
 
@@ -480,7 +481,7 @@ h2 {
     cursor: url('../images/imdb_small.png'), auto;
 }
 
-.movieImg {
+.movieImg, .tvShowImg {
     width: 100%;
     height: 320px;
     border-radius: 5px;
@@ -495,7 +496,7 @@ h2 {
     text-align: left;
 }
 
-.movieDetails {
+.movieDetails, .tvDetailsDetails {
     width: 50%;
     margin: 2rem auto auto auto;
     border-radius: 5px;
@@ -503,7 +504,7 @@ h2 {
     text-align: left;
 }
 
-.movieDetails p {
+.movieDetails p, .tvDetailsDetails p {
     padding-left: 1rem;
     padding-right: 1rem;
     padding-top: 1rem;
@@ -518,7 +519,7 @@ h2 {
 }
 
 
-.movieDescription {
+.movieDescription, .tvShowDescription {
     padding: 1rem;
 }
 
@@ -532,7 +533,7 @@ h2 {
     font-size: 1.4rem;
 }
 
-.playingNowWrapper, .movieWrapper {
+.playingNowWrapper, .movieWrapper, .tvShowWrapper {
     display: flex;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -561,7 +562,15 @@ h2 {
     -o-transform: scale(1.1);
 }
 
-.playingNowWrapper > p, .movieWrapper > p {
+.tvShowWrapper:hover {
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+}
+
+.playingNowWrapper > p, .movieWrapper > p, .tvShowWrapper p {
     width: 100%;
     font-size: 1.2rem;
     text-align: center;
@@ -584,15 +593,21 @@ h2 {
     -o-transform: scale(1.1);
 }
 
-.playingNowWrapper > .movieImg, .movieWrapper > .movieImg {
+.playingNowWrapper > .movieImg, .movieWrapper > .movieImg, .tvShowWrapper > .tvShowImg {
     cursor: pointer;
 }
 
-.playingNowHeader {
+.playingNowHeader, .tvShowsHeader {
     margin-top: 7rem;
     margin-bottom: 0;
     text-align: center;
     font-size: 2.5rem;
+}
+
+.tvShowsHeader {
+    width: 100%;
+    display: none;
+    margin-bottom: -5rem;
 }
 
 .castName {
@@ -788,13 +803,29 @@ h2 {
     -o-transform: rotate(45deg) scale(1.3);
 }
 
+@media only screen and (max-width: 1240px) {
+
+    .movieGalleryImg {
+        width: 300px;
+        height: 170px;
+    }
+}
+
+@media only screen and (max-width: 1040px) {
+
+    .movieGalleryImg {
+        width: 400px;
+        height: 250px;
+    }
+}
+
 @media only screen and (max-width: 1000px) {
 
     .resultRow .description {
         padding-left: 2rem;
     }
 
-    .playingNowHeader {
+    .playingNowHeader, .tvShowsHeader {
         margin-top: 5rem;
         text-align: center;
     }
@@ -807,6 +838,13 @@ h2 {
 
     .results {
         width: 80%;
+    }
+}
+
+@media only screen and (max-width: 840px) {
+
+    .movieGalleryImg {
+        margin: 1rem;
     }
 }
 
@@ -875,6 +913,7 @@ h2 {
     .movieVideo {
         width: 100% !important;
         margin: 2rem auto 2rem auto;
+        height: 280px;
     }
 
 
@@ -891,7 +930,7 @@ h2 {
         width :100%;
     }
 
-    .movieDetails, .descriptionWrapper {
+    .movieDetails, .descriptionWrapper, .tvDetailsDetails {
         width: 100%;
     }
 }
@@ -915,16 +954,16 @@ h2 {
     }
 
 
-    .playingNowWrapper, .movieWrapper {
+    .playingNowWrapper, .movieWrapper, .tvShowWrapper {
         height: 20rem;
         width: 9rem;
     }
 
-    .playingNowWrapper > p, .movieWrapper > p {
+    .playingNowWrapper > p, .movieWrapper > p, .tvShowWrapper p {
         font-size: 1rem;
     }
 
-    .movieImg {
+    .movieImg, .tvShowImg {
         height: 244px;
     }
 }
@@ -959,12 +998,12 @@ h2 {
 
 @media only screen and (max-width: 470px) {
 
-    .playingNowWrapper, .movieWrapper {
+    .playingNowWrapper, .movieWrapper, .tvShowWrapper {
         height: 13rem;
         width: 6rem;
     }
 
-    .movieImg {
+    .movieImg, .tvShowImg {
         height: 167px;
     }
 
@@ -1002,8 +1041,4 @@ h2 {
     .resultRow .description {
         padding-left: 2rem;
     }
-
-    /*.header > h1 {
-        font-size: 1.5rem;
-    }*/
 }
