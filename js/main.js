@@ -818,10 +818,6 @@ function getCredits(objectId, kind) {
                     return;
                 }
             }
-
-            $('.actorImg').trigger("click");
-            $('.actorImg').off();
-
         },
         error: function (err) {
 
@@ -1293,6 +1289,9 @@ function goToActorImdb(imdbActorId, that) {
 
             that.attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
             that.attr('target', '_blank');
+
+            $('.actorImg').trigger("click");
+            $('.actorImg').off();
         },
         error: function (err) {
             //console.log(err);
