@@ -1,4 +1,5 @@
 var movieId;
+var tvShowId;
 var imdbId;
 var wrapper;
 var total_results;
@@ -25,6 +26,7 @@ var youtubeVideo = 'https://www.youtube.com/embed/';
 var arr = [];
 
 var movieImage;
+var tvShowImage;
 
 var tmp;
 var tmp2;
@@ -37,6 +39,10 @@ var searchMovieUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdb
 var searchMorePagesUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdbKey + "&page=";
 var movieInfoUrl = "https://api.themoviedb.org/3/movie/";
 var movieActorsUrl = "https://api.themoviedb.org/3/person/";
+
+var searchTvShowUrl = "https://api.themoviedb.org/3/search/tv?api_key=" + tmdbKey + "&query=";
+var searchMoreTvShowsUrl = "https://api.themoviedb.org/3/search/tv?api_key=" + tmdbKey + "&page=";
+var tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
 
 $(document).ready(function () {
     page = 0;
@@ -64,7 +70,12 @@ $(document).ready(function () {
         if (event.keyCode === 13) {
             $('.results').css('display', 'none');
 
+            var inputVal = $('#searchMovie').val();
             searchMovie();
+
+            setTimeout(function () {
+                searchTVShows(inputVal);
+            }, 2000)
         }
     });
 
@@ -181,7 +192,12 @@ function showResults() {
                             var movieName = $(this).find('.description h4').html();
 
                             $('#searchMovie').val(movieName);
+
+                            var inputVal = $('#searchMovie').val();
                             searchMovie();
+                            setTimeout(function () {
+                                searchTVShows(inputVal);
+                            }, 2000)
                         })
                     },
 
@@ -207,16 +223,16 @@ function scrollBtn() {
 
 function getPlayingNow() {
 
-    var playingNowHeader = $('<h2>', {
-        class: 'playingNowHeader',
-        text: 'Playing Now'
-    }).insertAfter($('.inputWrapper'));
+    //var playingNowHeader = $('<h2>', {
+    //    class: 'playingNowHeader',
+    //    text: 'Playing Now'
+    //}).insertAfter($('.inputWrapper'));
 
     $.ajax({
-        type: 'GET',
+        method: 'GET',
         crossDomain: true,
         url: nowPlayingUrl,
-        dataType: "json",
+        dataType: "jsonp",
         ifModified: true,
         success: function (data) {
 
@@ -274,7 +290,7 @@ function getPlayingNow() {
 }
 
 function searchMovie() {
-
+    $('.playingNowHeader').hide();
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
     var regex = /[^A-Za-z0-9]+/g;
@@ -304,10 +320,12 @@ function searchMovie() {
         $('.container').removeClass('singleMovieContainer');
         $('.logo').css('cursor', 'unset');
         $(document.activeElement).filter(':input:focus').blur();
-        
-        $('.playingNowHeader').remove();
+        $('.container').css('margin-top', '-5rem');
+        //$('.playingNowHeader').remove();
+        $('.playingNowHeader').html('Movies');
+        $('.tvShowsHeader').remove();
         $('.playingNowWrapper').remove();
-     
+           
         $('.spinner').fadeIn('fast');
         $('.spinnerWrapper').fadeIn('fast');
 
@@ -331,6 +349,7 @@ function searchMovie() {
 
         $('.chosenMovie').remove();
         $('.movieWrapper').remove();
+        $('.tvShowWrapper').remove();
         //var val = $('#searchMovie').val();
         var val = inputValClean;
         //var page = 1;
@@ -338,10 +357,10 @@ function searchMovie() {
 
 
         $.ajax({
-            type: 'GET',
+            method: 'GET',
             crossDomain: true,
             url: searchMovieUrl + val,
-            dataType: "json",
+            dataType: "jsonp",
             ifModified: true,
             success: function (data) {
                 topTen = data.results;
@@ -351,7 +370,7 @@ function searchMovie() {
                 if (total_results == 0) {
                     getPlayingNow();
                     $('.noMovieError').fadeIn(500);
-                    $('.playingNowHeader').fadeIn(500);
+                    $('.playingNowHeader').html('Playing Now');
                     $('.spinnerWrapper').css('display', 'none');
                 }
 
@@ -412,10 +431,10 @@ function searchMovie() {
             for (var i = 2; i <= total_pages; i++) {
 
                 $.ajax({
-                    type: 'GET',
+                    method: 'GET',
                     crossDomain: true,
                     url: searchMorePagesUrl + i + '&query=' + val,
-                    dataType: "json",
+                    dataType: "jsonp",
                     ifModified: true,
                     success: function (data) {
                         //console.log(data);
@@ -494,6 +513,242 @@ function searchMovie() {
     }
 }
 
+function searchTVShows(value) {
+
+    $('.inputError').fadeOut(200);
+    $('.noMovieError').fadeOut(500);
+    var regex = /[^A-Za-z0-9]+/g;
+
+    valid = true;
+
+    //var inputVal = $('#searchMovie').val();
+
+    var inputVal = value;
+
+    var noParentheses = inputVal.replace(/\([^()]*\)/g, "");
+
+    var inputValClean = noParentheses.replace(regex, " ");
+
+    if ((inputVal == '' || inputVal == null)) {
+        $('.inputError').fadeIn(500);
+        $('#searchMovie').focus().css(
+        {
+            'color': 'red'
+            //'border-color': 'red',
+        });
+        valid = false;
+    }
+
+    if (valid) {
+
+        page = 0;
+
+        $('.container').removeClass('singleMovieContainer');
+        $('.logo').css('cursor', 'unset');
+        $(document.activeElement).filter(':input:focus').blur();
+
+        //$('.playingNowHeader').remove();
+        $('.playingNowHeader').html('Movies');
+        $('.playingNowWrapper').remove();
+
+        $('.spinner').fadeIn('fast');
+        $('.spinnerWrapper').fadeIn('fast');
+
+        var width = 1;
+        var id = setInterval(frame, 30);
+        function frame() {
+
+            width++;
+
+            if (width >= 100) {
+                clearInterval(id);
+
+                $('.spinnerWrapper').css('display', 'none');
+                $('.spinner').css('display', 'none');
+                $('.tvShowWrapper').css('display', 'block');
+                $('.tvShowWrapper').css('display', 'flex');
+
+                width = 1;
+            }
+        }
+
+        $('.chosenMovie').remove();
+        $('.tvShowWrapper').remove();
+        $('.tvShowsHeader').remove();
+        //var val = $('#searchMovie').val();
+        var val = inputValClean;
+        //var page = 1;
+        var total_pages;
+
+        var tvShowsHeader = $('<h2>', {
+            class: 'tvShowsHeader',
+            text: 'TV Shows'
+
+        }).appendTo($('.container'));
+
+        $.ajax({
+            method: 'GET',
+            crossDomain: true,
+            url: searchTvShowUrl + val,
+            dataType: "jsonp",
+            ifModified: true,
+            success: function (data) {
+                topTen = data.results;
+                total_pages = data.total_pages
+                total_results = data.total_results;
+                if (total_results == 0) {
+                    $('.tvShowsHeader').hide();
+                    //getPlayingNow();
+                    //$('.noMovieError').fadeIn(500);
+                    //$('.playingNowHeader').fadeIn(500);
+                    //$('.spinnerWrapper').css('display', 'none');
+                }
+
+                for (var i = 0; i < total_results; i++) {
+
+                    try {
+                        var path = topTen[i].poster_path;
+                        title = topTen[i].original_name;
+
+                        tvShowId = topTen[i].id;
+
+                        tvShowImage = topTen[i].backdrop_path;
+
+                        var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
+                        var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + tvShowImage;
+
+
+                        if (path == 'undefined' || path == null) {
+                            tmdbPathPosterPath = './images/stock.png';
+                        }
+
+                        wrapper = $('<div>', {
+                            class: 'tvShowWrapper',
+                            value: tvShowId,
+                            backdropSrc: tmbdBackdropPath,
+                            click: function () {
+                                tvShowClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
+                            },
+
+                        }).appendTo($('.container'));
+
+
+                        wrapper.css('display', 'none');
+
+                        var tvShowTitle = $('<p>', {
+                            class: 'tvShowTitle',
+                            text: title
+
+                        }).appendTo(wrapper)
+
+                        var img = $('<img>', {
+                            class: 'tvShowImg',
+                            src: tmdbPathPosterPath
+                        }).appendTo(wrapper);
+
+
+                    } catch (e) {
+                        return;
+                    }
+                }
+            },
+            error: function (err) {
+                //console.log(err);
+            }
+        })
+
+        setTimeout(function () {
+
+            for (var i = 2; i <= total_pages; i++) {
+
+                $.ajax({
+                    method: 'GET',
+                    crossDomain: true,
+                    url: searchMoreTvShowsUrl + i + '&query=' + val,
+                    dataType: "jsonp",
+                    ifModified: true,
+                    success: function (data) {
+                        //console.log(data);
+
+                        rest = data.results;
+
+                        for (var j = 0; j < data.total_results; j++) {
+
+                            try {
+                                var path = rest[j].poster_path;
+                                tvShowId = rest[j].id;
+
+                                tvShowImage = rest[i].backdrop_path;
+
+                                title = rest[j].original_name;
+
+                                var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
+                                var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + tvShowImage;
+
+
+                                if (path == 'undefined' || path == null) {
+                                    tmdbPathPosterPath = './images/stock.png';
+                                }
+
+
+                            } catch (e) {
+                                return;
+                            }
+
+                            wrapper = $('<div>', {
+                                class: 'tvShowWrapper',
+                                value: tvShowId,
+                                backdropSrc: tmbdBackdropPath,
+                                click: function () {
+                                    tvShowClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
+                                },
+
+                            }).appendTo($('.container'));
+
+
+                            wrapper.css('display', 'none');
+
+                            var tvShowTitle = $('<p>', {
+                                class: 'tvShowTitle',
+                                text: title
+
+                            }).appendTo(wrapper)
+
+                            var img = $('<img>', {
+                                class: 'tvShowImg',
+                                src: tmdbPathPosterPath
+                            }).appendTo(wrapper);
+
+                            tvShowId = rest[j].id;
+                        }
+
+                    },
+                    error: function (err) {
+
+                        //console.log(err);
+                    }
+                });
+            }
+            
+        }, 500)
+
+        setTimeout(function () {
+            $('.playingNowHeader').show();
+
+        }, 1000)
+
+        setTimeout(function () {
+
+            if (total_results !== 0) {
+                $('.tvShowsHeader').show();
+            }
+
+        }, 2000)
+
+        $('#searchMovie').val('');
+    }
+}
+
 function goHome() {
     if (page !== 0) {
         location.reload();
@@ -512,10 +767,10 @@ function getMovieInfo(movieId) {
     });
 
     $.ajax({
-        type: 'GET',
+        method: 'GET',
         crossDomain: true,
         url: movieInfoUrl + movieId + "?api_key=" + tmdbKey + "",
-        dataType: "json",
+        dataType: "jsonp",
         ifModified: true,
         success: function (data) {
             page = 1;
@@ -528,6 +783,18 @@ function getMovieInfo(movieId) {
             var month = date.getMonth();
             var year = date.getFullYear();
             var day = date.getDate();
+
+            var finalImg;
+
+            if (movieImage == null) {
+                finalImg = data.poster_path;
+
+                setTimeout(function () {
+                    $('.imdbImage').css('width', '200px');
+                }, 1500)
+            } else {
+                finalImg = movieImage;
+            }
 
             changeMonthName(month);
             changeDayName(day);
@@ -544,7 +811,7 @@ function getMovieInfo(movieId) {
 
             var imdbImage = $('<img>', {
                 class: 'imdbImage',
-                src: 'https://image.tmdb.org/t/p/w500' + movieImage
+                src: 'https://image.tmdb.org/t/p/w500' + finalImg
             }).appendTo(imdbLink);
 
             var descriptionWrapper = $('<div>', {
@@ -624,10 +891,85 @@ function getMovieInfo(movieId) {
 function getCredits(movieId) {
 
     $.ajax({
-        type: 'GET',
+        method: 'GET',
         crossDomain: true,
         url: movieInfoUrl + movieId + "/credits?api_key=" + tmdbKey + "",
-        dataType: "json",
+        dataType: "jsonp",
+        ifModified: true,
+        success: function (data) {
+
+            for (var i = 0; i < 21; i++) {
+
+                try {
+                    var actorImgPath = 'https://image.tmdb.org/t/p/w500' + data.cast[i].profile_path;
+
+                    if (data.cast[i].profile_path == 'undefined' || data.cast[i].profile_path == null || data.cast[i].profile_path == '') {
+
+                        switch (data.cast[i].gender) {
+                            case 0:
+                                actorImgPath = './images/actor.png';
+                                break;
+                            case 1:
+                                actorImgPath = './images/actress.png';
+                                break;
+                            case 2:
+                                actorImgPath = './images/actor.png';
+                                break;
+                        }
+
+                    }
+
+                    var characterWrapper = $('<div>', {
+                        class: 'castName',
+                    }).appendTo($('.castWrapper'));
+
+                    var imageLink = $('<a>', {
+                        class: 'imageLink',
+
+                    }).appendTo(characterWrapper);
+
+                    var actorImg = $('<img>', {
+                        class: 'actorImg',
+                        src: actorImgPath,
+                        id: data.cast[i].id,
+                        click: function () {
+                            goToActorImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
+                        }
+                    }).appendTo(imageLink);
+
+                    var actorName = $('<span>', {
+                        class: 'actorName',
+                        text: data.cast[i].name + ': '
+                    }).appendTo(characterWrapper);
+
+                    var characterName = $('<span>', {
+                        class: 'characterName',
+                        text: data.cast[i].character
+                    }).appendTo(characterWrapper);
+
+                } catch (e) {
+                    return;
+                }
+            }
+
+            $('.actorImg').trigger("click");
+            $('.actorImg').off();
+
+        },
+        error: function (err) {
+
+            //console.log(err);
+        }
+    })
+}
+
+function getTvShowCredits(tvShowId) {
+
+    $.ajax({
+        method: 'GET',
+        crossDomain: true,
+        url: tvShowInfoUrl + tvShowId + "/credits?api_key=" + tmdbKey + "",
+        dataType: "jsonp",
         ifModified: true,
         success: function (data) {
 
@@ -698,10 +1040,45 @@ function getCredits(movieId) {
 
 function getImages(movieId) {
     $.ajax({
-        type: 'GET',
+        method: 'GET',
         crossDomain: true,
         url: movieInfoUrl + movieId + "/images?api_key=" + tmdbKey + "",
-        dataType: "json",
+        dataType: "jsonp",
+        ifModified: true,
+        success: function (data) {
+
+            for (var i = 0; i < data.backdrops.length; i++) {
+
+                var galleryImg = data.backdrops[i].file_path;
+                var galleryImgPath;
+
+                if (galleryImg == null || galleryImg == '') {
+
+                    galleryImgPath = './images/noImage.png';
+                } else {
+                    galleryImgPath = 'https://image.tmdb.org/t/p/w500/' + galleryImg;
+                }
+
+                if (i !== 0) {
+                    var movieGalleryImg = $('<img>', {
+                        class: 'movieGalleryImg',
+                        src: galleryImgPath,
+                    }).appendTo($('.moveiGallery'));
+                }
+            }
+        },
+        error: function (e) {
+            //console.log(e);
+        }
+    })
+}
+
+function getTvShowsImages(tvShowId) {
+    $.ajax({
+        method: 'GET',
+        crossDomain: true,
+        url: tvShowInfoUrl + tvShowId + "/images?api_key=" + tmdbKey + "",
+        dataType: "jsonp",
         ifModified: true,
         success: function (data) {
 
@@ -733,10 +1110,10 @@ function getImages(movieId) {
 
 function getVideos(movieId) {
     $.ajax({
-        type: 'GET',
+        method: 'GET',
         crossDomain: true,
         url: movieInfoUrl + movieId + "/videos?api_key=" + tmdbKey + "",
-        dataType: "json",
+        dataType: "jsonp",
         ifModified: true,
         success: function (data) {
 
@@ -759,8 +1136,271 @@ function getVideos(movieId) {
     })
 }
 
-function movieClicked(movieId, div, path) {
+function getTvShowsVideos(tvShowId) {
+    $.ajax({
+        method: 'GET',
+        crossDomain: true,
+        url: tvShowInfoUrl + tvShowId + "/videos?api_key=" + tmdbKey + "",
+        dataType: "jsonp",
+        ifModified: true,
+        success: function (data) {
 
+            for (var i = 0; i < data.results.length; i++) {
+
+                var movieUrl = youtubeVideo + data.results[i].key;
+
+                var movieVideo = $('<iframe>', {
+                    class: 'movieVideo',
+                    src: movieUrl,
+                    width: '420',
+                    height: '315'
+
+                }).appendTo($('.moveiVideos'));
+            }
+        },
+        error: function (err) {
+            //console.log(err);
+        }
+    })
+}
+
+function getTvShowInfo(tvShowId) {
+    var inputVal2 = $('.tvShowTitle').html();
+    var tvShowUrl = inputVal2.replace(/[^A-Za-z0-9]+/g, "");
+
+    window.history.pushState('page2', 'Title', '?' + tvShowUrl);
+    window.addEventListener('popstate', function (event) {
+        window.location.reload();
+    });
+
+    $.ajax({
+        method: 'GET',
+        crossDomain: true,
+        url: tvShowInfoUrl + tvShowId + "?api_key=" + tmdbKey + "",
+        dataType: "jsonp",
+
+        ifModified: true,
+        success: function (data) {
+
+            page = 1;
+
+            $('.logo').css('cursor', 'pointer');
+
+            tvShowImage = data.backdrop_path;
+            var tvShowReleaseDate = data.first_air_date;
+            date = new Date(tvShowReleaseDate);
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            var day = date.getDate();
+
+            changeMonthName(month);
+            changeDayName(day);
+
+            var detailsWrapper = $('<div>', {
+                class: 'detailsWrapper',
+            }).appendTo($('.chosenMovie'));
+
+            var imdbLink = $('<a>', {
+                class: 'imdbLink',
+                target: '_blank',
+
+            }).appendTo(detailsWrapper);
+
+            var imdbImage = $('<img>', {
+                class: 'imdbImage',
+                src: 'https://image.tmdb.org/t/p/w500' + tvShowImage
+            }).appendTo(imdbLink);
+
+            var descriptionWrapper = $('<div>', {
+                class: 'descriptionWrapper',
+            }).appendTo(detailsWrapper);
+
+            var tvShowDescription = $('<p>', {
+                class: 'tvShowDescription',
+                text: data.overview,
+            }).appendTo(descriptionWrapper);
+
+            //var withCommas = numberWithCommas(data.revenue);
+
+            var tvDetailsDetails = $('<div>', {
+                class: 'tvDetailsDetails',
+            }).appendTo(detailsWrapper);
+
+            var seasonsNum = $('<p>', {
+                class: 'seasonsNum',
+                text: 'Seasons: ' + data.number_of_seasons,
+            }).appendTo(tvDetailsDetails);
+
+            var episodesNum = $('<p>', {
+                class: 'episodesNum',
+                text: 'Episode: ' + data.number_of_episodes,
+            }).appendTo(tvDetailsDetails);
+
+            var releaseDate = $('<p>', {
+                class: 'releaseDate',
+                text: 'Release Date: ' + monthName + ' ' + dayName + ' ' + year,
+            }).appendTo(tvDetailsDetails);
+
+            var tvShowGenreWrapper = $('<div>', {
+                class: 'movieGenreWrapper',
+            }).appendTo(tvDetailsDetails);
+
+            var tvShowGenreHead = $('<span>', {
+                class: 'movieGenreHead',
+                text: 'Genres: ',
+            }).appendTo(tvShowGenreWrapper);
+
+            for (var i = 0; i < data.genres.length; i++) {
+                arr.push(data.genres[i].name);
+                arr.join(' , ');
+            }
+
+            var tvShowGenre = $('<span>', {
+                class: 'movieGenre',
+                text: arr,
+            }).appendTo(tvShowGenreWrapper);
+
+            var castWrapper = $('<div>', {
+                class: 'castWrapper',
+
+            }).appendTo($('.chosenMovie'));
+
+            var moveiGallery = $('<div>', {
+                class: 'moveiGallery',
+            }).appendTo($('.chosenMovie'));
+
+            var moveiVideos = $('<div>', {
+                class: 'moveiVideos',
+
+            }).appendTo($('.chosenMovie'));
+
+            $('.movieGenre').html($('.movieGenre').html().split(',').join(', '));
+
+        },
+        error: function (err) {
+            //console.log(err);
+        }
+    })
+}
+
+function tvShowClicked(tvShowId, div, path) {
+
+    $('.container').addClass('singleMovieContainer');
+    $('.inputError').fadeOut(200);
+    $('.noMovieError').fadeOut(500);
+
+    $('.container').css('margin-top', '3rem');
+
+    $('.spinner').fadeIn('fast');
+    $('.spinnerWrapper').fadeIn('fast');
+    $('.bottomSection').css('display', 'none');
+
+    div.css('display', 'none');
+    div.removeClass('playingNowWrapper');
+    div.removeClass('tvShowWrapper');
+    
+    $('.playingNowHeader').hide();
+    $('.playingNowWrapper').remove();
+    $('.tvShowsHeader').hide();
+
+    div.addClass('chosenMovie');
+
+    $('.movieWrapper').remove();
+    $('.tvShowWrapper').remove();
+
+    $('.movieImg').remove();
+    $('.tvShowImg').remove();
+
+    var width = 1;
+    var id2 = setInterval(frame, 30);
+    function frame() {
+
+        width++;
+
+        if (width >= 100) {
+            clearInterval(id2);
+
+            $('.spinnerWrapper').css('display', 'none');
+            $('.spinner').css('display', 'none');
+            $('.bottomSection').css('display', 'block');
+            //$('.movieWrapper').css('display', 'block');
+            $('.tvShowWrapper').css('display', 'flex');
+
+            div.fadeIn('slow');
+
+            width = 1;
+        }
+    }
+
+    var promise = new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(getTvShowInfo(tvShowId));
+        }, 250);
+    })
+
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getTvShowImdbId(tvShowId);
+        }, 550);
+    })
+
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getTvShowCredits(tvShowId);
+        }, 1000);
+    })
+
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getTvShowsImages(tvShowId);
+        }, 1200);
+    })
+
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getTvShowsVideos(tvShowId)
+        }, 1200);
+    })
+
+    $('.chosenMovie').off();
+    $('.actorImg').off();
+
+    setTimeout(function () {
+        for (var j = 0; j < $('.movieGalleryImg').length ; j++) {
+            tmp = $($('.movieGalleryImg')[j].attributes.src)[0].textContent;
+            $($('.movieGalleryImg')[j]).attr('src', 'asd');
+            $($('.movieGalleryImg')[j]).attr('src', tmp);
+        }
+
+        for (var k = 0; k < $('.actorImg').length ; k++) {
+            tmp2 = $($('.actorImg')[k].attributes.src)[0].textContent;
+            $($('.actorImg')[k]).attr('src', 'asd');
+            $($('.actorImg')[k]).attr('src', tmp2);
+        }
+    }, 4000)
+}
+
+function getTvShowImdbId(tvShowId) {
+    $.ajax({
+        method: 'GET',
+        crossDomain: true,
+        url: tvShowInfoUrl + tvShowId + "/external_ids" + "?api_key=" + tmdbKey + "&language=en-US",
+        dataType: "jsonp",
+        ifModified: true,
+
+        success: function (data) {
+            
+            $('.imdbLink').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
+            $('.imdbLink').attr('target', '_blank');
+
+        },
+        error: function (err) {
+            //console.log(err);
+        }
+    })
+}
+
+function movieClicked(movieId, div, path) {
 
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
@@ -776,14 +1416,15 @@ function movieClicked(movieId, div, path) {
     div.removeClass('playingNowWrapper');
     div.removeClass('movieWrapper');
 
-    $('.playingNowHeader').remove();
+    $('.playingNowHeader').hide();
     $('.playingNowWrapper').remove();
 
     div.addClass('chosenMovie');
 
     $('.movieWrapper').remove();
-
+    $('.tvShowWrapper').remove();
     $('.movieImg').remove();
+    $('.tvShowsHeader').hide();
 
     var width = 1;
     var id2 = setInterval(frame, 30);
@@ -851,10 +1492,10 @@ function movieClicked(movieId, div, path) {
 function goToActorImdb(imdbActorId, that) {
 
     $.ajax({
-        type: 'GET',
+        method: 'GET',
         crossDomain: true,
         url: movieActorsUrl + imdbActorId + "?api_key=" + tmdbKey + "&language=en-US",
-        dataType: "json",
+        dataType: "jsonp",
         ifModified: true,
 
         success: function (data) {
