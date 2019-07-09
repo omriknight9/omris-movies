@@ -496,7 +496,7 @@ h2 {
     text-align: left;
 }
 
-.movieDetails, .tvDetailsDetails {
+.objectDetails {
     width: 50%;
     margin: 2rem auto auto auto;
     border-radius: 5px;
@@ -504,22 +504,18 @@ h2 {
     text-align: left;
 }
 
-.movieDetails p, .tvDetailsDetails p {
+.objectDetails p {
     padding-left: 1rem;
     padding-right: 1rem;
     padding-top: 1rem;
 }
 
-/*.movieDetails p:first-child {
-    padding-bottom: 0;
-}*/
-
-.movieGenreWrapper{
+.objectGenreWrapper {
     padding: 1rem;
 }
 
 
-.movieDescription, .tvShowDescription {
+.objectDescription {
     padding: 1rem;
 }
 
@@ -813,6 +809,10 @@ h2 {
 
 @media only screen and (max-width: 1040px) {
 
+    .inputColumn {
+        width: 40%;
+    }
+
     .movieGalleryImg {
         width: 400px;
         height: 250px;
@@ -930,7 +930,7 @@ h2 {
         width :100%;
     }
 
-    .movieDetails, .descriptionWrapper, .tvDetailsDetails {
+    .descriptionWrapper, .objectDescription, .objectDetails {
         width: 100%;
     }
 }
@@ -1017,6 +1017,12 @@ h2 {
     }
 }
 
+@media only screen and (max-width: 450px) {
+    .inputColumn {
+        width: 90%;
+    }
+}
+
 @media only screen and (max-width: 400px) {
 
     .resultRow .description {
@@ -1037,6 +1043,10 @@ h2 {
 }
 
 @media only screen and (max-width: 350px) {
+
+    #searchMovie {
+        font-size: 1.07rem;
+    }
 
     .resultRow .description {
         padding-left: 2rem;
