@@ -1117,10 +1117,12 @@ function getVideos(movieId) {
         ifModified: true,
         success: function (data) {
 
-            for (var i = 0; i < data.results.length; i++) {
+            for (var i = 0; i < 5; i++) {
+                if (data.results[i] == undefined || data.results[i] == null) {
+                    return;
+                }
 
                 var movieUrl = youtubeVideo + data.results[i].key;
-
                 var movieVideo = $('<iframe>', {
                     class: 'movieVideo',
                     src: movieUrl,
@@ -1145,7 +1147,10 @@ function getTvShowsVideos(tvShowId) {
         ifModified: true,
         success: function (data) {
 
-            for (var i = 0; i < data.results.length; i++) {
+            for (var i = 0; i < 5; i++) {
+                if (data.results[i] == undefined || data.results[i] == null) {
+                    return;
+                }
 
                 var movieUrl = youtubeVideo + data.results[i].key;
 
