@@ -814,19 +814,38 @@ function getCredits(objectId, kind) {
                         text: data.cast[i].character
                     }).appendTo(castName);
 
+
+                    var linksWrapper = $('<div>', {
+                        class: 'linksWrapper',
+                    }).appendTo(castName);
+
                     var imdbLinkWrapper = $('<a>', {
                         class: 'imdbLinkWrapper',
 
-                    }).appendTo(castName);
+                    }).appendTo(linksWrapper);
 
                     var imdbLink = $('<img>', {
-                        src: './images/imdb_small.png',
+                        src: './images/imdb.png',
                         class: 'imdbLink',
                         id: data.cast[i].id,
                         click: function () {
-                            goToActorImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
+                            goToActorImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement), 1);
                         }
                     }).appendTo(imdbLinkWrapper);
+
+                    var instagramWrapper = $('<a>', {
+                        class: 'instagramWrapper',
+
+                    }).appendTo(linksWrapper);
+
+                    var instagramLink = $('<img>', {
+                        src: './images/instagram.png',
+                        class: 'instagramLink',
+                        id: data.cast[i].id,
+                        click: function () {
+                            goToActorImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement), 2);
+                        }
+                    }).appendTo(instagramWrapper);
 
 
                 } catch (e) {
@@ -1298,23 +1317,33 @@ function movieClicked(movieId, div, path) {
     }, 4000)
 }
 
-function goToActorImdb(imdbActorId, that) {
+function goToActorImdb(imdbActorId, that, linkNum) {
     $.ajax({
         type: 'GET',
         crossDomain: true,
-        url: movieActorsUrl + imdbActorId + "?api_key=" + tmdbKey + "&language=en-US",
+        url: movieActorsUrl + imdbActorId + "/external_ids?api_key=" + tmdbKey + "&language=en-US",
         dataType: "jsonp",
         ifModified: true,
 
         success: function (data) {
 
-            that.attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
-            that.attr('target', '_blank');
+            if (linkNum == 1) {
+                that.attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
+                that.attr('target', '_blank');
 
-            var actorImgLink = $(that).parent().find($('.imdbLink'))
+                var actorImdbLink = $(that).parent().find($('.imdbLink'))
 
-            actorImgLink.trigger("click");
-            actorImgLink.off();
+                actorImdbLink.trigger("click");
+                actorImdbLink.off();
+            } else {
+                that.attr('href', 'https://www.instagram.com/' + data.instagram_id);
+                that.attr('target', '_blank');
+
+                var actorInstagramLink = $(that).parent().find($('.instagramLink'))
+
+                actorInstagramLink.trigger("click");
+                actorInstagramLink.off();
+            }
         },
         error: function (err) {
             //console.log(err);
