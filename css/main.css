@@ -704,10 +704,35 @@ h2 {
     cursor: pointer;
 }
 
-.imdbLinkWrapper {
+.linksWrapper {
     position: absolute;
     bottom: 1rem;
+}
+
+.imdbLinkWrapper, .instagramWrapper {
+    /*position: absolute;
+    bottom: 1rem;*/
     cursor: pointer;
+}
+
+.imdbLinkWrapper {
+    margin-right: 1rem;
+}
+
+.instagramWrapper {
+    margin-left: 1rem;
+}
+
+.imdbLink {
+    width: 30px;
+    height: 30px;
+    margin-right: /*.5rem;*/
+}
+
+.instagramLink {
+    width: 30px;
+    height: 30px;
+    /*margin-left: .5rem;*/
 }
 
 .actorMovieImg {
@@ -1152,6 +1177,15 @@ h2 {
 }
 
 @media only screen and (max-width: 400px) {
+
+    .imdbLinkWrapper {
+        margin-right: unset;
+    }
+
+    .imdbLink, .instagramLink {
+        width: 25px;
+        height: 25px;
+    }
 
     .castName, .actorMovie {
         margin-left: .5rem;
