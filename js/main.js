@@ -57,6 +57,10 @@ $(document).ready(function () {
         scrollBtn();
     };
 
+    $('.Xbtn').click(function () {
+        $(this).parent().parent().hide();
+    })
+
     function myFunction() {
         var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
         var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1328,21 +1332,37 @@ function goToActorImdb(imdbActorId, that, linkNum) {
         success: function (data) {
 
             if (linkNum == 1) {
-                that.attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
-                that.attr('target', '_blank');
 
-                var actorImdbLink = $(that).parent().find($('.imdbLink'))
+                if (data.imdb_id == null) {
+                    $('#noImdbPop').show();
+                    removePopup($('#noImdbPop'));
+                } else {
 
-                actorImdbLink.trigger("click");
-                actorImdbLink.off();
+                    that.attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
+                    that.attr('target', '_blank');
+
+                    var actorImdbLink = $(that).parent().find($('.imdbLink'))
+
+                    actorImdbLink.trigger("click");
+                    actorImdbLink.off();
+                }
+
             } else {
-                that.attr('href', 'https://www.instagram.com/' + data.instagram_id);
-                that.attr('target', '_blank');
 
-                var actorInstagramLink = $(that).parent().find($('.instagramLink'))
+                if (data.instagram_id == null) {
+                    $('#noInstagramPop').show();
+                    removePopup($('#noInstagramPop'));
+                } else {
 
-                actorInstagramLink.trigger("click");
-                actorInstagramLink.off();
+                    that.attr('href', 'https://www.instagram.com/' + data.instagram_id);
+                    that.attr('target', '_blank');
+
+                    var actorInstagramLink = $(that).parent().find($('.instagramLink'))
+
+                    actorInstagramLink.trigger("click");
+                    actorInstagramLink.off();
+                }
+
             }
         },
         error: function (err) {
@@ -1591,4 +1611,19 @@ function changeDayName(day) {
             dayName = day + 'th';
         }
     }
+}
+
+function removePopup(container) {
+
+    $(document).mouseup(function (e) {
+        if (container.is(e.target) && container.has(e.target).length === 0) {
+            container.hide();
+            e.stopPropagation();
+            $(document).off('mouseup');
+        }
+    })
+}
+
+function closeCurrentPopup(that) {
+    $($(that)[0].parentElement.parentElement.parentElement).hide();
 }
