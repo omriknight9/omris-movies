@@ -109,7 +109,7 @@ function showResults() {
             $('#searchMovie').css('color', 'black');
             var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/" + cleanInput.toLowerCase() + ".json";
 
-            var ajax = $.ajax({
+            var ajax2 = $.ajax({
 
                 url: queryUrl,
                 dataType: 'jsonp',
@@ -118,6 +118,7 @@ function showResults() {
                 jsonpCallback: "imdb$" + cleanInput.toLowerCase(),
 
                 success: function (result) {
+
                     if (result.d == 'undefind' || result.d == null) {
                         return;
                     }
