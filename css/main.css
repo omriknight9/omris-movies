@@ -699,7 +699,7 @@ h2 {
     cursor: pointer;
 }
 
-.castName:nth-child(even) {
+.castName:nth-child(even), .actorMovie:nth-child(even) {
     background-color: lightgray;
 }
 
