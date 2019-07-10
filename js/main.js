@@ -1355,7 +1355,7 @@ function goToMovieImdb(imdbActorId, that) {
     $.ajax({
         type: 'GET',
         crossDomain: true,
-        url: movieActorsUrl + imdbActorId + "/combined_credits?api_key=" + tmdbKey + "&sort_by=id.desc&language=en-US",
+        url: movieActorsUrl + imdbActorId + "/combined_credits?api_key=" + tmdbKey + "&language=en-US",
         dataType: "jsonp",
         ifModified: true,
 
