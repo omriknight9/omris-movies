@@ -560,7 +560,7 @@ h2 {
 .actorCreditsWrapper {
     position: absolute;
     z-index: 999;
-    top: 20%;
+    top: 43rem;
     width: 90%;
     margin: auto;
     height: 29rem;
@@ -570,16 +570,6 @@ h2 {
 }
 
 .castWrapper {
-    /*display: flex;
-    flex-wrap: nowrap;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    margin: auto;
-    border-radius: 20px;
-    overflow-x: scroll;*/
     margin: auto;
     width: 71%;
     height: 29rem;
@@ -1021,7 +1011,6 @@ h2 {
     }
 
     .actorCreditsWrapper {
-        top: 22%;
         height: 31rem;
     }
 
