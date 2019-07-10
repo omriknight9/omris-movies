@@ -1011,19 +1011,15 @@ h2 {
     }
 
     .actorCreditsWrapper {
-        height: 31rem;
+        height: 27rem;
     }
 
-    .castName {
+    .castName, .actorMovie {
         height: 17rem;
     }
 
     .closeBtn {
-        top: -30rem;
-    }
-
-    .actorMovie {
-        height: 22rem;
+        top: -26rem;
     }
     
     .actorImg, .actorMovieImg {
@@ -1156,6 +1152,16 @@ h2 {
 }
 
 @media only screen and (max-width: 400px) {
+
+    .castName, .actorMovie {
+        margin-left: .5rem;
+        margin-right: .5rem;
+    }
+
+    .actorImg, .actorMovieImg {
+        width: 80px;
+        height: 100px;
+    }
 
     .resultRow .description {
         width: 65%;
