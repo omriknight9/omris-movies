@@ -83,7 +83,6 @@ $(document).ready(function () {
     });
 
     showResults();
-
     getPlayingNow();
 
 })
@@ -103,110 +102,103 @@ function showResults() {
         if (cleanInput.length === 0) {
             $('.results').html('');
             $('.results').css('display', 'none');
-
         }
 
         if (cleanInput.length > 0) {
             $('.inputError').fadeOut(200);
             $('#searchMovie').css('color', 'black');
-            var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/"
-                          + cleanInput.toLowerCase()
-                          + ".json";
+            var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/" + cleanInput.toLowerCase() + ".json";
 
-            var test2;
+            var ajax = $.ajax({
 
-                var ajax = $.ajax({
+                url: queryUrl,
+                dataType: 'jsonp',
+                cache: true,
+                jsonp: false,
+                jsonpCallback: "imdb$" + cleanInput.toLowerCase(),
 
-                    url: queryUrl,
-                    dataType: 'jsonp',
-                    cache: true,
-                    jsonp: false,
-                    jsonpCallback: "imdb$" + cleanInput.toLowerCase(),
+                success: function (result) {
+                    if (result.d == 'undefind' || result.d == null) {
+                        return;
+                    }
 
-                    success: function (result) {
-                        if (result.d == 'undefind' || result.d == null) {
-                            return;
-                        }
+                    if (result.d.length > 0) {
+                        $('.results').html('');
+                        $('.results').css('display', 'none');
+                    }
 
-                        if (result.d.length > 0) {
-                            $('.results').html('');
-                            $('.results').css('display', 'none');
-                        }
+                    $('.results').css('display', 'block');
+                    $('.results').animate({ scrollTop: 0 }, 'fast');
 
-                        $('.results').css('display', 'block');
-                        $('.results').animate({ scrollTop: 0 }, 'fast');
+                    for (var i = 0; i < result.d.length; i++) {
 
-                        for (var i = 0; i < result.d.length; i++) {
+                        var category = result.d[i].id.slice(0, 2);
 
-                            var category = result.d[i].id.slice(0, 2);
+                        if (category === "tt") {
+                            //row for risplaying one result
+                            var resultRow = document.createElement('div');
+                            resultRow.setAttribute('class', 'resultRow');
+                            var destinationUrl;
 
-                            if (category === "tt") {
-                                //row for risplaying one result
-                                var resultRow = document.createElement('div');
-                                resultRow.setAttribute('class', 'resultRow');
-                                var destinationUrl;
+                            destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
 
-                                destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
+                            resultRow.setAttribute('href', destinationUrl);
+                            resultRow.setAttribute('target', '_blank');
 
-                                resultRow.setAttribute('href', destinationUrl);
-                                resultRow.setAttribute('target', '_blank');
+                            var posterWrapper = document.createElement('div');
+                            posterWrapper.setAttribute('class', 'posterWrapper');
 
-                                var posterWrapper = document.createElement('div');
-                                posterWrapper.setAttribute('class', 'posterWrapper');
+                            var poster = document.createElement('img');
+                            poster.setAttribute('class', 'poster');
 
-                                var poster = document.createElement('img');
-                                poster.setAttribute('class', 'poster');
-
-                                if (result.d[i].i) {
-                                    var imdbPoster = result.d[i].i[0];
-                                    imdbPoster = imdbPoster.replace("._V1_.jpg", "._V1._SX100_CR0,0,100,148.jpg");
-                                    var posterUrl =
-                                        "http://i.embed.ly/1/display/resize?key=798c38fecaca11e0ba1a4040d3dc5c07&url="
-                                        + imdbPoster
-                                        + "&height=54&width=40&errorurl=http%3A%2F%2Flalwanivikas.github.io%2Fimdb-autocomplete%2Fimg%2Fnoimage.png&grow=true"
-                                    poster.setAttribute('src', imdbPoster);
-                                }
-
-                                //creating and setting description
-                                var description = document.createElement('div');
-                                description.setAttribute('class', 'description');
-                                var name = document.createElement('h4');
-                                var snippet = document.createElement('h5');
-
-                                if (category === "tt" && result.d[i].y) {
-                                    name.innerHTML = result.d[i].l + " (" + result.d[i].y + ")";
-                                } else {
-                                    name.innerHTML = result.d[i].l;
-                                }
-                                snippet.innerHTML = result.d[i].s;
-
-                                $(description).append(name);
-                                $(description).append(snippet);
-                                $(resultRow).append(posterWrapper);
-                                $(posterWrapper).append(poster);
-                                $(resultRow).append(description);
-                                $('.results').append(resultRow);
+                            if (result.d[i].i) {
+                                var imdbPoster = result.d[i].i[0];
+                                imdbPoster = imdbPoster.replace("._V1_.jpg", "._V1._SX100_CR0,0,100,148.jpg");
+                                var posterUrl =
+                                    "http://i.embed.ly/1/display/resize?key=798c38fecaca11e0ba1a4040d3dc5c07&url="
+                                    + imdbPoster
+                                    + "&height=54&width=40&errorurl=http%3A%2F%2Flalwanivikas.github.io%2Fimdb-autocomplete%2Fimg%2Fnoimage.png&grow=true"
+                                poster.setAttribute('src', imdbPoster);
                             }
+
+                            //creating and setting description
+                            var description = document.createElement('div');
+                            description.setAttribute('class', 'description');
+                            var name = document.createElement('h4');
+                            var snippet = document.createElement('h5');
+
+                            if (category === "tt" && result.d[i].y) {
+                                name.innerHTML = result.d[i].l + " (" + result.d[i].y + ")";
+                            } else {
+                                name.innerHTML = result.d[i].l;
+                            }
+                            snippet.innerHTML = result.d[i].s;
+
+                            $(description).append(name);
+                            $(description).append(snippet);
+                            $(resultRow).append(posterWrapper);
+                            $(posterWrapper).append(poster);
+                            $(resultRow).append(description);
+                            $('.results').append(resultRow);
                         }
+                    }
 
-                        $('.resultRow').click(function () {
+                    $('.resultRow').click(function () {
 
-                            $('.results').fadeOut('fast');
-                            var movieName = $(this).find('.description h4').html();
+                        $('.results').fadeOut('fast');
+                        var movieName = $(this).find('.description h4').html();
 
-                            $('#searchMovie').val(movieName);
+                        $('#searchMovie').val(movieName);
 
-                            var inputVal = $('#searchMovie').val();
-                            searchMovie();
-                            setTimeout(function () {
-                                searchTVShows(inputVal);
-                            }, 2000)
-                        })
-                    },
-
-                })
+                        var inputVal = $('#searchMovie').val();
+                        searchMovie();
+                        setTimeout(function () {
+                            searchTVShows(inputVal);
+                        }, 2000)
+                    })
+                }
+            })
         }
-
     })
 }
 
@@ -258,7 +250,6 @@ function getPlayingNow() {
                         backdropSrc: tmbdBackdropPath,
                         click: function () {
                             movieClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
-
                         },
 
                     }).appendTo($('.container'));
@@ -277,7 +268,6 @@ function getPlayingNow() {
 
                 } catch (e) {
                     //console.log(e);
-                    //return;
                 }
             }
         },
@@ -331,17 +321,14 @@ function searchMovie() {
         var width = 1;
         var id = setInterval(frame, 30);
         function frame() {
-
             width++;
 
             if (width >= 100) {
                 clearInterval(id);
-
                 $('.spinnerWrapper').css('display', 'none');
                 $('.spinner').css('display', 'none');
                 $('.movieWrapper').css('display', 'block');
                 $('.movieWrapper').css('display', 'flex');
-
                 width = 1;
             }
         }
@@ -375,18 +362,16 @@ function searchMovie() {
                     try {
                         var path = topTen[i].poster_path;
                         title = topTen[i].title;
-
                         movieId = topTen[i].id;
-
                         movieImage = topTen[i].backdrop_path;
 
                         var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
                         var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
 
-
                         if (path == 'undefined' || path == null) {
                             tmdbPathPosterPath = './images/stock.png';
                         }
+
                         wrapper = $('<div>', {
                             class: 'movieWrapper',
                             value: movieId,
@@ -397,20 +382,17 @@ function searchMovie() {
 
                         }).appendTo($('.container'));
 
-
                         wrapper.css('display', 'none');
 
                         var movieTitle = $('<p>', {
                             class: 'movieTitle',
                             text: title
-
                         }).appendTo(wrapper)
 
                         var img = $('<img>', {
                             class: 'movieImg',
                             src: tmdbPathPosterPath
                         }).appendTo(wrapper);
-
 
                     } catch (e) {
                         return;
@@ -433,7 +415,6 @@ function searchMovie() {
                     dataType: "jsonp",
                     ifModified: true,
                     success: function (data) {
-                        //console.log(data);
 
                         rest = data.results;
 
@@ -442,24 +423,19 @@ function searchMovie() {
                             try {
                                 var path = rest[j].poster_path;
                                 movieId = rest[j].id;
-
                                 movieImage = rest[i].backdrop_path;
-
                                 title = rest[j].title;
 
                                 var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
                                 var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
 
-
                                 if (path == 'undefined' || path == null) {
                                     tmdbPathPosterPath = './images/stock.png';
                                 }
 
-
                             } catch (e) {
                                 return;
                             }
-
 
                             wrapper = $('<div>', {
                                 class: 'movieWrapper',
@@ -468,16 +444,13 @@ function searchMovie() {
                                 click: function () {
                                     movieClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
                                 },
-
                             }).appendTo($('.container'));
-
 
                             wrapper.css('display', 'none');
 
                             var movieTitle = $('<p>', {
                                 class: 'movieTitle',
                                 text: title
-
                             }).appendTo(wrapper)
 
                             var img = $('<img>', {
@@ -487,10 +460,8 @@ function searchMovie() {
 
                             movieId = rest[j].id;
                         }
-
                     },
                     error: function (err) {
-
                         //console.log(err);
                     }
                 });
@@ -504,7 +475,7 @@ function searchMovie() {
 
                 $('html,body').animate({ scrollTop: 400 }, 'slow');
             }
-            
+           
         }, 3500)
     }
 }
@@ -517,12 +488,8 @@ function searchTVShows(value) {
 
     valid = true;
 
-    //var inputVal = $('#searchMovie').val();
-
     var inputVal = value;
-
     var noParentheses = inputVal.replace(/\([^()]*\)/g, "");
-
     var inputValClean = noParentheses.replace(regex, " ");
 
     if ((inputVal == '' || inputVal == null)) {
@@ -543,7 +510,6 @@ function searchTVShows(value) {
         $('.logo').css('cursor', 'unset');
         $(document.activeElement).filter(':input:focus').blur();
 
-        //$('.playingNowHeader').remove();
         $('.playingNowHeader').html('Movies');
         $('.playingNowWrapper').remove();
 
@@ -558,12 +524,10 @@ function searchTVShows(value) {
 
             if (width >= 100) {
                 clearInterval(id);
-
                 $('.spinnerWrapper').css('display', 'none');
                 $('.spinner').css('display', 'none');
                 $('.tvShowWrapper').css('display', 'block');
                 $('.tvShowWrapper').css('display', 'flex');
-
                 width = 1;
             }
         }
@@ -571,15 +535,12 @@ function searchTVShows(value) {
         $('.chosenMovie').remove();
         $('.tvShowWrapper').remove();
         $('.tvShowsHeader').remove();
-        //var val = $('#searchMovie').val();
         var val = inputValClean;
-        //var page = 1;
         var total_pages;
 
         var tvShowsHeader = $('<h2>', {
             class: 'tvShowsHeader',
             text: 'TV Shows'
-
         }).appendTo($('.container'));
 
         $.ajax({
@@ -594,10 +555,6 @@ function searchTVShows(value) {
                 total_results = data.total_results;
                 if (total_results == 0) {
                     $('.tvShowsHeader').hide();
-                    //getPlayingNow();
-                    //$('.noMovieError').fadeIn(500);
-                    //$('.playingNowHeader').fadeIn(500);
-                    //$('.spinnerWrapper').css('display', 'none');
                 }
 
                 for (var i = 0; i < total_results; i++) {
@@ -605,14 +562,11 @@ function searchTVShows(value) {
                     try {
                         var path = topTen[i].poster_path;
                         title = topTen[i].original_name;
-
                         tvShowId = topTen[i].id;
-
                         tvShowImage = topTen[i].backdrop_path;
 
                         var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
                         var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + tvShowImage;
-
 
                         if (path == 'undefined' || path == null) {
                             tmdbPathPosterPath = './images/stock.png';
@@ -625,9 +579,7 @@ function searchTVShows(value) {
                             click: function () {
                                 tvShowClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
                             },
-
                         }).appendTo($('.container'));
-
 
                         wrapper.css('display', 'none');
 
@@ -641,7 +593,6 @@ function searchTVShows(value) {
                             class: 'tvShowImg',
                             src: tmdbPathPosterPath
                         }).appendTo(wrapper);
-
 
                     } catch (e) {
                         return;
@@ -664,8 +615,6 @@ function searchTVShows(value) {
                     dataType: "jsonp",
                     ifModified: true,
                     success: function (data) {
-                        //console.log(data);
-
                         rest = data.results;
 
                         for (var j = 0; j < data.total_results; j++) {
@@ -673,19 +622,15 @@ function searchTVShows(value) {
                             try {
                                 var path = rest[j].poster_path;
                                 tvShowId = rest[j].id;
-
                                 tvShowImage = rest[i].backdrop_path;
-
                                 title = rest[j].original_name;
 
                                 var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
                                 var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + tvShowImage;
 
-
                                 if (path == 'undefined' || path == null) {
                                     tmdbPathPosterPath = './images/stock.png';
                                 }
-
 
                             } catch (e) {
                                 return;
@@ -698,16 +643,13 @@ function searchTVShows(value) {
                                 click: function () {
                                     tvShowClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
                                 },
-
                             }).appendTo($('.container'));
-
 
                             wrapper.css('display', 'none');
 
                             var tvShowTitle = $('<p>', {
                                 class: 'tvShowTitle',
                                 text: title
-
                             }).appendTo(wrapper)
 
                             var img = $('<img>', {
@@ -717,28 +659,22 @@ function searchTVShows(value) {
 
                             tvShowId = rest[j].id;
                         }
-
                     },
                     error: function (err) {
-
                         //console.log(err);
                     }
                 });
-            }
-            
+            } 
         }, 500)
 
         setTimeout(function () {
             $('.playingNowHeader').show();
-
         }, 1000)
 
         setTimeout(function () {
-
             if (total_results !== 0) {
                 $('.tvShowsHeader').show();
             }
-
         }, 2000)
 
         $('#searchMovie').val('');
@@ -770,7 +706,6 @@ function getCredits(objectId, kind) {
         success: function (data) {
 
             for (var i = 0; i < 21; i++) {
-
                 try {
                     var actorImgPath = 'https://image.tmdb.org/t/p/w500' + data.cast[i].profile_path;
 
@@ -787,7 +722,6 @@ function getCredits(objectId, kind) {
                                 actorImgPath = './images/actor.png';
                                 break;
                         }
-
                     }
 
                     var castName = $('<div>', {
@@ -796,7 +730,6 @@ function getCredits(objectId, kind) {
 
                     var imageLink = $('<a>', {
                         class: 'imageLink',
-
                     }).appendTo(castName);
 
                     var actorImg = $('<img>', {
@@ -839,7 +772,6 @@ function getCredits(objectId, kind) {
 
                     var instagramWrapper = $('<a>', {
                         class: 'instagramWrapper',
-
                     }).appendTo(linksWrapper);
 
                     var instagramLink = $('<img>', {
@@ -851,14 +783,12 @@ function getCredits(objectId, kind) {
                         }
                     }).appendTo(instagramWrapper);
 
-
                 } catch (e) {
                     return;
                 }
             }
         },
         error: function (err) {
-
             //console.log(err);
         }
     })
@@ -1001,7 +931,6 @@ function getObjectInfo(objectId, kind) {
             var month = date.getMonth();
             var year = date.getFullYear();
             var day = date.getDate();
-
             var finalImg;
 
             changeMonthName(month);
@@ -1022,7 +951,6 @@ function getObjectInfo(objectId, kind) {
                 var imdbLink = $('<a>', {
                     class: 'imdbLink',
                     target: '_blank',
-
                 }).appendTo(detailsWrapper);
             }
 
@@ -1039,7 +967,6 @@ function getObjectInfo(objectId, kind) {
                 class: 'objectDescription',
                 text: data.overview,
             }).appendTo(descriptionWrapper);
-
 
             var objectDetails = $('<div>', {
                 class: 'objectDetails',
@@ -1108,7 +1035,6 @@ function getObjectInfo(objectId, kind) {
 
             var objectVideos = $('<div>', {
                 class: 'objectVideos',
-
             }).appendTo($('.chosenMovie'));
 
             $('.objectGenre').html($('.objectGenre').html().split(',').join(', '));
@@ -1125,9 +1051,7 @@ function tvShowClicked(tvShowId, div, path) {
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
-
     $('.container').css('margin-top', '3rem');
-
     $('.spinner').fadeIn('fast');
     $('.spinnerWrapper').fadeIn('fast');
     $('.bottomSection').css('display', 'none');
@@ -1223,7 +1147,6 @@ function getTvShowImdbId(tvShowId) {
         ifModified: true,
 
         success: function (data) {
-            
             $('.imdbLink').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
             $('.imdbLink').attr('target', '_blank');
         },
@@ -1238,9 +1161,7 @@ function movieClicked(movieId, div, path) {
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
-
     $('.container').css('margin-top', '3rem');
-
     $('.spinner').fadeIn('fast');
     $('.spinnerWrapper').fadeIn('fast');
     $('.bottomSection').css('display', 'none');
@@ -1340,9 +1261,7 @@ function goToActorImdb(imdbActorId, that, linkNum) {
 
                     that.attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
                     that.attr('target', '_blank');
-
                     var actorImdbLink = $(that).parent().find($('.imdbLink'))
-
                     actorImdbLink.trigger("click");
                     actorImdbLink.off();
                 }
@@ -1353,16 +1272,12 @@ function goToActorImdb(imdbActorId, that, linkNum) {
                     $('#noInstagramPop').show();
                     removePopup($('#noInstagramPop'));
                 } else {
-
                     that.attr('href', 'https://www.instagram.com/' + data.instagram_id);
                     that.attr('target', '_blank');
-
                     var actorInstagramLink = $(that).parent().find($('.instagramLink'))
-
                     actorInstagramLink.trigger("click");
                     actorInstagramLink.off();
                 }
-
             }
         },
         error: function (err) {
@@ -1377,12 +1292,10 @@ function goToMovieImdb(imdbActorId, that) {
 
     var actorCreditsWrapper = $('<div>', {
         class: 'actorCreditsWrapper'
-
     }).appendTo('.container')
 
     var actorCredits = $('<div>', {
         class: 'actorCredits'
-
     }).appendTo(actorCreditsWrapper)
 
     var closeWrapper = $('<div>', {
@@ -1418,7 +1331,6 @@ function goToMovieImdb(imdbActorId, that) {
                     array.push(data.cast[i]);
                 }
 
-
                 function compare(a, b) {
                     if (a.release_date > b.release_date) {
                         return -1;
@@ -1428,7 +1340,6 @@ function goToMovieImdb(imdbActorId, that) {
                     }
                     return 0;
                 }
-
                 array.sort(compare);
             }
 
@@ -1453,10 +1364,8 @@ function goToMovieImdb(imdbActorId, that) {
                     class: 'actorMovie',
                 }).appendTo(actorCredits);
 
-
                 var actorMovieImageLink = $('<a>', {
                     class: 'imageLink',
-
                 }).appendTo(actorMovie);
 
                 var actorMovieImg = $('<img>', {
@@ -1487,7 +1396,6 @@ function goToMovieImdb(imdbActorId, that) {
 
 function getActorMovieInfo(objectId, that) {
 
-
     $.ajax({
         type: 'GET',
         crossDomain: true,
@@ -1502,14 +1410,12 @@ function getActorMovieInfo(objectId, that) {
             var actorMovieImg = $(that).find($('.actorMovieImg'));
             actorMovieImg.trigger("click");
             actorMovieImg.off();
-
         },
         error: function (err) {
             //console.log(err);
         }
     })
 }
-
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
