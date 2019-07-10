@@ -933,6 +933,7 @@ function getObjectInfo(objectId, kind) {
     } else {
         inputVal2 = $('.tvShowTitle').html();
         tmdbUrl = tvShowInfoUrl;
+        objectKind = 2;
     }
 
     url = inputVal2.replace(/[^A-Za-z0-9]+/g, "");
@@ -1350,7 +1351,6 @@ function goToMovieImdb(imdbActorId, that) {
             $('.actorCreditsWrapper').remove();
         }
     }).appendTo(closeWrapper)
-
 
     $.ajax({
         type: 'GET',
