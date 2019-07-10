@@ -501,8 +501,9 @@ h2 {
     text-align: left;
 }
 
-.descriptionWrapper, .objectDescription, .objectDetails {
+.descriptionWrapper, .objectDetails {
     padding: 1rem;
+    font-size: 1.2rem;
 }
 
 .chosenMovie {
@@ -512,7 +513,7 @@ h2 {
 
 .chosenMovie > p {
     margin-top: 4rem;
-    font-size: 1.4rem;
+    font-size: 2rem;
 }
 
 .playingNowWrapper, .movieWrapper, .tvShowWrapper {
@@ -1187,6 +1188,10 @@ h2 {
 }
 
 @media only screen and (max-width: 400px) {
+
+    .chosenMovie > p {
+        font-size: 1.4rem;
+    }
 
     .imdbLinkWrapper {
         margin-right: unset;
