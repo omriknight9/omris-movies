@@ -1298,7 +1298,6 @@ function movieClicked(movieId, div, path) {
 }
 
 function goToActorImdb(imdbActorId, that) {
-    console.log('goToActorImdb()');
     $.ajax({
         type: 'GET',
         crossDomain: true,
@@ -1311,10 +1310,7 @@ function goToActorImdb(imdbActorId, that) {
             that.attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
             that.attr('target', '_blank');
 
-            console.log($(that));
-
             var actorImgLink = $(that).parent().find($('.imdbLink'))
-            console.log($(that).parent().find($('.imdbLink')));
 
             actorImgLink.trigger("click");
             actorImgLink.off();
@@ -1364,10 +1360,7 @@ function goToMovieImdb(imdbActorId, that) {
         ifModified: true,
 
         success: function (data) {
-
-            console.log(data.cast.length);
             for (var i = 0; i < data.cast.length; i++) {
-
 
                 var path = data.cast[i].poster_path;
                 var titleName = data.cast[i].title;
@@ -1440,7 +1433,6 @@ function getActorMovieInfo(objectId, that) {
         dataType: "jsonp",
         ifModified: true,
         success: function (data) {
-            console.log(data);
 
             that.attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
             that.attr('target', '_blank');
