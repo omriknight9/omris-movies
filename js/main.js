@@ -1355,26 +1355,49 @@ function goToMovieImdb(imdbActorId, that) {
     $.ajax({
         type: 'GET',
         crossDomain: true,
-        url: movieActorsUrl + imdbActorId + "/combined_credits?api_key=" + tmdbKey + "&language=en-US",
+        url: movieActorsUrl + imdbActorId + "/combined_credits?api_key=" + tmdbKey + "&sort_by=id.desc&language=en-US",
         dataType: "jsonp",
         ifModified: true,
 
         success: function (data) {
+
+            var array = [];
+
             for (var i = 0; i < data.cast.length; i++) {
 
-                var path = data.cast[i].poster_path;
-                var titleName = data.cast[i].title;
+                if (!data.cast[i].release_date || data.cast[i].release_date !== null || data.cast[i].release_date !== 'undefined' || data.cast[i].release_date !== '') {
+                    array.push(data.cast[i]);
+                }
 
+
+                function compare(a, b) {
+                    if (a.release_date > b.release_date) {
+                        return -1;
+                    }
+                    if (a.release_date < b.release_date) {
+                        return 1;
+                    }
+                    return 0;
+                }
+
+                array.sort(compare);
+            }
+
+            for (var j = 0; j < array.length; j++) {
+
+                var path = array[j].poster_path;
+                var titleName = array[j].title;
+                
                 if (titleName == 'undefined' || titleName == null) {
-                    titleName = data.cast[i].name;
+                    titleName = array[j].name;
                 } else {
-                    titleName = data.cast[i].title;
+                    titleName = array[j].title;
                 }
 
                 if (path == 'undefined' || path == null) {
                     path = './images/stock.png';
                 } else {
-                    path = 'https://image.tmdb.org/t/p/w500/' + data.cast[i].poster_path;
+                    path = 'https://image.tmdb.org/t/p/w500/' + array[j].poster_path;
                 }
 
                 var actorMovie = $('<div>', {
@@ -1390,7 +1413,7 @@ function goToMovieImdb(imdbActorId, that) {
                 var actorMovieImg = $('<img>', {
                     class: 'actorMovieImg',
                     src: path,
-                    id: data.cast[i].id,
+                    id: array[j].id,
                     click: function () {
                         getActorMovieInfo($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
                     }
@@ -1403,19 +1426,9 @@ function goToMovieImdb(imdbActorId, that) {
 
                 var actorCharacterName = $('<span>', {
                     class: 'actorCharacterName',
-                    text: data.cast[i].character
+                    text: array[j].character
                 }).appendTo(actorMovie);
-
-                //var characterName = $('<span>', {
-                //    class: 'characterName',
-                //    text: data.cast[i].character
-                //}).appendTo(characterWrapper);
-
-
-
             }
-
-
         },
         error: function (err) {
             //console.log(err);
