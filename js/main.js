@@ -223,7 +223,7 @@ function scrollBtn() {
 function getPlayingNow() {
 
     $.ajax({
-        method: 'GET',
+        type: 'GET',
         crossDomain: true,
         url: nowPlayingUrl,
         dataType: "jsonp",
@@ -349,7 +349,7 @@ function searchMovie() {
         var total_pages;
 
         $.ajax({
-            method: 'GET',
+            type: 'GET',
             crossDomain: true,
             url: searchMovieUrl + val,
             dataType: "jsonp",
@@ -423,7 +423,7 @@ function searchMovie() {
             for (var i = 2; i <= total_pages; i++) {
 
                 $.ajax({
-                    method: 'GET',
+                    type: 'GET',
                     crossDomain: true,
                     url: searchMorePagesUrl + i + '&query=' + val,
                     dataType: "jsonp",
@@ -579,7 +579,7 @@ function searchTVShows(value) {
         }).appendTo($('.container'));
 
         $.ajax({
-            method: 'GET',
+            type: 'GET',
             crossDomain: true,
             url: searchTvShowUrl + val,
             dataType: "jsonp",
@@ -654,7 +654,7 @@ function searchTVShows(value) {
             for (var i = 2; i <= total_pages; i++) {
 
                 $.ajax({
-                    method: 'GET',
+                    type: 'GET',
                     crossDomain: true,
                     url: searchMoreTvShowsUrl + i + '&query=' + val,
                     dataType: "jsonp",
@@ -758,7 +758,7 @@ function getCredits(objectId, kind) {
     }
 
     $.ajax({
-        method: 'GET',
+        type: 'GET',
         crossDomain: true,
         url: tmdbUrl + objectId + "/credits?api_key=" + tmdbKey + "",
         dataType: "jsonp",
@@ -786,33 +786,48 @@ function getCredits(objectId, kind) {
 
                     }
 
-                    var characterWrapper = $('<div>', {
+                    var castName = $('<div>', {
                         class: 'castName',
-                    }).appendTo($('.castWrapper'));
+                    }).appendTo($('.cast'));
 
                     var imageLink = $('<a>', {
                         class: 'imageLink',
 
-                    }).appendTo(characterWrapper);
+                    }).appendTo(castName);
 
                     var actorImg = $('<img>', {
                         class: 'actorImg',
                         src: actorImgPath,
                         id: data.cast[i].id,
                         click: function () {
-                            goToActorImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
+                            goToMovieImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
                         }
                     }).appendTo(imageLink);
 
                     var actorName = $('<span>', {
                         class: 'actorName',
                         text: data.cast[i].name + ': '
-                    }).appendTo(characterWrapper);
+                    }).appendTo(castName);
 
                     var characterName = $('<span>', {
                         class: 'characterName',
                         text: data.cast[i].character
-                    }).appendTo(characterWrapper);
+                    }).appendTo(castName);
+
+                    var imdbLinkWrapper = $('<a>', {
+                        class: 'imdbLinkWrapper',
+
+                    }).appendTo(castName);
+
+                    var imdbLink = $('<img>', {
+                        src: './images/imdb_small.png',
+                        class: 'imdbLink',
+                        id: data.cast[i].id,
+                        click: function () {
+                            goToActorImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
+                        }
+                    }).appendTo(imdbLinkWrapper);
+
 
                 } catch (e) {
                     return;
@@ -836,7 +851,7 @@ function getImages(objectId, kind) {
     }
 
     $.ajax({
-        method: 'GET',
+        type: 'GET',
         crossDomain: true,
         url: tmdbUrl + objectId + "/images?api_key=" + tmdbKey + "",
         dataType: "jsonp",
@@ -879,7 +894,7 @@ function getVideos(objectId, kind) {
     }
 
     $.ajax({
-        method: 'GET',
+        type: 'GET',
         crossDomain: true,
         url: tmdbUrl + objectId + "/videos?api_key=" + tmdbKey + "",
         dataType: "jsonp",
@@ -928,7 +943,7 @@ function getObjectInfo(objectId, kind) {
     });
 
     $.ajax({
-        method: 'GET',
+        type: 'GET',
         crossDomain: true,
         url: tmdbUrl + objectId + "?api_key=" + tmdbKey + "",
         dataType: "jsonp",
@@ -1058,6 +1073,11 @@ function getObjectInfo(objectId, kind) {
                 class: 'castWrapper',
             }).appendTo($('.chosenMovie'));
 
+            var cast = $('<div>', {
+                class: 'cast'
+
+            }).appendTo(castWrapper)
+
             var objectGallery = $('<div>', {
                 class: 'objectGallery',
             }).appendTo($('.chosenMovie'));
@@ -1087,6 +1107,7 @@ function tvShowClicked(tvShowId, div, path) {
     $('.spinner').fadeIn('fast');
     $('.spinnerWrapper').fadeIn('fast');
     $('.bottomSection').css('display', 'none');
+    $('.tmdbCertWrapper').css('display', 'none');
 
     div.css('display', 'none');
     div.removeClass('playingNowWrapper');
@@ -1112,11 +1133,9 @@ function tvShowClicked(tvShowId, div, path) {
         if (width >= 100) {
             clearInterval(id2);
             $('.bottomSection').css('display', 'block');
-            //$('.movieWrapper').css('display', 'block');
+            $('.tmdbCertWrapper').css('display', 'flex');
             $('.tvShowWrapper').css('display', 'flex');
-
             div.fadeIn('slow');
-
             width = 1;
         }
     }
@@ -1173,7 +1192,7 @@ function tvShowClicked(tvShowId, div, path) {
 
 function getTvShowImdbId(tvShowId) {
     $.ajax({
-        method: 'GET',
+        type: 'GET',
         crossDomain: true,
         url: tvShowInfoUrl + tvShowId + "/external_ids" + "?api_key=" + tmdbKey + "&language=en-US",
         dataType: "jsonp",
@@ -1201,6 +1220,7 @@ function movieClicked(movieId, div, path) {
     $('.spinner').fadeIn('fast');
     $('.spinnerWrapper').fadeIn('fast');
     $('.bottomSection').css('display', 'none');
+    $('.tmdbCertWrapper').css('display', 'none');
 
     div.css('display', 'none');
     div.removeClass('playingNowWrapper');
@@ -1224,6 +1244,7 @@ function movieClicked(movieId, div, path) {
         if (width >= 100) {
             clearInterval(id2);
             $('.bottomSection').css('display', 'block');
+            $('.tmdbCertWrapper').css('display', 'flex');
             $('.movieWrapper').css('display', 'flex');
 
             div.fadeIn('slow');
@@ -1277,9 +1298,9 @@ function movieClicked(movieId, div, path) {
 }
 
 function goToActorImdb(imdbActorId, that) {
-
+    console.log('goToActorImdb()');
     $.ajax({
-        method: 'GET',
+        type: 'GET',
         crossDomain: true,
         url: movieActorsUrl + imdbActorId + "?api_key=" + tmdbKey + "&language=en-US",
         dataType: "jsonp",
@@ -1290,14 +1311,151 @@ function goToActorImdb(imdbActorId, that) {
             that.attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
             that.attr('target', '_blank');
 
-            $('.actorImg').trigger("click");
-            $('.actorImg').off();
+            console.log($(that));
+
+            var actorImgLink = $(that).parent().find($('.imdbLink'))
+            console.log($(that).parent().find($('.imdbLink')));
+
+            actorImgLink.trigger("click");
+            actorImgLink.off();
         },
         error: function (err) {
             //console.log(err);
         }
     })
 }
+
+function goToMovieImdb(imdbActorId, that) {
+
+    $('.actorCreditsWrapper').remove();
+
+    var actorCreditsWrapper = $('<div>', {
+        class: 'actorCreditsWrapper'
+
+    }).appendTo('.container')
+
+    var actorCredits = $('<div>', {
+        class: 'actorCredits'
+
+    }).appendTo(actorCreditsWrapper)
+
+    var closeWrapper = $('<div>', {
+        class: 'closeWrapper',
+        src: './images/closeBtn.png',
+        click: function () {
+            $('.actorCreditsWrapper').remove();
+        }
+    }).appendTo(actorCreditsWrapper)
+
+    var closeBtn = $('<img>', {
+        class: 'closeBtn',
+        src: './images/closeBtn.png',
+        click: function () {
+            $('.actorCreditsWrapper').remove();
+        }
+    }).appendTo(closeWrapper)
+
+
+    $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: movieActorsUrl + imdbActorId + "/combined_credits?api_key=" + tmdbKey + "&language=en-US",
+        dataType: "jsonp",
+        ifModified: true,
+
+        success: function (data) {
+
+            console.log(data.cast.length);
+            for (var i = 0; i < data.cast.length; i++) {
+
+
+                var path = data.cast[i].poster_path;
+                var titleName = data.cast[i].title;
+
+                if (titleName == 'undefined' || titleName == null) {
+                    titleName = data.cast[i].name;
+                } else {
+                    titleName = data.cast[i].title;
+                }
+
+                if (path == 'undefined' || path == null) {
+                    path = './images/stock.png';
+                } else {
+                    path = 'https://image.tmdb.org/t/p/w500/' + data.cast[i].poster_path;
+                }
+
+                var actorMovie = $('<div>', {
+                    class: 'actorMovie',
+                }).appendTo(actorCredits);
+
+
+                var actorMovieImageLink = $('<a>', {
+                    class: 'imageLink',
+
+                }).appendTo(actorMovie);
+
+                var actorMovieImg = $('<img>', {
+                    class: 'actorMovieImg',
+                    src: path,
+                    id: data.cast[i].id,
+                    click: function () {
+                        getActorMovieInfo($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
+                    }
+                }).appendTo(actorMovieImageLink);
+
+                var actorMovieTitle = $('<span>', {
+                    class: 'actorMovieTitle',
+                    text: titleName + ': '
+                }).appendTo(actorMovie)
+
+                var actorCharacterName = $('<span>', {
+                    class: 'actorCharacterName',
+                    text: data.cast[i].character
+                }).appendTo(actorMovie);
+
+                //var characterName = $('<span>', {
+                //    class: 'characterName',
+                //    text: data.cast[i].character
+                //}).appendTo(characterWrapper);
+
+
+
+            }
+
+
+        },
+        error: function (err) {
+            //console.log(err);
+        }
+    })
+}
+
+function getActorMovieInfo(objectId, that) {
+
+
+    $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: movieInfoUrl + objectId + "?api_key=" + tmdbKey + "",
+        dataType: "jsonp",
+        ifModified: true,
+        success: function (data) {
+            console.log(data);
+
+            that.attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
+            that.attr('target', '_blank');
+
+            var actorMovieImg = $(that).find($('.actorMovieImg'));
+            actorMovieImg.trigger("click");
+            actorMovieImg.off();
+
+        },
+        error: function (err) {
+            //console.log(err);
+        }
+    })
+}
+
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
