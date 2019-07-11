@@ -31,6 +31,8 @@ var tmp;
 var tmp2;
 var page;
 
+var players = [];
+
 var tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
 
 var nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + tmdbKey + "&language=en-US&page=1";
@@ -851,7 +853,7 @@ function getVideos(objectId, kind) {
     $.ajax({
         type: 'GET',
         crossDomain: true,
-        url: tmdbUrl + objectId + "/videos?api_key=" + tmdbKey + "",
+        url: tmdbUrl + objectId + "/videos?api_key=" + tmdbKey,
         dataType: "jsonp",
         ifModified: true,
         success: function (data) {
@@ -861,21 +863,52 @@ function getVideos(objectId, kind) {
                     return;
                 }
 
-                var objectUrl = youtubeVideo + data.results[i].key;
+                var objectUrl = youtubeVideo + data.results[i].key + '?showinfo=0&enablejsapi=1';
                 var movieVideo = $('<iframe>', {
                     class: 'movieVideo',
+                    id: 'movieVideo' + i,
                     src: objectUrl,
                     width: '420',
-                    height: '315'
+                    height: '315',
+                    allowfullscreen: true,
 
                 }).appendTo($('.objectVideos'));
             }
+
         },
         error: function (err) {
             //console.log(err);
         }
     })
 }
+
+function onYouTubeIframeAPIReady() {
+
+    var predefined_players = document.getElementsByClassName("objectVideos")[0].getElementsByTagName('iframe');
+    for (var i = 0; i < predefined_players.length; i++) {
+        predefined_players[i].id = "movieVideo" + i;
+        players[i] = new YT.Player("movieVideo" + i, {
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+}
+
+function onPlayerReady() {}
+
+function onPlayerStateChange(event) {
+    var link = event.target.a.id;
+    var newstate = event.data;
+    //        console.log(link + " has a state:" + newstate);
+    if (newstate == YT.PlayerState.PLAYING) {
+        players.forEach(function (item, i) {
+            if (item.a.id != link) item.pauseVideo();
+        });
+    }
+}
+
 
 function getObjectInfo(objectId, kind) {
     var inputVal2;
@@ -906,6 +939,14 @@ function getObjectInfo(objectId, kind) {
         ifModified: true,
         success: function (data) {
             page = 1;
+
+            setTimeout(function () {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://www.youtube.com/iframe_api';
+                document.getElementsByTagName('head')[0].appendChild(script);
+
+            }, 5000)
 
             $('.logo').css('cursor', 'pointer');
 
