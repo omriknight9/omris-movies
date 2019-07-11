@@ -63,7 +63,7 @@ body {
     box-shadow: 0 1px 5px #4caf50;
     background: black url("../images/movie.png") no-repeat center center;
     background-size: contain;
-    z-index: 2;
+    z-index: 3;
 }
 
 .header {
