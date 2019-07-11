@@ -1066,7 +1066,8 @@ h2 {
     }
 
     .imdbImage {
-        width: 100%;
+        width: 400px;
+        height: 200px;
     }
 
     .castWrapper {
@@ -1140,13 +1141,19 @@ h2 {
 
 @media only screen and (max-width: 600px) {
 
+    
+    .imdbImage {
+        width: 400px;
+        height: 200px;
+    }
+
     .container {
         margin: 0;
         margin-top: -5rem;
     }
 
     .singleMovieContainer {
-        margin: 0 3rem 34rem 3rem;
+        margin: 0 2rem 34rem 2rem;
     }
 
     .playingNowWrapper, .movieWrapper, .tvShowWrapper {
@@ -1190,6 +1197,13 @@ h2 {
     }
 }
 
+@media only screen and (max-width: 500px) {
+
+    .imdbImage {
+        width: 350px;
+    }
+}
+
 @media only screen and (max-width: 470px) {
 
     .playingNowWrapper, .movieWrapper, .tvShowWrapper {
@@ -1211,7 +1225,7 @@ h2 {
     }
 
     .singleMovieContainer {
-       margin: 0 3rem 34rem 3rem;
+       margin: 0 2rem 34rem 2rem;
     }
 }
 
@@ -1225,6 +1239,11 @@ h2 {
         font-size: 1rem;
         text-align: left;
         left: .5rem;
+    }
+
+    .imdbImage {
+        width: 300px;
+        height: 180px;
     }
 }
 
@@ -1262,10 +1281,6 @@ h2 {
         width: 65%;
     }
 
-    .imdbImage {
-        height: 200px;
-    }
-
     .bottomSection {
          transform: scale(.4);
         -webkit-transform: scale(.4);
@@ -1275,8 +1290,18 @@ h2 {
     }
 }
 
+@media only screen and (max-width: 370px) {
+    .imdbImage {
+        width: 280px;
+    }
+}
+
 @media only screen and (max-width: 350px) {
 
+    .imdbImage {
+        width: 250px;
+        height: 150px;
+    }
     
     .actorCreditsWrapper {
         top: 60rem;
