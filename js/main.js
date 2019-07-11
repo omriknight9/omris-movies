@@ -1392,7 +1392,7 @@ function goToMovieImdb(imdbActorId, that, name) {
                 }).appendTo(actorMovie);
 
             }
-
+            $('.actorCreditsWrapper').fadeIn('fast')
             $('html, body').animate({ scrollTop: $('.actorCreditsWrapper').position().top }, 'slow');
         },
         error: function (err) {
