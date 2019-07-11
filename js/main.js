@@ -738,7 +738,8 @@ function getCredits(objectId, kind) {
                         src: actorImgPath,
                         id: data.cast[i].id,
                         click: function () {
-                            goToMovieImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement));
+                            var actorNameCredits = $(this).parent().parent().find($('.actorName')).html().replace(':', '');
+                            goToMovieImdb($(this)[0].attributes.id.textContent, $($(this)[0].parentElement), actorNameCredits);
                         }
                     }).appendTo(imageLink);
 
@@ -1287,7 +1288,7 @@ function goToActorImdb(imdbActorId, that, linkNum) {
     })
 }
 
-function goToMovieImdb(imdbActorId, that) {
+function goToMovieImdb(imdbActorId, that, name) {
 
     $('.actorCreditsWrapper').remove();
 
@@ -1313,6 +1314,11 @@ function goToMovieImdb(imdbActorId, that) {
         click: function () {
             $('.actorCreditsWrapper').remove();
         }
+    }).appendTo(closeWrapper)
+
+    var actorCreditsName = $('<p>', {
+        class: 'actorCreditsName',
+        text: name +  " 's Credits"
     }).appendTo(closeWrapper)
 
     $.ajax({
@@ -1387,7 +1393,10 @@ function goToMovieImdb(imdbActorId, that) {
                     class: 'actorCharacterName',
                     text: array[j].character
                 }).appendTo(actorMovie);
+
             }
+
+            $('html, body').animate({ scrollTop: $('.actorCreditsWrapper').position().top }, 'slow');
         },
         error: function (err) {
             //console.log(err);
