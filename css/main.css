@@ -222,6 +222,7 @@ body {
 #searchBox {
     width: 100%;
     position: relative;
+    z-index: 2;
 }
 
 #searchMovie {
@@ -395,6 +396,7 @@ body {
     -ms-flex-wrap: wrap;
     justify-content: center;
     margin: -5rem 3rem 42rem 3rem;
+    z-index: 1;
 }
 
 h2 {
