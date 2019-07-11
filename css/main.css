@@ -578,6 +578,7 @@ h2 {
 
 .actorCredits {
     background-color: lightcyan;
+    background-image: linear-gradient(to right, lightcyan, rgba(255,0,0,.5), lightcyan);
     padding-top: 3rem;
 }
 
