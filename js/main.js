@@ -745,7 +745,7 @@ function getCredits(objectId, kind) {
 
                     var actorName = $('<span>', {
                         class: 'actorName',
-                        text: data.cast[i].name + ': '
+                        text: data.cast[i].name + ':'
                     }).appendTo(castName);
 
                     var characterName = $('<span>', {
@@ -1315,7 +1315,7 @@ function goToMovieImdb(imdbActorId, that, name) {
 
     var actorCreditsName = $('<p>', {
         class: 'actorCreditsName',
-        text: name +  "'s Credits"
+        text: name + "'s Credits"
     }).appendTo(closeWrapper)
 
     $.ajax({
