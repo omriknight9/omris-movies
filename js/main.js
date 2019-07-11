@@ -1303,9 +1303,6 @@ function goToMovieImdb(imdbActorId, that, name) {
     var closeWrapper = $('<div>', {
         class: 'closeWrapper',
         src: './images/closeBtn.png',
-        click: function () {
-            $('.actorCreditsWrapper').remove();
-        }
     }).appendTo(actorCreditsWrapper)
 
     var closeBtn = $('<img>', {
@@ -1318,7 +1315,7 @@ function goToMovieImdb(imdbActorId, that, name) {
 
     var actorCreditsName = $('<p>', {
         class: 'actorCreditsName',
-        text: name +  " 's Credits"
+        text: name +  "'s Credits"
     }).appendTo(closeWrapper)
 
     $.ajax({
