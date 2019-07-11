@@ -14,6 +14,8 @@ var rest;
 
 var playingNow;
 
+var players = [];
+
 var monthName;
 var dayName;
 
@@ -31,7 +33,7 @@ var tmp;
 var tmp2;
 var page;
 
-var players = [];
+var script;
 
 var tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
 
@@ -280,7 +282,38 @@ function getPlayingNow() {
     })
 }
 
+function onYouTubeIframeAPIReady() {
+
+    var predefined_players = document.getElementsByClassName("objectVideos")[0].getElementsByTagName('iframe');
+    for (var i = 0; i < predefined_players.length; i++) {
+        predefined_players[i].id = "movieVideo" + i;
+        players[i] = new YT.Player("movieVideo" + i, {
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+}
+
+function onPlayerReady() { }
+
+function onPlayerStateChange(event) {
+    var link = event.target.a.id;
+    var newstate = event.data;
+    if (newstate == YT.PlayerState.PLAYING) {
+        players.forEach(function (item, i) {
+            if (item.a.id != link) item.pauseVideo();
+        });
+    }
+}
+
+
 function searchMovie() {
+
+    //if (script !== undefined && script !== null) {
+    //    $(script).remove();
+    //}
 
     window.history.pushState({ "html": location.href, "pageTitle": location.href.pageTitle }, "", location.href.split("?")[0]);
 
@@ -882,31 +915,33 @@ function getVideos(objectId, kind) {
     })
 }
 
-function onYouTubeIframeAPIReady() {
+//var players = [];
 
-    var predefined_players = document.getElementsByClassName("objectVideos")[0].getElementsByTagName('iframe');
-    for (var i = 0; i < predefined_players.length; i++) {
-        predefined_players[i].id = "movieVideo" + i;
-        players[i] = new YT.Player("movieVideo" + i, {
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-}
+//function onYouTubeIframeAPIReady() {
 
-function onPlayerReady() {}
+//    var predefined_players = document.getElementsByClassName("objectVideos")[0].getElementsByTagName('iframe');
+//    for (var i = 0; i < predefined_players.length; i++) {
+//        predefined_players[i].id = "movieVideo" + i;
+//        players[i] = new YT.Player("movieVideo" + i, {
+//            events: {
+//                'onReady': onPlayerReady,
+//                'onStateChange': onPlayerStateChange
+//            }
+//        });
+//    }
+//}
 
-function onPlayerStateChange(event) {
-    var link = event.target.a.id;
-    var newstate = event.data;
-    if (newstate == YT.PlayerState.PLAYING) {
-        players.forEach(function (item, i) {
-            if (item.a.id != link) item.pauseVideo();
-        });
-    }
-}
+//function onPlayerReady() {}
+
+//function onPlayerStateChange(event) {
+//    var link = event.target.a.id;
+//    var newstate = event.data;
+//    if (newstate == YT.PlayerState.PLAYING) {
+//        players.forEach(function (item, i) {
+//            if (item.a.id != link) item.pauseVideo();
+//        });
+//    }
+//}
 
 
 function getObjectInfo(objectId, kind) {
@@ -939,13 +974,26 @@ function getObjectInfo(objectId, kind) {
         success: function (data) {
             page = 1;
 
+            if (script !== undefined && script !== null) {
+                $(script).remove();
+            }
+
             setTimeout(function () {
-                var script = document.createElement('script');
+                script = document.createElement('script');
                 script.type = 'text/javascript';
                 script.src = 'https://www.youtube.com/iframe_api';
+                $(script).addClass('youtubeScript');
                 document.getElementsByTagName('head')[0].appendChild(script);
+            }, 1300);
 
-            }, 5000)
+            setTimeout(function () {
+                script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://www.youtube.com/iframe_api';
+                $(script).addClass('youtubeScript');
+                document.getElementsByTagName('head')[0].appendChild(script);
+            }, 4000);
+
 
             $('.logo').css('cursor', 'pointer');
 
@@ -1090,6 +1138,8 @@ function getObjectInfo(objectId, kind) {
 
 function tvShowClicked(tvShowId, div, path) {
 
+    console.log(script);
+
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
@@ -1159,6 +1209,16 @@ function tvShowClicked(tvShowId, div, path) {
             getVideos(tvShowId, 2)
         }, 1200);
     })
+
+    //promise.then(function (successMessage) {
+    //    setTimeout(function () {
+    //        script = document.createElement('script');
+    //        script.type = 'text/javascript';
+    //        script.src = 'https://www.youtube.com/iframe_api';
+    //        $(script).addClass('youtubeScript');
+    //        document.getElementsByTagName('head')[0].appendChild(script);
+    //    }, 1300);
+    //})
 
     $('.chosenMovie').off();
     $('.actorImg').off();
@@ -1264,6 +1324,16 @@ function movieClicked(movieId, div, path) {
         }, 1200);
     })
    
+    //promise.then(function (successMessage) {
+    //    setTimeout(function () {
+    //        script = document.createElement('script');
+    //        script.type = 'text/javascript';
+    //        script.src = 'https://www.youtube.com/iframe_api';
+    //        $(script).addClass('youtubeScript');
+    //        document.getElementsByTagName('head')[0].appendChild(script);
+    //    }, 1300);
+    //})
+
     $('.chosenMovie').off();
     $('.actorImg').off();
 
