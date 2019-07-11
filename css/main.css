@@ -545,10 +545,10 @@ h2 {
     top: 43rem;
     width: 90%;
     margin: auto;
-    height: 29rem;
+    height: 31rem;
     border-radius: 5px;
     box-shadow: 0 3px 8px 3px #848484;
-    background-color: white;
+    background-color: lightcyan;
 }
 
 .castWrapper {
@@ -573,6 +573,11 @@ h2 {
     overflow-x: scroll;
     padding: 1rem;
     background-color: white;
+}
+
+.actorCredits {
+    background-color: lightcyan;
+    padding-top: 3rem;
 }
 
 .movieWrapper:hover {
@@ -665,14 +670,27 @@ h2 {
 .closeBtn {
     position: absolute;
     right: 1rem;
-    top: -28rem;
+    top: -30rem;
     width: 20px;
     height: 20px;
     cursor: pointer;
+    z-index: 2;
+}
+
+.actorCreditsName {
+    position: absolute;
+    top: -31rem;
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
 }
 
 .castName:nth-child(even), .actorMovie:nth-child(even) {
     background-color: lightgray;
+}
+
+.actorMovie:nth-child(odd) {
+    background-color: white;
 }
 
 .castName:last-of-type {
@@ -682,7 +700,8 @@ h2 {
 .actorImg {
     width: 150px;
     height: 212px;
-    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     cursor: pointer;
 }
 
@@ -716,9 +735,14 @@ h2 {
 .actorMovieImg {
     width: 150px;
     height: 212px;
-    border-radius: 5px;
-    cursor: url('../images/imdb_small.png'), auto;*/
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: url('../images/imdb_small.png'), auto;
 }
+
+/*.actorMovie > a {
+    width: 10rem;
+}*/
 
 .castName:hover {
     transform: scale(1.05);
@@ -736,9 +760,10 @@ h2 {
     -o-transform: scale(1.05);
 }
 
-.castName > span {
+.castName > span, .actorMovie > span {
     font-size: .9rem;
 }
+
 .cast:after {
   content: '';
   flex: 0 0 1rem;
@@ -765,12 +790,12 @@ h2 {
 
 .cast::-webkit-scrollbar-thumb {
     background-color: black;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .actorCredits::-webkit-scrollbar-track {
     width: 50%;
-    background-color: white;
+    background-color: lightcyan;
     border-radius: 5px;
 }
 
@@ -784,7 +809,7 @@ h2 {
 
 .actorCredits::-webkit-scrollbar-thumb {
     background-color: black;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .movieGalleryImg {
@@ -1000,7 +1025,7 @@ h2 {
 
 @media only screen and (max-width: 765px) {
 
-    .castName > span {
+    .castName > span, .actorMovie span {
         font-size: .8rem;
     }
 
@@ -1043,17 +1068,19 @@ h2 {
         width: 100%;
     }
 
-    .castWrapper, .actorCreditsWrapper {
+    .castWrapper {
         height: 23rem;
         width: 100%;
     }
 
-    .actorCredits {
-        height: 100%;
-    }
-
     .actorCreditsWrapper {
         height: 27rem;
+        width: 105%;
+        top: 50rem;
+    }
+
+    .actorCredits {
+        height: 100%;
     }
 
     .castName, .actorMovie {
@@ -1062,6 +1089,10 @@ h2 {
 
     .closeBtn {
         top: -26rem;
+    }
+
+    .actorCreditsName {
+        top: -27.5rem;
     }
     
     .actorImg, .actorMovieImg {
@@ -1187,9 +1218,21 @@ h2 {
     .inputColumn {
         width: 90%;
     }
+
+    .actorCreditsName {
+        top: -27rem;
+        font-size: 1rem;
+        text-align: left;
+        left: .5rem;
+    }
 }
 
 @media only screen and (max-width: 400px) {
+
+
+    .actorCreditsWrapper {
+        top: 55rem;
+    }
 
     .chosenMovie > p {
         font-size: 1.4rem;
@@ -1232,6 +1275,12 @@ h2 {
 }
 
 @media only screen and (max-width: 350px) {
+
+    
+    .actorCreditsWrapper {
+        top: 60rem;
+        width: 115%;
+    }
 
     #searchMovie {
         font-size: 1.07rem;
