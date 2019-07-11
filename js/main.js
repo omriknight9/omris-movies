@@ -901,7 +901,6 @@ function onPlayerReady() {}
 function onPlayerStateChange(event) {
     var link = event.target.a.id;
     var newstate = event.data;
-    //        console.log(link + " has a state:" + newstate);
     if (newstate == YT.PlayerState.PLAYING) {
         players.forEach(function (item, i) {
             if (item.a.id != link) item.pauseVideo();
