@@ -1402,9 +1402,17 @@ function goToMovieImdb(imdbActorId, that, name) {
 
     $('.actorCreditsWrapper').remove();
 
+    // var actorCreditsWrapper = $('<div>', {
+    //     class: 'actorCreditsWrapper'
+    // }).appendTo('.container')
+
+    var actorCreditsContainer = $('<div>', {
+        class: 'actorCreditsContainer'
+    }).insertAfter('body')
+
     var actorCreditsWrapper = $('<div>', {
         class: 'actorCreditsWrapper'
-    }).appendTo('.container')
+    }).appendTo(actorCreditsContainer)
 
     var actorCredits = $('<div>', {
         class: 'actorCredits'
@@ -1420,6 +1428,7 @@ function goToMovieImdb(imdbActorId, that, name) {
         src: './images/closeBtn.png',
         click: function () {
             $('.actorCreditsWrapper').remove();
+            $('body').css({'opacity': '1', 'pointer-events': 'all'});
         }
     }).appendTo(closeWrapper)
 
@@ -1458,6 +1467,15 @@ function goToMovieImdb(imdbActorId, that, name) {
             }
 
             for (var j = 0; j < array.length; j++) {
+
+                var charachter;
+
+                if (array[j].character == null || array[j].character == 'undefined', array[j].character == '') {
+
+                    charachter = 'Unknown';
+                } else {
+                    charachter = array[j].character;
+                }
 
                 var path = array[j].poster_path;
                 var titleName = array[j].title;
@@ -1498,12 +1516,14 @@ function goToMovieImdb(imdbActorId, that, name) {
 
                 var actorCharacterName = $('<span>', {
                     class: 'actorCharacterName',
-                    text: array[j].character
+                    text: charachter
                 }).appendTo(actorMovie);
 
             }
-            $('.actorCreditsWrapper').fadeIn('fast')
-            $('html, body').animate({ scrollTop: $('.actorCreditsWrapper').position().top }, 'slow');
+            // $('.actorCreditsWrapper').fadeIn('fast');
+            $('.actorCreditsContainer').fadeIn('fast');
+            $('body').css({'opacity': '.3', 'pointer-events': 'none'});
+            $('html, body').animate({ scrollTop: $('.actorCreditsContainer').position().top - 50 }, 'slow');
         },
         error: function (err) {
             //console.log(err);
