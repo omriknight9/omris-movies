@@ -539,11 +539,19 @@ h2 {
     -o-transition: .3s;
 }
 
-.actorCreditsWrapper {
+.actorCreditsContainer {
     position: absolute;
     display: none;
     z-index: 999;
     top: 43rem;
+    width: 100%;
+}
+
+.actorCreditsWrapper {
+/*    position: absolute;
+    display: none;
+    z-index: 999;
+    top: 43rem;*/
     width: 90%;
     margin: auto;
     height: 31rem;
@@ -681,7 +689,7 @@ h2 {
 
 .actorCreditsName {
     position: absolute;
-    top: -31rem;
+    top: -30.6rem;
     width: 100%;
     text-align: center;
     font-size: 1.2rem;
@@ -1078,7 +1086,7 @@ h2 {
 
     .actorCreditsWrapper {
         height: 27rem;
-        width: 105%;
+        /*width: 105%;*/
         top: 50rem;
     }
 
@@ -1306,7 +1314,7 @@ h2 {
     
     .actorCreditsWrapper {
         top: 60rem;
-        width: 115%;
+        /*width: 115%;*/
     }
 
     #searchMovie {
