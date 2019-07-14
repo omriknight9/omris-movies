@@ -88,7 +88,8 @@ body {
     z-index: 100;
     width: 600px;
     height: 713px;
-    margin-left: 2%;
+    margin-left: 2%;  
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.5));
 }
 
 .spidermanWrapper {
@@ -105,6 +106,7 @@ body {
     -moz-animation: topToBottom 3s;
     -o-animation: topToBottom 3s;
     z-index: 999;
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.5));
 }
 
 @keyframes rightToLeft {
@@ -255,7 +257,7 @@ body {
     width: 30%;
     height: 20rem;
     overflow-y: scroll;
-    box-shadow: 0 2px 2px 2px #848484;
+    box-shadow: 0 2px 8px 2px #848484;
     border-radius: 5px;
 }
 
