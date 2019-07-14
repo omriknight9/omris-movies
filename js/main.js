@@ -953,15 +953,6 @@ function getObjectInfo(objectId, kind) {
                 document.getElementsByTagName('head')[0].appendChild(script);
             }, 1300);
 
-            setTimeout(function () {
-                script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.src = 'https://www.youtube.com/iframe_api';
-                $(script).addClass('youtubeScript');
-                document.getElementsByTagName('head')[0].appendChild(script);
-            }, 4000);
-
-
             $('.logo').css('cursor', 'pointer');
 
             objectImage = data.backdrop_path;
