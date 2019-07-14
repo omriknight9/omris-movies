@@ -26,7 +26,8 @@ var clickCounter = 0;
 var tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
 
 var imdb = 'https://www.imdb.com/title/';
-var baseUrl = "https://sg.media-imdb.com/suggests/";
+//var baseUrl = "https://sg.media-imdb.com/suggests/";
+var baseUrl = "https://v2.sg.media-imdb.com/suggests/";
 var youtubeVideo = 'https://www.youtube.com/embed/';
 
 var nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + tmdbKey + "&language=en-US&page=1";
