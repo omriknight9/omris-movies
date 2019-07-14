@@ -26,7 +26,6 @@ var arr = [];
 
 var movieImage;
 var tvShowImage;
-
 var objectImage;
 
 var tmp;
@@ -34,6 +33,7 @@ var tmp2;
 var page;
 
 var script;
+var clickCounter = 0;
 
 var tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
 
@@ -350,7 +350,6 @@ function searchMovie() {
         $('.playingNowHeader').html('Movies');
         $('.tvShowsHeader').remove();
         $('.playingNowWrapper').remove();
-           
         $('.spinner').fadeIn('fast');
         $('.spinnerWrapper').fadeIn('fast');
 
@@ -361,8 +360,6 @@ function searchMovie() {
 
             if (width >= 100) {
                 clearInterval(id);
-                $('.spinnerWrapper').css('display', 'none');
-                $('.spinner').css('display', 'none');
                 $('.movieWrapper').css('display', 'block');
                 $('.movieWrapper').css('display', 'flex');
                 width = 1;
@@ -508,10 +505,11 @@ function searchMovie() {
 
         setTimeout(function () {
             if ($('.movieWrapper').is(':visible')) {
-
                 $('html,body').animate({ scrollTop: 400 }, 'slow');
             }
-           
+
+            $('.spinnerWrapper').css('display', 'none');
+            $('.spinner').css('display', 'none');
         }, 3500)
     }
 }
@@ -560,8 +558,6 @@ function searchTVShows(value) {
 
             if (width >= 100) {
                 clearInterval(id);
-                $('.spinnerWrapper').css('display', 'none');
-                $('.spinner').css('display', 'none');
                 $('.tvShowWrapper').css('display', 'block');
                 $('.tvShowWrapper').css('display', 'flex');
                 width = 1;
@@ -915,35 +911,6 @@ function getVideos(objectId, kind) {
     })
 }
 
-//var players = [];
-
-//function onYouTubeIframeAPIReady() {
-
-//    var predefined_players = document.getElementsByClassName("objectVideos")[0].getElementsByTagName('iframe');
-//    for (var i = 0; i < predefined_players.length; i++) {
-//        predefined_players[i].id = "movieVideo" + i;
-//        players[i] = new YT.Player("movieVideo" + i, {
-//            events: {
-//                'onReady': onPlayerReady,
-//                'onStateChange': onPlayerStateChange
-//            }
-//        });
-//    }
-//}
-
-//function onPlayerReady() {}
-
-//function onPlayerStateChange(event) {
-//    var link = event.target.a.id;
-//    var newstate = event.data;
-//    if (newstate == YT.PlayerState.PLAYING) {
-//        players.forEach(function (item, i) {
-//            if (item.a.id != link) item.pauseVideo();
-//        });
-//    }
-//}
-
-
 function getObjectInfo(objectId, kind) {
     var inputVal2;
     var url;
@@ -1138,7 +1105,7 @@ function getObjectInfo(objectId, kind) {
 
 function tvShowClicked(tvShowId, div, path) {
 
-    console.log(script);
+    clickCounter++;
 
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
@@ -1210,15 +1177,13 @@ function tvShowClicked(tvShowId, div, path) {
         }, 1200);
     })
 
-    //promise.then(function (successMessage) {
-    //    setTimeout(function () {
-    //        script = document.createElement('script');
-    //        script.type = 'text/javascript';
-    //        script.src = 'https://www.youtube.com/iframe_api';
-    //        $(script).addClass('youtubeScript');
-    //        document.getElementsByTagName('head')[0].appendChild(script);
-    //    }, 1300);
-    //})
+    if (clickCounter > 1) {
+        promise.then(function (successMessage) {
+            setTimeout(function () {
+                onYouTubeIframeAPIReady();
+            }, 2000);
+        })
+    }
 
     $('.chosenMovie').off();
     $('.actorImg').off();
@@ -1237,7 +1202,7 @@ function tvShowClicked(tvShowId, div, path) {
         }
         $('.spinnerWrapper').css('display', 'none');
         $('.spinner').css('display', 'none');
-    }, 4000)
+    }, 3500)
 }
 
 function getTvShowImdbId(tvShowId) {
@@ -1259,6 +1224,8 @@ function getTvShowImdbId(tvShowId) {
 }
 
 function movieClicked(movieId, div, path) {
+
+    clickCounter++;
 
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
@@ -1293,9 +1260,7 @@ function movieClicked(movieId, div, path) {
             $('.bottomSection').css('display', 'block');
             $('.tmdbCertWrapper').css('display', 'flex');
             $('.movieWrapper').css('display', 'flex');
-
             div.fadeIn('slow');
-
             width = 1;
         }
     }
@@ -1323,16 +1288,14 @@ function movieClicked(movieId, div, path) {
             getVideos(movieId, 1);
         }, 1200);
     })
-   
-    //promise.then(function (successMessage) {
-    //    setTimeout(function () {
-    //        script = document.createElement('script');
-    //        script.type = 'text/javascript';
-    //        script.src = 'https://www.youtube.com/iframe_api';
-    //        $(script).addClass('youtubeScript');
-    //        document.getElementsByTagName('head')[0].appendChild(script);
-    //    }, 1300);
-    //})
+    
+    if (clickCounter > 1) {
+        promise.then(function (successMessage) {
+            setTimeout(function () {
+                onYouTubeIframeAPIReady();
+            }, 2000);
+        })
+    }
 
     $('.chosenMovie').off();
     $('.actorImg').off();
@@ -1351,7 +1314,7 @@ function movieClicked(movieId, div, path) {
         }
         $('.spinnerWrapper').css('display', 'none');
         $('.spinner').css('display', 'none');
-    }, 4000)
+    }, 3500)
 }
 
 function goToActorImdb(imdbActorId, that, linkNum) {
@@ -1401,10 +1364,6 @@ function goToActorImdb(imdbActorId, that, linkNum) {
 function goToMovieImdb(imdbActorId, that, name) {
 
     $('.actorCreditsWrapper').remove();
-
-    // var actorCreditsWrapper = $('<div>', {
-    //     class: 'actorCreditsWrapper'
-    // }).appendTo('.container')
 
     var actorCreditsContainer = $('<div>', {
         class: 'actorCreditsContainer'
@@ -1520,10 +1479,10 @@ function goToMovieImdb(imdbActorId, that, name) {
                 }).appendTo(actorMovie);
 
             }
-            // $('.actorCreditsWrapper').fadeIn('fast');
+
             $('.actorCreditsContainer').fadeIn('fast');
             $('body').css({'opacity': '.3', 'pointer-events': 'none'});
-            $('html, body').animate({ scrollTop: $('.actorCreditsContainer').position().top - 50 }, 'slow');
+            $('html, body').animate({ scrollTop: $('.actorCreditsContainer').position().top - 150 }, 'slow');
         },
         error: function (err) {
             //console.log(err);
