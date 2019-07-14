@@ -322,7 +322,7 @@ function searchMovie() {
     if (valid) {
 
         page = 0;
-
+        $('body').css('pointer-events', 'none');
         $('.container').removeClass('singleMovieContainer');
         $('.logo').css('cursor', 'unset');
         $(document.activeElement).filter(':input:focus').blur();
@@ -487,7 +487,7 @@ function searchMovie() {
             if ($('.movieWrapper').is(':visible')) {
                 $('html,body').animate({ scrollTop: 400 }, 'slow');
             }
-
+            $('body').css('pointer-events', 'all');
             $('.spinnerWrapper').css('display', 'none');
             $('.spinner').css('display', 'none');
         }, 3500)
@@ -736,6 +736,15 @@ function getCredits(objectId, kind) {
                         }
                     }
 
+                    if (data.cast[i].character.length > 33) {
+                        var maxLength = 33;
+                        var trimmedString = data.cast[i].character.substr(0, maxLength);
+                        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))
+
+                    } else {
+                        trimmedString = data.cast[i].character;
+                    }
+
                     var castName = $('<div>', {
                         class: 'castName',
                     }).appendTo($('.cast'));
@@ -761,7 +770,7 @@ function getCredits(objectId, kind) {
 
                     var characterName = $('<span>', {
                         class: 'characterName',
-                        text: data.cast[i].character
+                        text: trimmedString
                     }).appendTo(castName);
 
 
@@ -1081,7 +1090,7 @@ function getObjectInfo(objectId, kind) {
 function tvShowClicked(tvShowId, div, path) {
 
     clickCounter++;
-
+    $('body').css('pointer-events', 'none');
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
@@ -1181,6 +1190,7 @@ function tvShowClicked(tvShowId, div, path) {
             $($('.actorImg')[k]).attr('src', 'asd');
             $($('.actorImg')[k]).attr('src', tmp2);
         }
+        $('body').css('pointer-events', 'all');
         $('.spinnerWrapper').css('display', 'none');
         $('.spinner').css('display', 'none');
     }, 3500)
@@ -1206,7 +1216,7 @@ function getTvShowImdbId(tvShowId, div) {
 function movieClicked(movieId, div, path) {
 
     clickCounter++;
-
+    $('body').css('pointer-events', 'none');
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
@@ -1298,6 +1308,7 @@ function movieClicked(movieId, div, path) {
             $($('.actorImg')[k]).attr('src', 'asd');
             $($('.actorImg')[k]).attr('src', tmp2);
         }
+        $('body').css('pointer-events', 'all');
         $('.spinnerWrapper').css('display', 'none');
         $('.spinner').css('display', 'none');
     }, 3500)
