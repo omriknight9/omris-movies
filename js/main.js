@@ -4,45 +4,36 @@ var imdbId;
 var wrapper;
 var total_results;
 var title;
-var imdb = 'https://www.imdb.com/title/';
-var baseUrl = "https://sg.media-imdb.com/suggests/";
 var valid;
-
 var onInputResults;
 var topTen;
 var rest;
-
 var playingNow;
-
 var players = [];
-
 var monthName;
 var dayName;
-
 var date;
-var youtubeVideo = 'https://www.youtube.com/embed/';
-
 var arr = [];
-
 var movieImage;
 var tvShowImage;
 var objectImage;
-
 var tmp;
 var tmp2;
 var page;
-
 var script;
 var clickCounter = 0;
 
 var tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
+
+var imdb = 'https://www.imdb.com/title/';
+var baseUrl = "https://sg.media-imdb.com/suggests/";
+var youtubeVideo = 'https://www.youtube.com/embed/';
 
 var nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + tmdbKey + "&language=en-US&page=1";
 var searchMovieUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdbKey + "&query=";
 var searchMorePagesUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdbKey + "&page=";
 var movieInfoUrl = "https://api.themoviedb.org/3/movie/";
 var movieActorsUrl = "https://api.themoviedb.org/3/person/";
-
 var searchTvShowUrl = "https://api.themoviedb.org/3/search/tv?api_key=" + tmdbKey + "&query=";
 var searchMoreTvShowsUrl = "https://api.themoviedb.org/3/search/tv?api_key=" + tmdbKey + "&page=";
 var tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
@@ -114,13 +105,11 @@ function showResults() {
             var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/" + cleanInput.toLowerCase() + ".json";
 
             var ajax2 = $.ajax({
-
                 url: queryUrl,
                 dataType: 'jsonp',
                 cache: true,
                 jsonp: false,
                 jsonpCallback: "imdb$" + cleanInput.toLowerCase(),
-
                 success: function (result) {
 
                     if (result.d == 'undefind' || result.d == null) {
@@ -140,7 +129,6 @@ function showResults() {
                         var category = result.d[i].id.slice(0, 2);
 
                         if (category === "tt") {
-                            //row for risplaying one result
                             var resultRow = document.createElement('div');
                             resultRow.setAttribute('class', 'resultRow');
                             var destinationUrl;
@@ -166,7 +154,6 @@ function showResults() {
                                 poster.setAttribute('src', imdbPoster);
                             }
 
-                            //creating and setting description
                             var description = document.createElement('div');
                             description.setAttribute('class', 'description');
                             var name = document.createElement('h4');
@@ -238,9 +225,7 @@ function getPlayingNow() {
                     var path = playingNow[i].poster_path;
 
                     title = playingNow[i].title;
-
                     movieImage = playingNow[i].backdrop_path;
-                    
                     movieId = playingNow[i].id;
                     var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
                     var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
@@ -269,7 +254,6 @@ function getPlayingNow() {
                         class: 'movieImg',
                         src: tmdbPathPosterPath
                     }).appendTo(wrapper);
-
 
                 } catch (e) {
                     //console.log(e);
@@ -308,12 +292,7 @@ function onPlayerStateChange(event) {
     }
 }
 
-
 function searchMovie() {
-
-    //if (script !== undefined && script !== null) {
-    //    $(script).remove();
-    //}
 
     window.history.pushState({ "html": location.href, "pageTitle": location.href.pageTitle }, "", location.href.split("?")[0]);
 
