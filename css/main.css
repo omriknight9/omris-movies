@@ -472,7 +472,7 @@ h2 {
 
 .detailsWrapper {
     margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 .imdbImage {
@@ -504,6 +504,10 @@ h2 {
     border-radius: 5px;
     box-shadow: 0 3px 8px 3px #848484;
     text-align: left;
+}
+
+.objectGallery {
+    margin-top: 3rem;
 }
 
 .descriptionWrapper, .objectDetails {
@@ -551,10 +555,6 @@ h2 {
 }
 
 .actorCreditsWrapper {
-/*    position: absolute;
-    display: none;
-    z-index: 999;
-    top: 43rem;*/
     width: 90%;
     margin: auto;
     height: 31rem;
@@ -563,7 +563,7 @@ h2 {
     background-color: lightcyan;
 }
 
-.castWrapper {
+.castWrapper, .similarMoviesWrapper {
     margin: auto;
     width: 71%;
     height: 29rem;
@@ -572,7 +572,15 @@ h2 {
     background-color: white;
 }
 
-.actorCredits, .cast {
+.castWrapper {
+    margin-bottom: 2rem;
+}
+
+.similarMoviesHeader, .castHeader {
+    font-size: 2.5rem;
+}
+
+.actorCredits, .cast, .similarMovies {
     display: flex;
     flex-wrap: nowrap;
     -webkit-flex-wrap: nowrap;
@@ -649,7 +657,7 @@ h2 {
     margin-bottom: -5rem;
 }
 
-.castName, .actorMovie {
+.castName, .actorMovie, .similarMovie {
     box-shadow: 0 3px 3px #848484;
     display: flex;
     box-sizing: border-box;
@@ -671,7 +679,7 @@ h2 {
     text-align: center;
 }
 
-.castName {
+.castName, .similarMovie {
     position: relative;
 }
 
@@ -698,7 +706,7 @@ h2 {
     font-size: 1.2rem;
 }
 
-.castName:nth-child(even), .actorMovie:nth-child(even) {
+.castName:nth-child(even), .actorMovie:nth-child(even), .similarMovie:nth-child(even) {
     background-color: lightgray;
 }
 
@@ -706,17 +714,22 @@ h2 {
     background-color: white;
 }
 
-.castName:last-of-type {
+.castName:last-of-type, .similarMovie:last-of-type {
     margin-right: 0;
 }
 
-.actorImg {
+.actorImg, .similarMovieImg, .similarMovieImg {
     width: 150px;
     height: 212px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     cursor: pointer;
 }
+
+.similarMovieImg {
+    cursor: url('../images/imdb_small.png'), auto;
+}
+
 
 .linksWrapper {
     position: absolute;
@@ -753,10 +766,6 @@ h2 {
     cursor: url('../images/imdb_small.png'), auto;
 }
 
-/*.actorMovie > a {
-    width: 10rem;
-}*/
-
 .castName:hover {
     transform: scale(1.05);
     -webkit-transform: scale(1.05);
@@ -773,11 +782,19 @@ h2 {
     -o-transform: scale(1.05);
 }
 
-.castName > span, .actorMovie > span {
+.similarMovie:hover {
+    transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -o-transform: scale(1.05);
+}
+
+.castName > span, .actorMovie > span, .similarMovie span {
     font-size: .9rem;
 }
 
-.cast:after {
+.cast:after, .similarMovies:after {
   content: '';
   flex: 0 0 1rem;
 }
@@ -802,6 +819,25 @@ h2 {
 }
 
 .cast::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius: 5px;
+}
+
+.similarMovies::-webkit-scrollbar-track {
+    width: 50%;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.similarMovies::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 12px;
+    background-color: #F5F5F5;
+    border-radius: 5px;
+    height: 1rem;
+}
+
+.similarMovies::-webkit-scrollbar-thumb {
     background-color: black;
     border-radius: 5px;
 }
@@ -1038,7 +1074,7 @@ h2 {
 
 @media only screen and (max-width: 765px) {
 
-    .castName > span, .actorMovie span {
+    .castName > span, .actorMovie span, .similarMovie span {
         font-size: .8rem;
     }
 
@@ -1082,7 +1118,7 @@ h2 {
         height: 200px;
     }
 
-    .castWrapper {
+    .castWrapper, .similarMoviesWrapper {
         height: 23rem;
         width: 100%;
     }
@@ -1097,7 +1133,7 @@ h2 {
         height: 100%;
     }
 
-    .castName, .actorMovie {
+    .castName, .actorMovie, .similarMovie {
         height: 17rem;
     }
 
@@ -1109,7 +1145,7 @@ h2 {
         top: -27.5rem;
     }
     
-    .actorImg, .actorMovieImg {
+    .actorImg, .actorMovieImg, .similarMovieImg {
         width: 100px;
         height: 138px;
     }
@@ -1261,6 +1297,10 @@ h2 {
 
 @media only screen and (max-width: 400px) {
 
+    .similarMoviesHeader, .castHeader {
+        font-size: 1.9rem;
+    }
+
 
     .actorCreditsWrapper {
         top: 55rem;
@@ -1279,12 +1319,12 @@ h2 {
         height: 25px;
     }
 
-    .castName, .actorMovie {
+    .castName, .actorMovie, .similarMovie {
         margin-left: .5rem;
         margin-right: .5rem;
     }
 
-    .actorImg, .actorMovieImg {
+    .actorImg, .actorMovieImg, .similarMovieImg {
         width: 80px;
         height: 100px;
     }
