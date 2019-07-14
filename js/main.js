@@ -1536,6 +1536,12 @@ function getSimilar(objectId, kind) {
                 class: 'similarMovies'
             }).appendTo(similarMoviesWrapper);
 
+            if (data.results.length == 0) {
+                $('.similarMoviesHeader').remove();
+                $('.similarMoviesWrapper').remove();
+                return;
+            }
+
             for (var i = 0; i < data.results.length; i++) {
                 if (kind == 1) {
                     movieTitle = data.results[i].title;
