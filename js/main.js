@@ -739,7 +739,13 @@ function getCredits(objectId, kind) {
                     if (data.cast[i].character.length > 33) {
                         var maxLength = 33;
                         var trimmedString = data.cast[i].character.substr(0, maxLength);
-                        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))
+                        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+
+                        if (trimmedString.slice(-1) == '/') {
+                            trimmedString = trimmedString.replace(trimmedString.slice(-1), '');
+                        } else {
+                            trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+                        }
 
                     } else {
                         trimmedString = data.cast[i].character;
