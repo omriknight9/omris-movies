@@ -81,6 +81,7 @@ body {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     justify-content: center;
+    z-index: 1;
 }
 
 .captainmarvel {
