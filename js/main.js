@@ -741,10 +741,13 @@ function getCredits(objectId, kind) {
                         var trimmedString = data.cast[i].character.substr(0, maxLength);
                         trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
 
-                        if (trimmedString.slice(-1) == '/') {
+                        if (trimmedString.slice(-1) == "/") {
                             trimmedString = trimmedString.replace(trimmedString.slice(-1), '');
                         } else {
                             trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+                            if (trimmedString.slice(-1) == "/") {
+                                trimmedString = trimmedString.replace(trimmedString.slice(-1), '');
+                            }
                         }
 
                     } else {
