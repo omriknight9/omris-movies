@@ -1119,7 +1119,7 @@ h2 {
     }
 
     .castWrapper, .similarMoviesWrapper {
-        height: 23rem;
+        height: 25rem;
         width: 100%;
     }
 
@@ -1134,7 +1134,7 @@ h2 {
     }
 
     .castName, .actorMovie, .similarMovie {
-        height: 17rem;
+        height: 19rem;
     }
 
     .closeBtn {
@@ -1257,6 +1257,10 @@ h2 {
     .playingNowWrapper, .movieWrapper, .tvShowWrapper {
         height: 13rem;
         width: 6rem;
+    }
+    
+    .playingNowHeader {
+        margin-bottom: 3rem;
     }
 
     .movieImg, .tvShowImg {
