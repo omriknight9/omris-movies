@@ -874,14 +874,6 @@ h2 {
     cursor: url('../images/cursor2.png'), auto;
 }
 
-.movieGalleryImg:hover {
-    transform: scale(1.2);
-    -webkit-transform: scale(1.2);
-    -moz-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-    -o-transform: scale(1.2);
-}
-
 .movieVideo {
     margin: 2rem;
     border-radius: 10px;
@@ -1069,6 +1061,16 @@ h2 {
 
     .movieGalleryImg {
         margin: 1rem;
+    }
+}
+
+@media only screen and (min-width: 765px) {
+    .movieGalleryImg:hover {
+        transform: scale(1.2);
+        -webkit-transform: scale(1.2);
+        -moz-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+        -o-transform: scale(1.2);
     }
 }
 
