@@ -1121,7 +1121,7 @@ h2 {
     }
 
     .castWrapper, .similarMoviesWrapper {
-        height: 25rem;
+        height: 22rem;
         width: 100%;
     }
 
@@ -1136,7 +1136,7 @@ h2 {
     }
 
     .castName, .actorMovie, .similarMovie {
-        height: 19rem;
+        height: 16rem;
     }
 
     .closeBtn {
