@@ -138,6 +138,7 @@ function showResults() {
 
                             resultRow.setAttribute('href', destinationUrl);
                             resultRow.setAttribute('target', '_blank');
+                            resultRow.setAttribute('rel', 'noopener');
 
                             var posterWrapper = document.createElement('div');
                             posterWrapper.setAttribute('class', 'posterWrapper');
@@ -1000,6 +1001,7 @@ function getObjectInfo(objectId, kind) {
                 var imdbLink = $('<a>', {
                     class: 'imdbLink',
                     target: '_blank',
+                    rel: 'noopener',
                     href: imdb + imdbId
                 }).appendTo(detailsWrapper);
                 var withCommas = numberWithCommas(data.revenue);
@@ -1007,6 +1009,7 @@ function getObjectInfo(objectId, kind) {
                 var imdbLink = $('<a>', {
                     class: 'imdbLink',
                     target: '_blank',
+                    rel: 'noopener',
                 }).appendTo(detailsWrapper);
             }
 
@@ -1225,6 +1228,7 @@ function getTvShowImdbId(tvShowId, div) {
         success: function (data) {
             $(div).attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
             $(div).attr('target', '_blank');
+            $(div).attr('rel', 'noopener');
         },
         error: function (err) {
             //console.log(err);
@@ -1352,6 +1356,7 @@ function goToActorImdb(imdbActorId, that, linkNum) {
 
                     that.attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
                     that.attr('target', '_blank');
+                    that.attr('rel', 'noopener');
                     var actorImdbLink = $(that).parent().find($('.imdbLink'))
                     actorImdbLink.trigger("click");
                     actorImdbLink.off();
@@ -1365,6 +1370,7 @@ function goToActorImdb(imdbActorId, that, linkNum) {
                 } else {
                     that.attr('href', 'https://www.instagram.com/' + data.instagram_id);
                     that.attr('target', '_blank');
+                    that.attr('rel', 'noopener');
                     var actorInstagramLink = $(that).parent().find($('.instagramLink'))
                     actorInstagramLink.trigger("click");
                     actorInstagramLink.off();
@@ -1637,6 +1643,7 @@ function getActorMovieInfo(objectId, that, kind) {
             } else {
                 that.attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
                 that.attr('target', '_blank');
+                that.attr('rel', 'noopener');
 
                 if ($('.actorMovieImg').is(':visible')) {
                     var actorMovieImg = $(that).find($('.actorMovieImg'));
