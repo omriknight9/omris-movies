@@ -253,6 +253,7 @@ function getPlayingNow() {
 
                     var img = $('<img>', {
                         class: 'movieImg',
+                        alt: 'movieImg',
                         src: tmdbPathPosterPath
                     }).appendTo(wrapper);
 
@@ -404,7 +405,8 @@ function searchMovie() {
 
                         var img = $('<img>', {
                             class: 'movieImg',
-                            src: tmdbPathPosterPath
+                            src: tmdbPathPosterPath,
+                            alt: 'movieImg',
                         }).appendTo(wrapper);
 
                     } catch (e) {
@@ -468,7 +470,8 @@ function searchMovie() {
 
                             var img = $('<img>', {
                                 class: 'movieImg',
-                                src: tmdbPathPosterPath
+                                src: tmdbPathPosterPath,
+                                alt: 'movieImg',
                             }).appendTo(wrapper);
 
                             movieId = rest[j].id;
@@ -603,7 +606,8 @@ function searchTVShows(value) {
 
                         var img = $('<img>', {
                             class: 'tvShowImg',
-                            src: tmdbPathPosterPath
+                            src: tmdbPathPosterPath,
+                            alt: 'tvShowImg',
                         }).appendTo(wrapper);
 
                     } catch (e) {
@@ -666,7 +670,8 @@ function searchTVShows(value) {
 
                             var img = $('<img>', {
                                 class: 'tvShowImg',
-                                src: tmdbPathPosterPath
+                                src: tmdbPathPosterPath,
+                                alt: 'tvShowImg',
                             }).appendTo(wrapper);
 
                             tvShowId = rest[j].id;
@@ -765,6 +770,7 @@ function getCredits(objectId, kind) {
                     var actorImg = $('<img>', {
                         class: 'actorImg',
                         src: actorImgPath,
+                        alt: 'actorImg',
                         id: data.cast[i].id,
                         click: function () {
                             var actorNameCredits = $(this).parent().parent().find($('.actorName')).html().replace(':', '');
@@ -794,6 +800,7 @@ function getCredits(objectId, kind) {
 
                     var imdbLink = $('<img>', {
                         src: './images/imdb.png',
+                        alt: 'imdbImg',
                         class: 'imdbLink',
                         id: data.cast[i].id,
                         click: function () {
@@ -807,6 +814,7 @@ function getCredits(objectId, kind) {
 
                     var instagramLink = $('<img>', {
                         src: './images/instagram.png',
+                        alt: 'instagramImg',
                         class: 'instagramLink',
                         id: data.cast[i].id,
                         click: function () {
@@ -858,6 +866,7 @@ function getImages(objectId, kind) {
                     var movieGalleryImg = $('<img>', {
                         class: 'movieGalleryImg',
                         src: galleryImgPath,
+                        alt: 'movieGalleryImg',
                     }).appendTo($('.objectGallery'));
                 }
             }
@@ -1003,7 +1012,8 @@ function getObjectInfo(objectId, kind) {
 
             var imdbImage = $('<img>', {
                 class: 'imdbImage',
-                src: 'https://image.tmdb.org/t/p/w500' + finalImg
+                src: 'https://image.tmdb.org/t/p/w500' + finalImg,
+                alt: 'imdbImage',
             }).appendTo(imdbLink);
 
             var descriptionWrapper = $('<div>', {
@@ -1391,6 +1401,7 @@ function goToMovieImdb(imdbActorId, that, name) {
     var closeBtn = $('<img>', {
         class: 'closeBtn',
         src: './images/closeBtn.png',
+        alt: 'closeBtn',
         click: function () {
             $('.actorCreditsWrapper').remove();
             $('body').css({'opacity': '1', 'pointer-events': 'all'});
@@ -1468,6 +1479,7 @@ function goToMovieImdb(imdbActorId, that, name) {
                 var actorMovieImg = $('<img>', {
                     class: 'actorMovieImg',
                     src: path,
+                    alt: 'actorMovieImg',
                     id: array[j].id,
                     mediaType: array[j].media_type,
                     click: function () {
@@ -1568,6 +1580,7 @@ function getSimilar(objectId, kind) {
                     var similarMovieImg = $('<img>', {
                         class: 'similarMovieImg',
                         src: img,
+                        alt: 'similarMovieImg',
                         id: data.results[i].id,
                         click: function () {
                             getActorMovieInfo($(this)[0].attributes.id.textContent, $($(this)[0].parentElement), kind);
