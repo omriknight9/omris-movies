@@ -1,107 +1,142 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>My Movies</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <meta name="description" content="My Movie List">
-        <link rel="stylesheet" type="text/css" href="css/main.css">
-        <link rel="icon" href="images/movie.png">
-        <link href="https://fonts.googleapis.com/css?family=David+Libre&display=swap" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="js/main.js"></script>
-    </head>
+<head>
+    <meta charset="utf-8">
+    <title>The Movies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Search Info About Movies And TV Shows">
+    <link rel="shortcut icon" type="image/x-icon" href="images/popcorn.png" />
+    <link href="https://fonts.googleapis.com/css?family=Palanquin+Dark:600" rel="stylesheet">
+    <link href="css/main.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Kurale&display=swap" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="js/main.min.js"></script>
+
+    <!-- Hotjar Tracking Code for https://omriknight9.github.io/omris-movies/ -->
+    <script>
+        (function (h, o, t, j, a, r) {
+            h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+            h._hjSettings = { hjid: 1432769, hjsv: 6 };
+            a = o.getElementsByTagName('head')[0];
+            r = o.createElement('script'); r.async = 1;
+            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+    </script>
+    
+</head>
+
 <body>
 
-    <header>
-        <div class="headerContainer">
-            <div class="header">
-                <div class="imgWrapper">                 
-                    <img src="./images/ironman.png" id="marvel" alt="iron man" onclick="goToDiv('#marvelContainer')" />
-                    <img src="./images/superman.png" id="dc" alt="superman" onclick="goToDiv('#dcContainer')" />
-                    <img src="./images/others.png" id="others" alt="delorean" onclick="goToDiv('#othersContainer')" />
-                    <img src="./images/disney.png" id="disney" alt="mickey mouse" onclick="goToDiv('#animationContainer')" />
-                </div>
-                <div class="searchContainer">
-                    <input type="text" placeholder="Search A Movie" id="search" aria-label="Search" autocomplete="off"/>
-                </div>
-            </div>
+    <div class="headerWrapper">
+        <div class="header">
+            <h1>The Movies</h1>
         </div>
-    </header>
+        <div class="progress-container">
+            <div class="progress-bar" id="myBar"></div>
+        </div>
 
-    <main>
+        <div class="logoWrapper">
+            <div class="logo" onclick="goHome()"></div>
+        </div>
+        <div class="imgWrapper">
+            <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImg" src="images/tmdb.png" alt="Tmdb Img" /></a>
+        </div>
+    </div>
+
+    <div class="spidermanWrapper">
+        <img class="spiderman" src="images/spiderman.png" alt="" />
+    </div>
+
+    <div class="ironmanWrapper">
+        <img class="ironman" src="images/ironman.png" alt="" />
+    </div>
+
+    <div id="searchBox">
+        <div class="inputWrapper">
+            <div class="inputColumn">
+                <input id="searchMovie" placeholder="Search A Movie Or TV Show" maxlength="25" onclick="backColor(this)" aria-label="Search">     
+                <span class="focus-border"></span>
+                <p class="inputError">Input is empty</p>
+                <p class="noMovieError">No movies were found</p>
+                <img src="images/search.png" alt="search" id="searchImg" onclick="searchMovie();" />
+                
+            </div>
+
+            <div class="results"></div>
+        </div>
 
         <div class="spinnerWrapper">
-            <div class="loader loader-1">
-                <div class="loader-outter"></div>
-                <div class="loader-inner"></div>
+            <div class="spinner">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
             </div>
         </div>
-        <div class="container" id="marvelContainer"></div>
-        <div class="container" id="dcContainer"></div>
-        <div class="container" id="othersContainer"></div>
-        <div class="container" id="animationContainer"></div>
-        <div class="container" id="tvShowContainer"></div>
-    </main>
 
-    <img src="images/upBtn3.png" alt="up arrow" class="goToTopBtn" onclick="goToTop()" />
-    <img src="images/upBtn2.png" alt="up arrow" class="goToTopBtn2" onclick="goToTop()" />
+        <h2 class="playingNowHeader">Playing Now</h2>
 
-    <!----------------POPUPS---------------->
-
-    <div id="movieDetails" class="popUpInfo">
-        <div class="popupCont">
-            <div class="popupContent"></div>
-            <div class="Xbtn"></div>
-            <h2 class="movieNamePop"></h2>
-            <p class="movieQualityPop"></p>
-            <p class="movieRevenuePop"></p>
-            <p class="movieRuntimePop"></p>
-            <div class="movieCoverWrapper">
-                <img src="" id="movieCover" alt="dvd cover" />
-            </div>
-            <div class="linksWrapper">
-                <a href="" target="_blank" id="movieImdbLink"><img src="./images/imdb.png" alt="imdb image" id="movieImdbImage" /></a>
-                <img src="./images/youtube.png" alt="youtube image" id="movieYoutubeImage" />
-            </div>
-            <div class="popupBtnsWrapper">
-                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
-            </div>
-        </div>
     </div>
 
-    <div id="tvShowDetails" class="popUpInfo">
-        <div class="popupCont">
-            <div class="popupContent"></div>
-            <div class="Xbtn"></div>
-            <h2 class="tvShowNamePop"></h2>
-            <p class="tvShowQualityPop"></p>
-            <p class="tvShowSeasonsPop"></p>
-            <p class="tvShowEpisodesPop"></p>
-            <div class="tvShowCoverWrapper">
-                <img src="" id="tvShowCover" alt="dvd cover" />
-            </div>
-            <div class="linksWrapper">
-                <a href="" target="_blank" id="tvShowImdbLink"><img src="./images/imdb.png" alt="imdb image" id="tvShowImdbImage" /></a>
-                <img src="./images/youtube.png" alt="youtube image" id="tvShowYoutubeImage" />
-            </div>
-            <div class="popupBtnsWrapper">
-                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
-            </div>
-        </div>
-    </div>
+    <div class="container"></div>
 
-    <div id="trailer" class="popUpInfo">
-        <div class="popupCont">
-            <div class="popupContent"></div>
-            <div class="Xbtn"></div>
-            <div class="videoWrapper">
-                <div id="videoFrame">
-                    <iframe src="" id="trailerVideo" frameborder="0" allowfullscreen></iframe>
+    <div class="bottomSection">
+
+        <div class="captainmarvelWrapper">
+            <img class="captainmarvel" src="images/captainmarvel.png" alt="" />
+        </div>
+        <footer class="footer">
+            <div class="boardWrapper">
+                <img class="board" src="images/board2.png" alt="" />
+            </div>
+
+            <div class="contactWrapper">
+                <div class="contact">
+                    <a href="https://www.linkedin.com/in/omri-shalev-8b3515119/" target="_blank" rel="noopener">
+                        <img class="footerImg" src="images/linkedin.png" alt="linkedin img" />
+                    </a>
+                    <a href="https://www.facebook.com/omri.shalev.31" target="_blank" rel="noopener">
+                        <img class="footerImg" src="images/facebook.png" alt="facebook img" />
+                    </a>
+                    <a href="https://github.com/omriknight9" target="_blank" rel="noopener">
+                        <img class="footerImg" src="images/github.png" alt="github img" rel="noopener" />
+                    </a>
                 </div>
             </div>
+        </footer>
+    </div>
+
+    <div class="tmdbCertWrapper">
+        <p id="tmdbCert">This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
+        <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImgFooter" src="images/tmdb.png" alt="Tmdb Img" /></a>
+    </div>
+    <img src="images/upBtn.png" alt="up arrow" class="goToTopBtn" onclick="goToTop()" />
+
+    <!-----------------Popups--------------->
+
+    <!-----------No Imdb--------->
+    <div id="noImdbPop" class="popUpInfo">
+        <div class="popupCont">
+            <div class="Xbtn"></div>
+            <h2>No Imdb Profile</h2>
+            <div class="popupBtnsWrapper">
+                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close </button>
+            </div>
+
         </div>
     </div>
+
+    <!-----------No Instagram--------->
+    <div id="noInstagramPop" class="popUpInfo">
+        <div class="popupCont">
+            <div class="Xbtn"></div>
+            <h2>No Instagram Profile</h2>
+            <div class="popupBtnsWrapper">
+                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close </button>
+            </div>
+
+        </div>
+    </div>
+
 </body>
 </html>
