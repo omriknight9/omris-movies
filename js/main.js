@@ -51,6 +51,7 @@ $(document).ready(function () {
 
     if (window.location.href.indexOf("title=") > -1) {
         nameToSend = window.location.href.split('title=')[1].split('&')[0];
+        nameToSend = nameToSend.split('%20').join(' ');
         fromMovieSite = true;
         movieFromOtherSiteClicked(valToSend, nameToSend.toString());
     }
