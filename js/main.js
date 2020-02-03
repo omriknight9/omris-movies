@@ -1293,6 +1293,10 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
 
     }, 200);
 
+    setTimeout(function() {
+        $('.playingNowWrapper').remove();
+    }, 1200);
+
     var width = 1;
     var id2 = setInterval(frame, 30);
     
