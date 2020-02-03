@@ -1313,7 +1313,7 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
 
     var promise = new Promise(function (resolve, reject) {
         setTimeout(function () {
-            resolve(getObjectInfo(movieId, 1, '1917'));
+            resolve(getObjectInfo(movieId, 1, nameMovie));
         }, 250);
     })
 
