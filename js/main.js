@@ -40,12 +40,29 @@ var searchMoreTvShowsUrl = "https://api.themoviedb.org/3/search/tv?api_key=" + t
 var tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
 
 $(document).ready(function () {
+
+    let valToSend;
+    let nameToSend;
+    let fromMovieSite = false;
+
+    if (window.location.href.indexOf("value=") > -1) {
+        valToSend = window.location.href.split('value=')[1].split('&')[0];
+    }
+
+    if (window.location.href.indexOf("title=") > -1) {
+        nameToSend = window.location.href.split('title=')[1].split('&')[0];
+        fromMovieSite = true;
+        movieFromOtherSiteClicked(valToSend, nameToSend.toString());
+    }
+
     page = 0;
 
     var x = location.href;
 
-    if (x.includes('?')) {
-        location.href = x.split("?")[0];
+    if (!fromMovieSite) {
+        if (x.includes('?')) {
+            location.href = x.split("?")[0];
+        }
     }
 
     window.onscroll = function () {
@@ -241,7 +258,7 @@ function getPlayingNow() {
                         value: movieId,
                         backdropSrc: tmbdBackdropPath,
                         click: function () {
-                            movieClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
+                            movieClicked($(this)[0].attributes.value.textContent, $(this));
                         },
 
                     }).appendTo($('.container'));
@@ -249,7 +266,6 @@ function getPlayingNow() {
                     var movieTitle = $('<p>', {
                         class: 'movieTitle',
                         text: title
-
                     }).appendTo(wrapper)
 
                     var img = $('<img>', {
@@ -392,7 +408,7 @@ function searchMovie() {
                             value: movieId,
                             backdropSrc: tmbdBackdropPath,
                             click: function () {
-                                movieClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
+                                movieClicked($(this)[0].attributes.value.textContent, $(this));
                             },
 
                         }).appendTo($('.container'));
@@ -458,7 +474,7 @@ function searchMovie() {
                                 value: movieId,
                                 backdropSrc: tmbdBackdropPath,
                                 click: function () {
-                                    movieClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
+                                    movieClicked($(this)[0].attributes.value.textContent, $(this));
                                 },
                             }).appendTo($('.container'));
 
@@ -919,14 +935,20 @@ function getVideos(objectId, kind) {
     })
 }
 
-function getObjectInfo(objectId, kind) {
+function getObjectInfo(objectId, kind, titleToSend) {
 
     var inputVal2;
     var url;
     var tmdbUrl;
+    let titleFinal; 
+    if (titleToSend == undefined) {
+        titleFinal = $('.movieTitle').html();
+    } else {
+        titleFinal = titleToSend;
+    }
 
     if (kind == 1) {
-        inputVal2 = $('.movieTitle').html();
+        inputVal2 = titleFinal;
         tmdbUrl = movieInfoUrl;
     } else {
         inputVal2 = $('.tvShowTitle').html();
@@ -1236,7 +1258,115 @@ function getTvShowImdbId(tvShowId, div) {
     })
 }
 
-function movieClicked(movieId, div, path) {
+function movieFromOtherSiteClicked(movieId, nameMovie) {
+
+    clickCounter++;
+    $('body').css('pointer-events', 'none');
+    $('.container').addClass('singleMovieContainer');
+    $('.inputError').fadeOut(200);
+    $('.noMovieError').fadeOut(500);
+    $('.container').css('margin-top', '3rem');
+    $('.spinner').fadeIn('fast');
+    $('.spinnerWrapper').fadeIn('fast');
+    $('.bottomSection').css('display', 'none');
+    $('.tmdbCertWrapper').css('display', 'none');
+
+    $('.movieWrapper').remove();
+    $('.tvShowWrapper').remove();
+    $('.movieImg').remove();
+    $('.tvShowsHeader').hide();
+
+    
+    setTimeout(function() {
+        let div = $('<div>', {
+            class: 'chosenMovie',
+            'value': movieId
+        }).appendTo($('.singleMovieContainer'));
+
+        let movieFinalName = $('<p>', {
+            class: 'movieTitle',
+            html: nameMovie
+        }).appendTo(div);
+
+        $('.playingNowHeader').hide();
+        $('.playingNowWrapper').remove();
+
+    }, 200);
+
+    var width = 1;
+    var id2 = setInterval(frame, 30);
+    
+    function frame() {
+        width++;
+        if (width >= 100) {
+            clearInterval(id2);
+            $('.bottomSection').css('display', 'block');
+            $('.tmdbCertWrapper').css('display', 'flex');
+            $('.movieWrapper').css('display', 'flex');
+            width = 1;
+        }
+    }
+
+    var promise = new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(getObjectInfo(movieId, 1, '1917'));
+        }, 250);
+    })
+
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getCredits(movieId, 1);
+        }, 550);
+    })
+
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getSimilar(movieId, 1);
+        }, 1000);
+    })
+
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getImages(movieId, 1);
+        }, 1200);
+    })
+
+    promise.then(function (successMessage) {
+        setTimeout(function () {
+            getVideos(movieId, 1);
+        }, 1300);
+    })
+    
+    if (clickCounter > 1) {
+        promise.then(function (successMessage) {
+            setTimeout(function () {
+                onYouTubeIframeAPIReady();
+            }, 2000);
+        })
+    }
+
+    $('.chosenMovie').off();
+    $('.actorImg').off();
+
+    setTimeout(function () {
+        for (var j = 0; j < $('.movieGalleryImg').length ; j++) {
+            tmp = $($('.movieGalleryImg')[j].attributes.src)[0].textContent;
+            $($('.movieGalleryImg')[j]).attr('src', 'asd');
+            $($('.movieGalleryImg')[j]).attr('src', tmp);
+        }
+
+        for (var k = 0; k < $('.actorImg').length ; k++) {
+            tmp2 = $($('.actorImg')[k].attributes.src)[0].textContent;
+            $($('.actorImg')[k]).attr('src', 'asd');
+            $($('.actorImg')[k]).attr('src', tmp2);
+        }
+        $('body').css('pointer-events', 'all');
+        $('.spinnerWrapper').css('display', 'none');
+        $('.spinner').css('display', 'none');
+    }, 3500)
+}
+
+function movieClicked(movieId, div) {
 
     clickCounter++;
     $('body').css('pointer-events', 'none');
