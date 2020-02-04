@@ -1829,7 +1829,7 @@ function changeMonthName(month) {
             break;
         }
         case 1: {
-            monthName = 'Februar';
+            monthName = 'February';
             break;
         }
         case 2: {
