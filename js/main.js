@@ -1,43 +1,53 @@
-var movieId;
-var tvShowId;
-var imdbId;
-var wrapper;
-var total_results;
-var title;
-var valid;
-var onInputResults;
-var topTen;
-var rest;
-var playingNow;
-var players = [];
-var monthName;
-var dayName;
-var date;
-var arr = [];
-var movieImage;
-var tvShowImage;
-var objectImage;
-var tmp;
-var tmp2;
-var page;
-var script;
-var clickCounter = 0;
+let movieId;
+let tvShowId;
+let imdbId;
+let wrapper;
+let total_results;
+let title;
+let valid;
+let onInputResults;
+let topTen;
+let rest;
+let playingNow;
 
-var tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
+let players = [];
+let monthName;
+let dayName;
+let date;
+let arr = [];
+let movieImage;
+let tvShowImage;
+let objectImage;
+let tmp;
+let tmp2;
+let page;
+let script;
+let clickCounter = 0;
 
-var imdb = 'https://www.imdb.com/title/';
+let counter = 1;
+
+let upcoming;
+let upcoming_total_results;
+let upcoming_topTen;
+let upcoming_total_pages
+
+const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
+
+let imdb = 'https://www.imdb.com/title/';
 //var baseUrl = "https://sg.media-imdb.com/suggests/";
-var baseUrl = "https://v2.sg.media-imdb.com/suggests/";
-var youtubeVideo = 'https://www.youtube.com/embed/';
+const baseUrl = "https://v2.sg.media-imdb.com/suggests/";
+const youtubeVideo = 'https://www.youtube.com/embed/';
 
-var nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + tmdbKey + "&language=en-US&page=1";
-var searchMovieUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdbKey + "&query=";
-var searchMorePagesUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdbKey + "&page=";
-var movieInfoUrl = "https://api.themoviedb.org/3/movie/";
-var movieActorsUrl = "https://api.themoviedb.org/3/person/";
-var searchTvShowUrl = "https://api.themoviedb.org/3/search/tv?api_key=" + tmdbKey + "&query=";
-var searchMoreTvShowsUrl = "https://api.themoviedb.org/3/search/tv?api_key=" + tmdbKey + "&page=";
-var tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
+// var upcomingUrl = "https://api.themoviedb.org/3/movie/upcoming?api_key=" + tmdbKey + "&language=en-US&page=1";
+const upcomingUrl = "https://api.themoviedb.org/3/movie/upcoming?api_key=" + tmdbKey + "&language=en-US&page=";
+const nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + tmdbKey + "&language=en-US&page=1";
+const searchMovieUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdbKey + "&query=";
+const searchMorePagesUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdbKey + "&page=";
+const movieInfoUrl = "https://api.themoviedb.org/3/movie/";
+const movieActorsUrl = "https://api.themoviedb.org/3/person/";
+const searchTvShowUrl = "https://api.themoviedb.org/3/search/tv?api_key=" + tmdbKey + "&query=";
+const searchMoreTvShowsUrl = "https://api.themoviedb.org/3/search/tv?api_key=" + tmdbKey + "&page=";
+const tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
 
 $(document).ready(function () {
 
@@ -98,8 +108,203 @@ $(document).ready(function () {
 
     showResults();
     getPlayingNow();
-
 })
+
+function switchContent(type) {
+    $('.container').empty();
+
+    if (type == 1) {
+        getUpcoming();
+        $('#switchContentBtn').attr('onclick', 'switchContent(2)');
+        $('#switchContentBtn').html('Show Playing Now');
+        $('.playingNowHeader').hide();
+        $('#switchContentBtn').css('width', '8rem');
+    } else {
+        getPlayingNow();
+        $('#switchContentBtn').attr('onclick', 'switchContent(1)');
+        $('#switchContentBtn').html('Show Upcoming');
+        $('.playingNowHeader').show();
+        $('#switchContentBtn').css('width', '7rem');
+    }
+}
+
+function getUpcoming() {
+    $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: upcomingUrl,
+        dataType: "jsonp",
+        ifModified: true,
+        success: function (data) {
+
+            upcoming_topTen = data.results;
+            upcoming_total_pages = data.total_pages
+            upcoming_total_results = data.total_results;
+
+            // if (total_results == 0) {
+            //     getPlayingNow();
+            //     $('.noMovieError').fadeIn(500);
+            //     $('.playingNowHeader').html('Playing Now');
+            //     $('.spinnerWrapper').css('display', 'none');
+            // }
+
+            let today = new Date();
+
+            let upcomingHeader = $('<h2>', {
+                class: 'upcomingHeader',
+                text: 'Upcoming Movies'
+            }).appendTo('.container');
+
+            let btnWrapper = $('<div>', {
+                class: 'btnWrapper btnWrapperUpcoming'
+            }).appendTo('.container')
+
+            let dateSortBtn = $('<button>', {
+                class: 'dateSortBtn',
+                text: 'Sort By Date',
+                click: function() {
+                    sortMovies('releaseDate', 1, 2);
+                }
+            }).appendTo(btnWrapper);
+
+            let titleSortBtn = $('<button>', {
+                class: 'titleSortBtn',
+                text: 'Sort By Name',
+                click: function() {
+                    sortMovies('movieTitle', 2, 2)
+                }
+            }).appendTo(btnWrapper);
+
+            for (let i = 0; i < upcoming_topTen.length; i++) {
+                let movieDateTopTen = new Date(JSON.stringify(upcoming_topTen[i].release_date));
+
+                if (movieDateTopTen > today) {
+
+                    try {
+    
+                        let path = upcoming_topTen[i].poster_path;
+                        title = upcoming_topTen[i].title;
+                        movieId = upcoming_topTen[i].id;
+                        movieImage = upcoming_topTen[i].backdrop_path;
+    
+                        let tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
+                        let tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
+    
+                        if (path == 'undefined' || path == null) {
+                            tmdbPathPosterPath = './images/stock.png';
+                        }
+    
+                        wrapper = $('<div>', {
+                            class: 'upcomingMovieWrapper',
+                            value: movieId,
+                            backdropSrc: tmbdBackdropPath,
+                            releaseDate: upcoming_topTen[i].release_date,
+                            movieTitle: title,
+                            click: function () {
+                                movieClicked($(this)[0].attributes.value.textContent, $(this));
+                            },
+    
+                        }).appendTo($('.container'));
+    
+                        let movieTitle = $('<p>', {
+                            class: 'movieTitle',
+                            text: title
+                        }).appendTo(wrapper)
+    
+                        let img = $('<img>', {
+                            class: 'movieImg',
+                            src: tmdbPathPosterPath,
+                            alt: 'movieImg',
+                        }).appendTo(wrapper);
+                    }
+                    catch(e) {
+                        return;
+                    }
+                    
+                } else {
+
+                }
+            }
+        },
+        error: function (err) {
+            //console.log(err);
+        }
+    })
+
+
+
+    setTimeout(function () {
+
+        for (var j = 2; j <= 4; j++) {
+
+            $.ajax({
+                type: 'GET',
+                crossDomain: true,
+                url: upcomingUrl + j,
+                dataType: "jsonp",
+                ifModified: true,
+                success: function (data) {
+
+                    rest = data.results;
+
+                    let today = new Date();
+
+                    for (var k = 0; k < data.total_results; k++) {
+                        try {
+                            let movieDate = new Date(JSON.stringify(rest[k].release_date));
+                            if (movieDate > today) {
+    
+                                var path = rest[k].poster_path;
+                                movieId = rest[k].id;
+                                movieImage = rest[k].backdrop_path;
+                                title = rest[k].title;
+
+                                var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
+                                var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
+
+                                if (path == 'undefined' || path == null) {
+                                    tmdbPathPosterPath = './images/stock.png';
+                                }
+
+                                wrapper = $('<div>', {
+                                    class: 'upcomingMovieWrapper',
+                                    value: movieId,
+                                    backdropSrc: tmbdBackdropPath,
+                                    releaseDate: rest[k].release_date,
+                                    movieTitle: title,
+                                    click: function () {
+                                        movieClicked($(this)[0].attributes.value.textContent, $(this));
+                                    },
+                                }).appendTo($('.container'));
+        
+                                // wrapper.css('display', 'none');
+        
+                                var movieTitle = $('<p>', {
+                                    class: 'movieTitle',
+                                    text: title
+                                }).appendTo(wrapper)
+        
+                                var img = $('<img>', {
+                                    class: 'movieImg',
+                                    src: tmdbPathPosterPath,
+                                    alt: 'movieImg',
+                                }).appendTo(wrapper);
+        
+                                movieId = rest[k].id;
+                            }
+                        } catch (error) {
+                            
+                        }
+                    }
+                },
+                error: function (err) {
+                    //console.log(err);
+                }
+            });
+        }
+    }, 500)
+}
+
 
 function showResults() {
     $(document).mouseup(function (e) {
@@ -239,6 +444,27 @@ function getPlayingNow() {
         success: function (data) {
 
             playingNow = data.results;
+
+            let btnWrapper = $('<div>', {
+                class: 'btnWrapper'
+            }).appendTo('.container')
+
+            let dateSortBtn = $('<button>', {
+                class: 'dateSortBtn',
+                text: 'Sort By Date',
+                click: function() {
+                    sortMovies('releaseDate', 1, 1);
+                }
+            }).appendTo(btnWrapper);
+
+            let titleSortBtn = $('<button>', {
+                class: 'titleSortBtn',
+                text: 'Sort By Name',
+                click: function() {
+                    sortMovies('movieTitle', 2, 1)
+                }
+            }).appendTo(btnWrapper);
+            
             for (var i = 0; i < data.results.length; i++) {
 
                 try {
@@ -258,6 +484,8 @@ function getPlayingNow() {
                         class: 'playingNowWrapper',
                         value: movieId,
                         backdropSrc: tmbdBackdropPath,
+                        releaseDate: playingNow[i].release_date,
+                        movieTitle: title,
                         click: function () {
                             movieClicked($(this)[0].attributes.value.textContent, $(this));
                         },
@@ -284,6 +512,78 @@ function getPlayingNow() {
             //console.log(err);
         }
     })
+}
+
+function sortMovies(elem1, kind, type) {
+
+    $.each($('.container'), function (key, value) {
+        let ids = [], obj, i, len;
+        let children;
+        if (type == 1) {
+            children = $(this).find('.playingNowWrapper');
+        } else {
+            children = $(this).find('.upcomingMovieWrapper');
+        }
+
+        for (i = 0, len = children.length; i < len; i++) {
+            obj = {};
+            obj.element = children[i];
+            let elem2 = $(children[i]).attr(elem1);
+            switch (kind) {
+                case 1:
+                    obj.idNum = new Date(elem2);
+                    break;
+                case 2:
+                    obj.idNum = elem2;
+                    break;
+                case 3:
+                    obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
+                    break;
+            }
+            ids.push(obj);
+        }
+
+        switch (kind) {
+            case 1:
+                switch (counter) {
+                    case 1:
+                        ids.sort(function (a, b) { return (b.idNum - a.idNum); });
+                        counter = 2;
+                        break;
+                    case 2:
+                        ids.sort(function (a, b) { return (a.idNum - b.idNum); });
+                        counter = 1;
+                        break;
+                }
+                break;
+            case 2:
+                switch (counter) {
+                    case 1:
+                        ids.sort(function (a, b) {
+                            return a.idNum.localeCompare(b.idNum);
+                        });
+
+                        counter = 2;
+                        break;
+
+                    case 2:
+                        ids.sort(function (a, b) {
+                            return b.idNum.localeCompare(a.idNum);
+                        });
+                        counter = 1;
+                        break;
+                }
+                $('.btnWrapper').attr('kind', kind);
+                $('.groupSortBtn').css('pointer-events', 'all');
+                break;
+        }
+
+        for (i = 0; i < ids.length; i++) {
+            $(this).append(ids[i].element);
+        }
+    });
+
+    $('.sortContainer').fadeOut('fast');
 }
 
 function onYouTubeIframeAPIReady() {
@@ -348,7 +648,11 @@ function searchMovie() {
         $('.container').css('margin-top', '-5rem');
         $('.playingNowHeader').html('Movies');
         $('.tvShowsHeader').remove();
+        $('.upcomingHeader').hide();
+        $('#switchContentBtnWrapper').remove();
+        $('.btnWrapper').remove();
         $('.playingNowWrapper').remove();
+        $('.upcomingMovieWrapper').remove();
         $('.spinner').fadeIn('fast');
         $('.spinnerWrapper').fadeIn('fast');
 
@@ -759,8 +1063,8 @@ function getCredits(objectId, kind) {
                         }
                     }
 
-                    if (data.cast[i].character.length > 33) {
-                        var maxLength = 33;
+                    if (data.cast[i].character.length > 25) {
+                        var maxLength = 25;
                         var trimmedString = data.cast[i].character.substr(0, maxLength);
                         trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
 
@@ -805,7 +1109,6 @@ function getCredits(objectId, kind) {
                         class: 'characterName',
                         text: trimmedString
                     }).appendTo(castName);
-
 
                     var linksWrapper = $('<div>', {
                         class: 'linksWrapper',
@@ -1149,9 +1452,15 @@ function tvShowClicked(tvShowId, div, path) {
     div.removeClass('playingNowWrapper');
     div.removeClass('tvShowWrapper');
     
+    $('.tvShowsHeader').hide();
+
+    $('#switchContentBtnWrapper').remove();
+    $('.btnWrapper').hide();
     $('.playingNowHeader').hide();
     $('.playingNowWrapper').remove();
-    $('.tvShowsHeader').hide();
+    $('.upcomingMovieWrapper').remove();
+    $('.upcomingHeader').hide();
+
 
     div.addClass('chosenMovie');
 
@@ -1383,13 +1692,18 @@ function movieClicked(movieId, div) {
     $('.spinnerWrapper').fadeIn('fast');
     $('.bottomSection').css('display', 'none');
     $('.tmdbCertWrapper').css('display', 'none');
-
+  
     div.css('display', 'none');
     div.removeClass('playingNowWrapper');
+    div.removeClass('upcomingMovieWrapper');
     div.removeClass('movieWrapper');
 
+    $('#switchContentBtnWrapper').remove();
+    $('.btnWrapper').hide();
     $('.playingNowHeader').hide();
     $('.playingNowWrapper').remove();
+    $('.upcomingMovieWrapper').remove();
+    $('.upcomingHeader').hide();
 
     div.addClass('chosenMovie');
 
