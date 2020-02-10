@@ -525,7 +525,58 @@ h2 {
     font-size: 2rem;
 }
 
-.playingNowWrapper, .movieWrapper, .tvShowWrapper {
+#switchContentBtnWrapper {
+    margin-top: 5rem;
+    margin-bottom: -5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.btnWrapper {
+    margin-top: 5rem;
+    margin-bottom: -5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.btnWrapperUpcoming {
+    margin-top: 1rem;
+}
+
+button {
+    margin: 1rem;
+    border: none;
+    width: 7rem;
+    height: 3rem;
+    margin: 1rem;
+    background: white;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px 3px #848484;
+    transition: .3s;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+    -moz-transition: .3s;
+}
+
+button:active {
+    box-shadow: 0 5px 5px #666;
+    transform: translateY(4px);
+    -ms-transform: translateY(4px);
+    -moz-transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    -o-transform: translateY(4px);
+}
+
+.upcomingHeader {
+    width: 100%;
+    margin-top: 6rem;
+    margin-bottom: 0;
+    font-size: 2.5rem;
+}
+
+.playingNowWrapper, .movieWrapper, .tvShowWrapper, .upcomingMovieWrapper {
     display: flex;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -560,7 +611,7 @@ h2 {
     height: 31rem;
     border-radius: 5px;
     box-shadow: 0 3px 8px 3px #848484;
-    background-color: lightcyan;
+    background-color: white;
 }
 
 .castWrapper, .similarMoviesWrapper {
@@ -596,12 +647,13 @@ h2 {
 }
 
 .actorCredits {
-    background-color: lightcyan;
-    background-image: linear-gradient(to right, lightcyan, rgba(255,0,0,.5), lightcyan);
+    background-color: white;
+    background-image: linear-gradient(-180deg,rgba(150, 150, 150, .95), rgba(200,200,200,.95));
     padding-top: 3rem;
+    border-radius: 5px;
 }
 
-.playingNowWrapper > p, .movieWrapper > p, .tvShowWrapper p {
+.playingNowWrapper > p, .movieWrapper > p, .tvShowWrapper p, .upcomingMovieWrapper p {
     width: 100%;
     font-size: 1.5rem;
     text-align: center;
@@ -617,6 +669,10 @@ h2 {
 }
 
 .playingNowWrapper > .movieImg, .movieWrapper > .movieImg, .tvShowWrapper > .tvShowImg {
+    cursor: pointer;
+}
+
+.upcomingMovieWrapper > .movieImg, .movieWrapper > .movieImg, .tvShowWrapper > .tvShowImg {
     cursor: pointer;
 }
 
@@ -748,7 +804,7 @@ h2 {
 
 .cast:after, .similarMovies:after {
   content: '';
-  flex: 0 0 1rem;
+  flex: 0 0 1.8rem;
 }
 
 .actorCredits:after {
@@ -796,7 +852,7 @@ h2 {
 
 .actorCredits::-webkit-scrollbar-track {
     width: 50%;
-    background-color: lightcyan;
+    background-color: white;
     border-radius: 5px;
 }
 
@@ -1019,6 +1075,14 @@ h2 {
         -o-transform: scale(1.1);
     }
 
+    .upcomingMovieWrapper:hover {
+        transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+    }
+
     .movieWrapper:hover {
         transform: scale(1.1);
         -webkit-transform: scale(1.1);
@@ -1123,13 +1187,18 @@ h2 {
         height: 200px;
     }
 
-    .castWrapper, .similarMoviesWrapper {
-        height: 22rem;
+    .castWrapper {
+        height: 24rem;
+        width: 100%;
+    }
+
+    .similarMoviesWrapper {
+        height: 21rem;
         width: 100%;
     }
 
     .actorCreditsWrapper {
-        height: 27rem;
+        height: 24rem;
         /*width: 105%;*/
         top: 50rem;
     }
@@ -1138,16 +1207,28 @@ h2 {
         height: 100%;
     }
 
-    .castName, .actorMovie, .similarMovie {
-        height: 16rem;
+    .castName {
+        height: 18rem;
+    }
+
+    .actorMovie, .similarMovie {
+        height: 15rem;
+    }
+
+    .cast {
+        padding-bottom: 1rem;
+    }
+
+    .actorCredits, .similarMovies {
+        padding-bottom: 1rem;
     }
 
     .closeBtn {
-        top: -26rem;
+        top: -23rem;
     }
 
     .actorCreditsName {
-        top: -27.5rem;
+        top: -23.5rem;
     }
     
     .actorImg, .actorMovieImg, .similarMovieImg {
@@ -1194,10 +1275,21 @@ h2 {
 
 @media only screen and (max-width: 600px) {
 
-    
     .imdbImage {
         width: 400px;
         height: 200px;
+    }
+
+    .btnWrapper {
+        margin-bottom: -1rem;
+    }
+
+    .btnWrapperUpcoming {
+        margin-top: 5rem;
+    }
+
+    .upcomingHeader {
+        margin-bottom: -4rem;
     }
 
     .container {
@@ -1209,12 +1301,12 @@ h2 {
         margin: 0 2rem 34rem 2rem;
     }
 
-    .playingNowWrapper, .movieWrapper, .tvShowWrapper {
+    .playingNowWrapper, .movieWrapper, .tvShowWrapper, .upcomingMovieWrapper {
         height: 20rem;
         width: 9rem;
     }
 
-    .playingNowWrapper > p, .movieWrapper > p, .tvShowWrapper p {
+    .playingNowWrapper > p, .movieWrapper > p, .tvShowWrapper p, .upcomingMovieWrapper p {
         font-size: 1rem;
     }
 
@@ -1259,7 +1351,7 @@ h2 {
 
 @media only screen and (max-width: 470px) {
 
-    .playingNowWrapper, .movieWrapper, .tvShowWrapper {
+    .playingNowWrapper, .movieWrapper, .tvShowWrapper, .upcomingMovieWrapper {
         height: 13rem;
         width: 6rem;
     }
@@ -1274,7 +1366,15 @@ h2 {
 
     .container {
         margin: 0;
-        margin-top: -2rem !important;
+        margin-top: -7rem !important;
+    }
+
+    .btnWrapper {
+        margin-bottom: 6rem;
+    }
+
+    .btnWrapperUpcoming {
+        margin-bottom: 0;
     }
 
     .tvShowsHeader {
@@ -1292,7 +1392,7 @@ h2 {
     }
 
     .actorCreditsName {
-        top: -27rem;
+        top: -24rem;
         font-size: 1rem;
         text-align: left;
         left: .5rem;
