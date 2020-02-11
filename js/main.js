@@ -1629,7 +1629,8 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
     $('.tvShowWrapper').remove();
     $('.movieImg').remove();
     $('.tvShowsHeader').hide();
-
+    $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
+    $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
     
     setTimeout(function() {
         let div = $('<div>', {
@@ -1659,6 +1660,8 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
         if (width >= 100) {
             clearInterval(id2);
             $('.bottomSection').show();
+            $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
+            $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
             $('.tmdbCertWrapper').css('display', 'flex');
             $('.movieWrapper').css('display', 'flex');
             width = 1;
