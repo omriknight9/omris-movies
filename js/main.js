@@ -95,7 +95,7 @@ $(document).ready(function () {
     $('#searchMovie').on("keyup", function (event) {
         event.preventDefault();
         if (event.keyCode === 13) {
-            $('.results').css('display', 'none');
+            $('.results').hide();
 
             var inputVal = $('#searchMovie').val();
             searchMovie();
@@ -112,6 +112,9 @@ $(document).ready(function () {
 
 function switchContent(type) {
     $('.container').empty();
+    $('.spinner').fadeIn('fast');
+    $('.spinnerWrapper').fadeIn('fast');
+    $('body').css('pointer-events', 'none');
 
     if (type == 1) {
         getUpcoming();
@@ -119,12 +122,22 @@ function switchContent(type) {
         $('#switchContentBtn').html('Show Playing Now');
         $('.playingNowHeader').hide();
         $('#switchContentBtn').css('width', '8rem');
+        setTimeout(function() {
+            $('.spinner').hide();
+            $('.spinnerWrapper').hide();
+            $('body').css('pointer-events', 'all');
+        }, 1000)
     } else {
         getPlayingNow();
         $('#switchContentBtn').attr('onclick', 'switchContent(1)');
         $('#switchContentBtn').html('Show Upcoming');
         $('.playingNowHeader').show();
         $('#switchContentBtn').css('width', '7rem');
+        setTimeout(function() {
+            $('.spinner').hide();
+            $('.spinnerWrapper').hide();
+            $('body').css('pointer-events', 'all');
+        }, 1000)
     }
 }
 
@@ -320,7 +333,7 @@ function showResults() {
 
         if (cleanInput.length === 0) {
             $('.results').html('');
-            $('.results').css('display', 'none');
+            $('.results').hide();
         }
 
         if (cleanInput.length > 0) {
@@ -342,10 +355,10 @@ function showResults() {
 
                     if (result.d.length > 0) {
                         $('.results').html('');
-                        $('.results').css('display', 'none');
+                        $('.results').hide();
                     }
 
-                    $('.results').css('display', 'block');
+                    $('.results').show();
                     $('.results').animate({ scrollTop: 0 }, 'fast');
 
                     for (var i = 0; i < result.d.length; i++) {
@@ -355,6 +368,8 @@ function showResults() {
                         if (category === "tt") {
                             var resultRow = document.createElement('div');
                             resultRow.setAttribute('class', 'resultRow');
+                            resultRow.setAttribute('type', result.d[i].q);
+
                             var destinationUrl;
 
                             destinationUrl = "http://www.imdb.com/title/" + result.d[i].id;
@@ -401,7 +416,7 @@ function showResults() {
                     }
 
                     $('.resultRow').click(function () {
-
+                        
                         $('.results').fadeOut('fast');
                         var movieName = $(this).find('.description h4').html();
 
@@ -412,6 +427,12 @@ function showResults() {
                         setTimeout(function () {
                             searchTVShows(inputVal);
                         }, 2000)
+
+                        if ($(this).attr('type') == 'TV series') {
+                            setTimeout(function () {
+                                $('html, body').animate({ scrollTop: $('.tvShowsHeader').position().top + 350}, 1500);
+                            }, 5000)
+                        }
                     })
                 }
             })
@@ -613,7 +634,6 @@ function onPlayerStateChange(event) {
 }
 
 function searchMovie() {
-
     window.history.pushState({ "html": location.href, "pageTitle": location.href.pageTitle }, "", location.href.split("?")[0]);
 
     $('.playingNowHeader').hide();
@@ -663,7 +683,7 @@ function searchMovie() {
 
             if (width >= 100) {
                 clearInterval(id);
-                $('.movieWrapper').css('display', 'block');
+                // $('.movieWrapper').css('display', 'block');
                 $('.movieWrapper').css('display', 'flex');
                 width = 1;
             }
@@ -685,12 +705,12 @@ function searchMovie() {
                 topTen = data.results;
                 total_pages = data.total_pages
                 total_results = data.total_results;
-
+                
                 if (total_results == 0) {
                     getPlayingNow();
                     $('.noMovieError').fadeIn(500);
                     $('.playingNowHeader').html('Playing Now');
-                    $('.spinnerWrapper').css('display', 'none');
+                    $('.spinnerWrapper').hide();
                 }
 
                 for (var i = 0; i < total_results; i++) {
@@ -718,7 +738,7 @@ function searchMovie() {
 
                         }).appendTo($('.container'));
 
-                        wrapper.css('display', 'none');
+                        wrapper.hide();
 
                         var movieTitle = $('<p>', {
                             class: 'movieTitle',
@@ -783,7 +803,7 @@ function searchMovie() {
                                 },
                             }).appendTo($('.container'));
 
-                            wrapper.css('display', 'none');
+                            wrapper.hide();
 
                             var movieTitle = $('<p>', {
                                 class: 'movieTitle',
@@ -813,8 +833,8 @@ function searchMovie() {
                 $('html,body').animate({ scrollTop: 400 }, 'slow');
             }
             $('body').css('pointer-events', 'all');
-            $('.spinnerWrapper').css('display', 'none');
-            $('.spinner').css('display', 'none');
+            $('.spinnerWrapper').hide();
+            $('.spinner').hide();
         }, 3500)
     }
 }
@@ -863,7 +883,7 @@ function searchTVShows(value) {
 
             if (width >= 100) {
                 clearInterval(id);
-                $('.tvShowWrapper').css('display', 'block');
+                // $('.tvShowWrapper').css('display', 'block');
                 $('.tvShowWrapper').css('display', 'flex');
                 width = 1;
             }
@@ -918,7 +938,7 @@ function searchTVShows(value) {
                             },
                         }).appendTo($('.container'));
 
-                        wrapper.css('display', 'none');
+                        wrapper.hide();
 
                         var tvShowTitle = $('<p>', {
                             class: 'tvShowTitle',
@@ -983,7 +1003,7 @@ function searchTVShows(value) {
                                 },
                             }).appendTo($('.container'));
 
-                            wrapper.css('display', 'none');
+                            wrapper.hide();
 
                             var tvShowTitle = $('<p>', {
                                 class: 'tvShowTitle',
@@ -1021,8 +1041,14 @@ function searchTVShows(value) {
 }
 
 function goHome() {
+    
     if (page !== 0) {
-        location.reload();
+        $('.container').empty();
+        $('.container').removeClass('singleMovieContainer');
+        $('.container').css('margin-top', '-5rem');
+        $('#switchContentBtnWrapper').show();
+        switchContent(2);
+        // location.reload();
     }
 }
 
@@ -1435,7 +1461,7 @@ function getObjectInfo(objectId, kind, titleToSend) {
     })
 }
 
-function tvShowClicked(tvShowId, div, path) {
+function tvShowClicked(tvShowId, div) {
 
     clickCounter++;
     $('body').css('pointer-events', 'none');
@@ -1445,22 +1471,21 @@ function tvShowClicked(tvShowId, div, path) {
     $('.container').css('margin-top', '3rem');
     $('.spinner').fadeIn('fast');
     $('.spinnerWrapper').fadeIn('fast');
-    $('.bottomSection').css('display', 'none');
-    $('.tmdbCertWrapper').css('display', 'none');
+    $('.bottomSection').hide();
+    $('.tmdbCertWrapper').hide();
 
-    div.css('display', 'none');
+    div.hide();
     div.removeClass('playingNowWrapper');
     div.removeClass('tvShowWrapper');
     
     $('.tvShowsHeader').hide();
 
-    $('#switchContentBtnWrapper').remove();
+    $('#switchContentBtnWrapper').hide();
     $('.btnWrapper').hide();
     $('.playingNowHeader').hide();
     $('.playingNowWrapper').remove();
     $('.upcomingMovieWrapper').remove();
     $('.upcomingHeader').hide();
-
 
     div.addClass('chosenMovie');
 
@@ -1468,7 +1493,7 @@ function tvShowClicked(tvShowId, div, path) {
     $('.tvShowWrapper').remove();
 
     $('.movieImg').remove();
-    $('.tvShowImg').remove();
+    $('.tvShowImg').hide();
 
     var width = 1;
     var id2 = setInterval(frame, 30);
@@ -1477,10 +1502,11 @@ function tvShowClicked(tvShowId, div, path) {
         width++;
         if (width >= 100) {
             clearInterval(id2);
-            $('.bottomSection').css('display', 'block');
+            $('.bottomSection').show();
             $('.tmdbCertWrapper').css('display', 'flex');
-            $('.tvShowWrapper').css('display', 'flex');
+            // $('.tvShowWrapper').css('display', 'flex');
             div.fadeIn('slow');
+            $('.chosenMovie').css('display', 'block');
             width = 1;
         }
     }
@@ -1545,8 +1571,8 @@ function tvShowClicked(tvShowId, div, path) {
             $($('.actorImg')[k]).attr('src', tmp2);
         }
         $('body').css('pointer-events', 'all');
-        $('.spinnerWrapper').css('display', 'none');
-        $('.spinner').css('display', 'none');
+        $('.spinnerWrapper').hide();
+        $('.spinner').hide();
     }, 3500)
 }
 
@@ -1578,8 +1604,8 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
     $('.container').css('margin-top', '3rem');
     $('.spinner').fadeIn('fast');
     $('.spinnerWrapper').fadeIn('fast');
-    $('.bottomSection').css('display', 'none');
-    $('.tmdbCertWrapper').css('display', 'none');
+    $('.bottomSection').hide();
+    $('.tmdbCertWrapper').hide();
 
     $('.movieWrapper').remove();
     $('.tvShowWrapper').remove();
@@ -1614,7 +1640,7 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
         width++;
         if (width >= 100) {
             clearInterval(id2);
-            $('.bottomSection').css('display', 'block');
+            $('.bottomSection').show();
             $('.tmdbCertWrapper').css('display', 'flex');
             $('.movieWrapper').css('display', 'flex');
             width = 1;
@@ -1675,13 +1701,12 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
             $($('.actorImg')[k]).attr('src', tmp2);
         }
         $('body').css('pointer-events', 'all');
-        $('.spinnerWrapper').css('display', 'none');
-        $('.spinner').css('display', 'none');
+        $('.spinnerWrapper').hide();
+        $('.spinner').hide();
     }, 3500)
 }
 
 function movieClicked(movieId, div) {
-
     clickCounter++;
     $('body').css('pointer-events', 'none');
     $('.container').addClass('singleMovieContainer');
@@ -1690,15 +1715,15 @@ function movieClicked(movieId, div) {
     $('.container').css('margin-top', '3rem');
     $('.spinner').fadeIn('fast');
     $('.spinnerWrapper').fadeIn('fast');
-    $('.bottomSection').css('display', 'none');
-    $('.tmdbCertWrapper').css('display', 'none');
+    $('.bottomSection').hide();
+    $('.tmdbCertWrapper').hide();
   
-    div.css('display', 'none');
+    div.hide();
     div.removeClass('playingNowWrapper');
     div.removeClass('upcomingMovieWrapper');
     div.removeClass('movieWrapper');
 
-    $('#switchContentBtnWrapper').remove();
+    $('#switchContentBtnWrapper').hide();
     $('.btnWrapper').hide();
     $('.playingNowHeader').hide();
     $('.playingNowWrapper').remove();
@@ -1719,10 +1744,10 @@ function movieClicked(movieId, div) {
         width++;
         if (width >= 100) {
             clearInterval(id2);
-            $('.bottomSection').css('display', 'block');
+            $('.bottomSection').show();
             $('.tmdbCertWrapper').css('display', 'flex');
-            $('.movieWrapper').css('display', 'flex');
             div.fadeIn('slow');
+            $('.chosenMovie').css('display', 'block');
             width = 1;
         }
     }
@@ -1781,8 +1806,8 @@ function movieClicked(movieId, div) {
             $($('.actorImg')[k]).attr('src', tmp2);
         }
         $('body').css('pointer-events', 'all');
-        $('.spinnerWrapper').css('display', 'none');
-        $('.spinner').css('display', 'none');
+        $('.spinnerWrapper').hide();
+        $('.spinner').hide();
     }, 3500)
 }
 
