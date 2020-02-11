@@ -63,10 +63,7 @@ $(document).ready(function () {
         nameToSend = window.location.href.split('title=')[1].split('&')[0];
         nameToSend = nameToSend.split('%20').join(' ');
         fromMovieSite = true;
-        // setTimeout(function(){
-            movieFromOtherSiteClicked(valToSend, nameToSend.toString());
-        // }, 1000)
-
+        movieFromOtherSiteClicked(valToSend, nameToSend.toString());
     }
 
     page = 0;
@@ -1673,10 +1670,6 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
             width = 1;
         }
     }
-
-    // setTimeout(function(){
-    //     $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
-    // }, 2000)
 
     var promise = new Promise(function (resolve, reject) {
         setTimeout(function () {
