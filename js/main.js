@@ -1629,6 +1629,7 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
     $('.tvShowWrapper').remove();
     $('.movieImg').remove();
     $('.tvShowsHeader').hide();
+    $('.btnWrapper').hide();
     $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
     $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
     
