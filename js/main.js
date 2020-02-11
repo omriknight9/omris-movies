@@ -1619,6 +1619,7 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
     clickCounter++;
     $('body').css('pointer-events', 'none');
     $('.container').addClass('singleMovieContainer');
+    $('.container').hide();
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
     $('.spinner').fadeIn('fast');
@@ -1660,11 +1661,13 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
         width++;
         if (width >= 100) {
             clearInterval(id2);
+            $('.container').show();
             $('.bottomSection').show();
             $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
             $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
             $('.tmdbCertWrapper').css('display', 'flex');
             $('.movieWrapper').css('display', 'flex');
+            
             width = 1;
         }
     }
