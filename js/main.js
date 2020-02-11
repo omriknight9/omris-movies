@@ -63,9 +63,9 @@ $(document).ready(function () {
         nameToSend = window.location.href.split('title=')[1].split('&')[0];
         nameToSend = nameToSend.split('%20').join(' ');
         fromMovieSite = true;
-        setTimeout(function(){
+        // setTimeout(function(){
             movieFromOtherSiteClicked(valToSend, nameToSend.toString());
-        }, 1000)
+        // }, 1000)
 
     }
 
@@ -1663,10 +1663,10 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
         width++;
         if (width >= 100) {
             clearInterval(id2);
-            $('.container').fadeIn('slow');
             $('.bottomSection').show();
             $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
             $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
+            $('.container').fadeIn('slow');
             $('.tmdbCertWrapper').css('display', 'flex');
             $('.movieWrapper').css('display', 'flex');
             
