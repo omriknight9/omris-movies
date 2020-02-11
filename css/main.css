@@ -1403,8 +1403,9 @@ button:active {
         width: 6rem;
     }
     
-    .playingNowHeader {
-        margin-bottom: 3rem;
+    .playingNowHeader, .upcomingHeader {
+        margin-top: 7rem;
+        margin-bottom: -1rem;
     }
 
     .movieImg, .tvShowImg {
@@ -1417,7 +1418,8 @@ button:active {
     }
 
     .btnWrapper {
-        margin-bottom: 0;
+        margin-bottom: 3rem;
+        margin-top: 1rem;
     }
 
     .tvShowsHeader {
