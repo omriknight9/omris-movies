@@ -679,6 +679,17 @@ function searchMovie() {
         $('.container').removeClass('singleMovieContainer');
         $('.logo').css('cursor', 'unset');
         $(document.activeElement).filter(':input:focus').blur();
+        if ($('.playingNowHeader').length == 0) {
+            // console.log('NOT EXISTS');
+
+            let playingNowHeader = $('<h2>', {
+                class: 'playingNowHeader',
+                text: 'Playing Now'
+            }).appendTo('.container');
+
+        } else {
+            // console.log('DOES EXISTS');
+        }
         $('.playingNowHeader').html('Movies');
         $('.tvShowsHeader').remove();
         $('.upcomingHeader').hide();
