@@ -1624,7 +1624,7 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
     $('.spinner').fadeIn('fast');
     $('.bottomSection').hide();
     $('.tmdbCertWrapper').hide();
-
+    $('#switchContentBtnWrapper').hide();
     $('.movieWrapper').remove();
     $('.tvShowWrapper').remove();
     $('.movieImg').remove();
