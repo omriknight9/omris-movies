@@ -1645,14 +1645,14 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
             html: nameMovie
         }).appendTo(div);
 
-        $('.playingNowHeader').hide();
-        $('.playingNowWrapper').remove();
+        // $('.playingNowHeader').hide();
+        // $('.playingNowWrapper').remove();
 
     }, 200);
 
-    setTimeout(function() {
-        $('.playingNowWrapper').remove();
-    }, 1200);
+    // setTimeout(function() {
+    //     $('.playingNowWrapper').remove();
+    // }, 1200);
 
     var width = 1;
     var id2 = setInterval(frame, 30);
