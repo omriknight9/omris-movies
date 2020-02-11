@@ -1193,12 +1193,12 @@ button:active {
     }
 
     .similarMoviesWrapper {
-        height: 21rem;
+        height: 23rem;
         width: 100%;
     }
 
     .actorCreditsWrapper {
-        height: 25rem;
+        height: 26rem;
         top: 50rem;
     }
 
@@ -1218,7 +1218,11 @@ button:active {
         padding-bottom: 1rem;
     }
 
-    .actorCredits, .similarMovies {
+    .actorCredits {
+        padding-bottom: 1rem;
+    }
+
+    .similarMovies {
         padding-bottom: 1rem;
     }
 
