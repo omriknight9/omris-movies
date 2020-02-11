@@ -1615,7 +1615,7 @@ function getTvShowImdbId(tvShowId, div) {
 }
 
 function movieFromOtherSiteClicked(movieId, nameMovie) {
-    console.log('movieFromOtherSiteClicked()');
+    console.log('movieFromOtherSiteClicked2()');
     clickCounter++;
     $('body').css('pointer-events', 'none');
     $('.container').addClass('singleMovieContainer');
@@ -1630,7 +1630,7 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
     $('.tvShowWrapper').remove();
     $('.movieImg').remove();
     $('.tvShowsHeader').hide();
-    $('.btnWrapper').hide();
+    $('.btnWrapper').remove();
     $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
     $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
     
