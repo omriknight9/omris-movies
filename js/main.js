@@ -112,9 +112,12 @@ $(document).ready(function () {
 
 function switchContent(type) {
     $('.container').empty();
+    $('.container, #switchContentBtnWrapper').hide();
     $('.spinner').fadeIn('fast');
-    $('.spinnerWrapper').fadeIn('fast');
     $('body').css('pointer-events', 'none');
+    $('.bottomSection, .tmdbCertWrapper').hide();
+    $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
+    $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, #switchContentBtnWrapper, .headerWrapper').css('opacity', '.5');
 
     if (type == 1) {
         getUpcoming();
@@ -124,8 +127,10 @@ function switchContent(type) {
         $('#switchContentBtn').css('width', '8rem');
         setTimeout(function() {
             $('.spinner').hide();
-            $('.spinnerWrapper').hide();
             $('body').css('pointer-events', 'all');
+            $('.container, #switchContentBtnWrapper').show();
+            $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, #switchContentBtnWrapper, .headerWrapper').css('opacity', '1');
+            $('.bottomSection, .tmdbCertWrapper').show();
         }, 1000)
     } else {
         getPlayingNow();
@@ -135,8 +140,11 @@ function switchContent(type) {
         $('#switchContentBtn').css('width', '7rem');
         setTimeout(function() {
             $('.spinner').hide();
-            $('.spinnerWrapper').hide();
             $('body').css('pointer-events', 'all');
+            $('.container, #switchContentBtnWrapper').show();
+            $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
+            $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, #switchContentBtnWrapper, .headerWrapper').css('opacity', '1');
+            $('.bottomSection, .tmdbCertWrapper').show();
         }, 1000)
     }
 }
@@ -466,8 +474,13 @@ function getPlayingNow() {
 
             playingNow = data.results;
 
+            let playingNowHeader = $('<h2>', {
+                class: 'playingNowHeader',
+                text: 'Playing Now'
+            }).appendTo('.container');
+
             let btnWrapper = $('<div>', {
-                class: 'btnWrapper'
+                class: 'btnWrapper btnWrapperPlayingNow'
             }).appendTo('.container')
 
             let dateSortBtn = $('<button>', {
@@ -665,16 +678,17 @@ function searchMovie() {
         $('.container').removeClass('singleMovieContainer');
         $('.logo').css('cursor', 'unset');
         $(document.activeElement).filter(':input:focus').blur();
-        $('.container').css('margin-top', '-5rem');
         $('.playingNowHeader').html('Movies');
         $('.tvShowsHeader').remove();
         $('.upcomingHeader').hide();
-        $('#switchContentBtnWrapper').remove();
+        $('.bottomSection, .tmdbCertWrapper').hide();
+        $('#switchContentBtnWrapper').hide();
         $('.btnWrapper').remove();
         $('.playingNowWrapper').remove();
         $('.upcomingMovieWrapper').remove();
         $('.spinner').fadeIn('fast');
-        $('.spinnerWrapper').fadeIn('fast');
+        $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
+        $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
 
         var width = 1;
         var id = setInterval(frame, 30);
@@ -710,7 +724,7 @@ function searchMovie() {
                     getPlayingNow();
                     $('.noMovieError').fadeIn(500);
                     $('.playingNowHeader').html('Playing Now');
-                    $('.spinnerWrapper').hide();
+                    $('.spinner').hide();
                 }
 
                 for (var i = 0; i < total_results; i++) {
@@ -833,8 +847,10 @@ function searchMovie() {
                 $('html,body').animate({ scrollTop: 400 }, 'slow');
             }
             $('body').css('pointer-events', 'all');
-            $('.spinnerWrapper').hide();
             $('.spinner').hide();
+            $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
+            $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
+            $('.bottomSection, .tmdbCertWrapper').show();
         }, 3500)
     }
 }
@@ -873,7 +889,6 @@ function searchTVShows(value) {
         $('.playingNowWrapper').remove();
 
         $('.spinner').fadeIn('fast');
-        $('.spinnerWrapper').fadeIn('fast');
 
         var width = 1;
         var id = setInterval(frame, 30);
@@ -1044,11 +1059,15 @@ function goHome() {
     
     if (page !== 0) {
         $('.container').empty();
+        // $('.container, #switchContentBtnWrapper').hide();
         $('.container').removeClass('singleMovieContainer');
-        $('.container').css('margin-top', '-5rem');
-        $('#switchContentBtnWrapper').show();
         switchContent(2);
+        window.history.pushState({ "html": location.href, "pageTitle": location.href.pageTitle }, "", location.href.split("?")[0]);
+        $('.playingNowHeader').html('Playing Now');
         // location.reload();
+        // setTimeout(function() {
+        //     $('.container, #switchContentBtnWrapper').show();
+        // }, 1000)
     }
 }
 
@@ -1468,11 +1487,11 @@ function tvShowClicked(tvShowId, div) {
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
-    $('.container').css('margin-top', '3rem');
     $('.spinner').fadeIn('fast');
-    $('.spinnerWrapper').fadeIn('fast');
     $('.bottomSection').hide();
     $('.tmdbCertWrapper').hide();
+    $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
+    $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
 
     div.hide();
     div.removeClass('playingNowWrapper');
@@ -1504,7 +1523,8 @@ function tvShowClicked(tvShowId, div) {
             clearInterval(id2);
             $('.bottomSection').show();
             $('.tmdbCertWrapper').css('display', 'flex');
-            // $('.tvShowWrapper').css('display', 'flex');
+            $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
+            $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
             div.fadeIn('slow');
             $('.chosenMovie').css('display', 'block');
             width = 1;
@@ -1571,8 +1591,8 @@ function tvShowClicked(tvShowId, div) {
             $($('.actorImg')[k]).attr('src', tmp2);
         }
         $('body').css('pointer-events', 'all');
-        $('.spinnerWrapper').hide();
         $('.spinner').hide();
+        $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
     }, 3500)
 }
 
@@ -1601,9 +1621,7 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
-    $('.container').css('margin-top', '3rem');
     $('.spinner').fadeIn('fast');
-    $('.spinnerWrapper').fadeIn('fast');
     $('.bottomSection').hide();
     $('.tmdbCertWrapper').hide();
 
@@ -1701,7 +1719,6 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
             $($('.actorImg')[k]).attr('src', tmp2);
         }
         $('body').css('pointer-events', 'all');
-        $('.spinnerWrapper').hide();
         $('.spinner').hide();
     }, 3500)
 }
@@ -1712,11 +1729,11 @@ function movieClicked(movieId, div) {
     $('.container').addClass('singleMovieContainer');
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
-    $('.container').css('margin-top', '3rem');
     $('.spinner').fadeIn('fast');
-    $('.spinnerWrapper').fadeIn('fast');
     $('.bottomSection').hide();
     $('.tmdbCertWrapper').hide();
+    $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
+    $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
   
     div.hide();
     div.removeClass('playingNowWrapper');
@@ -1746,8 +1763,11 @@ function movieClicked(movieId, div) {
             clearInterval(id2);
             $('.bottomSection').show();
             $('.tmdbCertWrapper').css('display', 'flex');
+            $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
+            $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
             div.fadeIn('slow');
             $('.chosenMovie').css('display', 'block');
+
             width = 1;
         }
     }
@@ -1806,8 +1826,8 @@ function movieClicked(movieId, div) {
             $($('.actorImg')[k]).attr('src', tmp2);
         }
         $('body').css('pointer-events', 'all');
-        $('.spinnerWrapper').hide();
         $('.spinner').hide();
+
     }, 3500)
 }
 
