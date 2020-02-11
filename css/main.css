@@ -1227,11 +1227,11 @@ button:active {
     }
 
     .closeBtn {
-        top: -24rem;
+        top: -25rem;
     }
 
     .actorCreditsName {
-        top: -24.5rem;
+        top: -25.5rem;
     }
     
     .actorImg, .actorMovieImg, .similarMovieImg {
@@ -1432,7 +1432,7 @@ button:active {
     }
 
     .actorCreditsName {
-        top: -24rem;
+        top: -25rem;
         font-size: 1rem;
         text-align: left;
         left: .5rem;
