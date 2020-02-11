@@ -1633,6 +1633,10 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
     $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
     $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
     
+    setTimeout(function(){
+        $('.btnWrapper').remove();
+    }, 1000)
+
     setTimeout(function() {
         let div = $('<div>', {
             class: 'chosenMovie',
