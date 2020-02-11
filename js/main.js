@@ -1671,6 +1671,10 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
         }
     }
 
+    setTimeout(function(){
+        $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
+    }, 2000)
+
     var promise = new Promise(function (resolve, reject) {
         setTimeout(function () {
             resolve(getObjectInfo(movieId, 1, nameMovie));
