@@ -1615,7 +1615,6 @@ function getTvShowImdbId(tvShowId, div) {
 }
 
 function movieFromOtherSiteClicked(movieId, nameMovie) {
-    console.log('movieFromOtherSiteClicked2()');
     clickCounter++;
     $('body').css('pointer-events', 'none');
     $('.container').addClass('singleMovieContainer');
