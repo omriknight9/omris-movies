@@ -64,6 +64,8 @@ $(document).ready(function () {
         nameToSend = nameToSend.split('%20').join(' ');
         fromMovieSite = true;
         movieFromOtherSiteClicked(valToSend, nameToSend.toString());
+    } else {
+        getPlayingNow();
     }
 
     page = 0;
@@ -107,7 +109,6 @@ $(document).ready(function () {
     });
 
     showResults();
-    getPlayingNow();
 })
 
 function switchContent(type) {
@@ -1064,6 +1065,7 @@ function goHome() {
         switchContent(2);
         window.history.pushState({ "html": location.href, "pageTitle": location.href.pageTitle }, "", location.href.split("?")[0]);
         $('.playingNowHeader').html('Playing Now');
+        page = 0;
         // location.reload();
         // setTimeout(function() {
         //     $('.container, #switchContentBtnWrapper').show();
@@ -1629,13 +1631,8 @@ function movieFromOtherSiteClicked(movieId, nameMovie) {
     $('.tvShowWrapper').remove();
     $('.movieImg').remove();
     $('.tvShowsHeader').hide();
-    $('.btnWrapper').remove();
     $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
     $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
-    
-    setTimeout(function(){
-        $('.btnWrapper').remove();
-    }, 1000)
 
     setTimeout(function() {
         let div = $('<div>', {
