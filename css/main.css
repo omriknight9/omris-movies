@@ -1199,7 +1199,6 @@ button:active {
 
     .actorCreditsWrapper {
         height: 24rem;
-        /*width: 105%;*/
         top: 50rem;
     }
 
@@ -1248,16 +1247,34 @@ button:active {
     }
 
     .bottomSection {
-         transform: scale(.6);
-        -webkit-transform: scale(.6);
-        -moz-transform: scale(.6);
-        -ms-transform: scale(.6);
-        -o-transform: scale(.6);
-         margin-top: 20rem;
+        margin-top: 25rem;
+    }
+
+    .captainmarvel {
+        width: 350px;
+        height: 463px;
+    }
+
+    .boardWrapper {
+        width: 70%;
+        margin: auto;
+    }
+
+    .board {
+        width: 410px;
+    }
+
+    .contactWrapper {
+        bottom: 2rem;
     }
 
     .contact {
-        width :100%;
+        width: 40%;
+    }
+
+    .footerImg {
+        width: 60px;
+        height: 60px;
     }
 
     .descriptionWrapper, .objectDescription, .objectDetails {
@@ -1334,11 +1351,29 @@ button:active {
     }
 
     .bottomSection {
-         transform: scale(.5);
-        -webkit-transform: scale(.5);
-        -moz-transform: scale(.5);
-        -ms-transform: scale(.5);
-        -o-transform: scale(.5);
+        margin-top: 22rem;
+    }
+
+    .captainmarvel {
+        width: 250px;
+        height: 363px;
+    }
+
+    .board {
+        width: 300px;
+    }
+
+    .contactWrapper {
+        bottom: 1rem;
+    }
+
+    .contact {
+        width: 40%;
+    }
+
+    .footerImg {
+        width: 50px;
+        height: 50px;
     }
 }
 
@@ -1410,7 +1445,6 @@ button:active {
         font-size: 1.9rem;
     }
 
-
     .actorCreditsWrapper {
         top: 55rem;
     }
@@ -1441,14 +1475,6 @@ button:active {
     .resultRow .description {
         width: 65%;
     }
-
-    .bottomSection {
-         transform: scale(.4);
-        -webkit-transform: scale(.4);
-        -moz-transform: scale(.4);
-        -ms-transform: scale(.4);
-        -o-transform: scale(.4);
-    }
 }
 
 @media only screen and (max-width: 370px) {
@@ -1466,7 +1492,6 @@ button:active {
     
     .actorCreditsWrapper {
         top: 60rem;
-        /*width: 115%;*/
     }
 
     #searchMovie {
