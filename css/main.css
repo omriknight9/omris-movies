@@ -402,10 +402,25 @@ body {
     z-index: 1;
 }
 
+.singleMovieContainer {
+    margin-top: 3rem;
+}
+
 h2 {
 	color: #89867e;
 	text-align: center;
 	font-weight: 300;
+}
+
+.spinnerWrapper {
+    position: absolute;
+    width: 100%;
+    /* display: flex;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    justify-content: center; */
+    top: 7rem;
 }
 
 .spinner {
@@ -417,6 +432,7 @@ h2 {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     position: relative;
+    margin: auto;
 }
 
 .spinner .circle {
@@ -459,15 +475,6 @@ h2 {
         -ms-transform: rotate(360deg);
         -o-transform: rotate(360deg);
     }
-}
-
-.spinnerWrapper {
-    display: flex;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    justify-content: center;
-    margin-top: 1rem;
 }
 
 .detailsWrapper {
@@ -533,14 +540,10 @@ h2 {
 }
 
 .btnWrapper {
-    margin-top: 6rem;
+    margin-top: 1rem;
     margin-bottom: -5rem;
     width: 100%;
     text-align: center;
-}
-
-.btnWrapperUpcoming {
-    margin-top: 1rem;
 }
 
 button {
@@ -681,6 +684,7 @@ button:active {
     margin-bottom: 0;
     text-align: center;
     font-size: 2.5rem;
+    width: 100%;
 }
 
 .tvShowsHeader {
@@ -1066,7 +1070,6 @@ button:active {
 
 @media only screen and (min-width: 765px) {
 
-    
     .playingNowWrapper:hover {
         transform: scale(1.1);
         -webkit-transform: scale(1.1);
@@ -1180,6 +1183,10 @@ button:active {
 
     .container {
         margin-bottom: 3rem;
+    }
+
+    .singleMovieContainer {
+        margin-top: 0;
     }
 
     .imdbImage {
@@ -1307,6 +1314,7 @@ button:active {
 
     .btnWrapperUpcoming {
         margin-top: 5rem;
+        margin-bottom: -5rem;
     }
 
     .upcomingHeader {
@@ -1409,10 +1417,6 @@ button:active {
     }
 
     .btnWrapper {
-        margin-bottom: 6rem;
-    }
-
-    .btnWrapperUpcoming {
         margin-bottom: 0;
     }
 
