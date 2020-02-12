@@ -1426,16 +1426,11 @@ button:active {
 
     .playingNowWrapper, .movieWrapper, .tvShowWrapper, .upcomingMovieWrapper {
         height: 16rem;
-        width: 6rem;
     }
     
     .playingNowHeader, .upcomingHeader {
         margin-top: 7rem;
         margin-bottom: -1rem;
-    }
-
-    .movieImg, .tvShowImg {
-        height: 167px;
     }
 
     .container {
@@ -1444,7 +1439,7 @@ button:active {
     }
 
     .btnWrapper {
-        margin-bottom: 3rem;
+        margin-bottom: 0;
         margin-top: 1rem;
     }
 
@@ -1517,6 +1512,15 @@ button:active {
 @media only screen and (max-width: 370px) {
     .imdbImage {
         width: 280px;
+    }
+
+    .playingNowWrapper, .movieWrapper, .tvShowWrapper, .upcomingMovieWrapper {
+        height: 16rem;
+        width: 7.5rem;
+    }
+    
+    .movieImg {
+        height: 190px;
     }
 }
 
