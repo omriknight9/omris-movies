@@ -204,19 +204,10 @@ function getUpcoming() {
                 let finalMonth = readDate.getMonth() + 1;
                 let finalDay = readDate.getDate();
     
-                if (finalMonth < 10) {
-                    finalMonth = '0' + finalMonth;
-                } else {
-                    finalMonth = finalMonth;
-                }
-    
-                if (finalDay < 10) {
-                    finalDay = '0' + finalDay;
-                } else {
-                    finalDay = finalDay;
-                }
-    
-                let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+                changeMonthName(finalMonth - 1, 2);
+                changeDayName(finalDay);
+
+                let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
 
                 
                 if (finalDate == 'NaN/NaN/NaN') {
@@ -310,19 +301,10 @@ function getUpcoming() {
                                 let finalMonth = readDate.getMonth() + 1;
                                 let finalDay = readDate.getDate();
                     
-                                if (finalMonth < 10) {
-                                    finalMonth = '0' + finalMonth;
-                                } else {
-                                    finalMonth = finalMonth;
-                                }
-                    
-                                if (finalDay < 10) {
-                                    finalDay = '0' + finalDay;
-                                } else {
-                                    finalDay = finalDay;
-                                }
-                    
-                                let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+                                changeMonthName(finalMonth - 1, 2);
+                                changeDayName(finalDay);
+            
+                                let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
 
                                     
                                 if (finalDate == 'NaN/NaN/NaN') {
@@ -579,19 +561,10 @@ function getPlayingNow() {
                     let finalMonth = readDate.getMonth() + 1;
                     let finalDay = readDate.getDate();
 
-                    if (finalMonth < 10) {
-                        finalMonth = '0' + finalMonth;
-                    } else {
-                        finalMonth = finalMonth;
-                    }
+                    changeMonthName(finalMonth - 1, 2);
+                    changeDayName(finalDay);
 
-                    if (finalDay < 10) {
-                        finalDay = '0' + finalDay;
-                    } else {
-                        finalDay = finalDay;
-                    }
-
-                    let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+                    let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
 
                     if (finalDate == 'NaN/NaN/NaN') {
                         finalDate = 'No Relese Date';
@@ -836,19 +809,10 @@ function searchMovie() {
                             let finalMonth = readDate.getMonth() + 1;
                             let finalDay = readDate.getDate();
                 
-                            if (finalMonth < 10) {
-                                finalMonth = '0' + finalMonth;
-                            } else {
-                                finalMonth = finalMonth;
-                            }
-                
-                            if (finalDay < 10) {
-                                finalDay = '0' + finalDay;
-                            } else {
-                                finalDay = finalDay;
-                            }
-                
-                            let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+                            changeMonthName(finalMonth - 1, 2);
+                            changeDayName(finalDay);
+        
+                            let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
 
                             if (finalDate == 'NaN/NaN/NaN') {
                                 finalDate = 'No Relese Date';
@@ -933,19 +897,10 @@ function searchMovie() {
                                     let finalMonth = readDate.getMonth() + 1;
                                     let finalDay = readDate.getDate();
                         
-                                    if (finalMonth < 10) {
-                                        finalMonth = '0' + finalMonth;
-                                    } else {
-                                        finalMonth = finalMonth;
-                                    }
-                        
-                                    if (finalDay < 10) {
-                                        finalDay = '0' + finalDay;
-                                    } else {
-                                        finalDay = finalDay;
-                                    }
-                        
-                                    let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+                                    changeMonthName(finalMonth - 1, 2);
+                                    changeDayName(finalDay);
+                
+                                    let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
 
                                     
                                     if (finalDate == 'NaN/NaN/NaN') {
@@ -1119,19 +1074,10 @@ function searchTVShows(value) {
                             let finalMonth = readDate.getMonth() + 1;
                             let finalDay = readDate.getDate();
                 
-                            if (finalMonth < 10) {
-                                finalMonth = '0' + finalMonth;
-                            } else {
-                                finalMonth = finalMonth;
-                            }
-                
-                            if (finalDay < 10) {
-                                finalDay = '0' + finalDay;
-                            } else {
-                                finalDay = finalDay;
-                            }
-                
-                            let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+                            changeMonthName(finalMonth - 1, 2);
+                            changeDayName(finalDay);
+        
+                            let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
                             
                             
                             if (finalDate == 'NaN/NaN/NaN') {
@@ -1219,19 +1165,10 @@ function searchTVShows(value) {
                                     let finalMonth = readDate.getMonth() + 1;
                                     let finalDay = readDate.getDate();
                         
-                                    if (finalMonth < 10) {
-                                        finalMonth = '0' + finalMonth;
-                                    } else {
-                                        finalMonth = finalMonth;
-                                    }
-                        
-                                    if (finalDay < 10) {
-                                        finalDay = '0' + finalDay;
-                                    } else {
-                                        finalDay = finalDay;
-                                    }
-                        
-                                    let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+                                    changeMonthName(finalMonth - 1, 2);
+                                    changeDayName(finalDay);
+                
+                                    let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
                                     
                                     
                                     if (finalDate == 'NaN/NaN/NaN') {
@@ -1626,7 +1563,7 @@ function getObjectInfo(objectId, kind, titleToSend) {
             var day = date.getDate();
             var finalImg;
 
-            changeMonthName(month);
+            changeMonthName(month, 1);
             changeDayName(day);
 
             var detailsWrapper = $('<div>', {
@@ -2453,57 +2390,113 @@ function backColor(elem) {
     });
 }
 
-function changeMonthName(month) {
-    switch (month) {
-        case 0: {
-            monthName = 'January';
-            break;
+function changeMonthName(month, type) {
+
+    if (type == 1) {
+        switch (month) {
+            case 0: {
+                monthName = 'January';
+                break;
+            }
+            case 1: {
+                monthName = 'February';
+                break;
+            }
+            case 2: {
+                monthName = 'March';
+                break;
+            }
+            case 3: {
+                monthName = 'April';
+                break;
+            }
+            case 4: {
+                monthName = 'May';
+                break;
+            }
+            case 5: {
+                monthName = 'June';
+                break;
+            }
+            case 6: {
+                monthName = 'July';
+                break;
+            }
+            case 7: {
+                monthName = 'August';
+                break;
+            }
+            case 8: {
+                monthName = 'September';
+                break;
+            }
+            case 9: {
+                monthName = 'October';
+                break;
+            }
+            case 10: {
+                monthName = 'November';
+                break;
+            }
+            case 11: {
+                monthName = 'December';
+                break;
+            }  
         }
-        case 1: {
-            monthName = 'February';
-            break;
-        }
-        case 2: {
-            monthName = 'March';
-            break;
-        }
-        case 3: {
-            monthName = 'April';
-            break;
-        }
-        case 4: {
-            monthName = 'May';
-            break;
-        }
-        case 5: {
-            monthName = 'June';
-            break;
-        }
-        case 6: {
-            monthName = 'July';
-            break;
-        }
-        case 7: {
-            monthName = 'August';
-            break;
-        }
-        case 8: {
-            monthName = 'September';
-            break;
-        }
-        case 9: {
-            monthName = 'October';
-            break;
-        }
-        case 10: {
-            monthName = 'November';
-            break;
-        }
-        case 11: {
-            monthName = 'December';
-            break;
+
+    } else {
+        switch (month) {
+            case 0: {
+                monthName = 'Jan';
+                break;
+            }
+            case 1: {
+                monthName = 'Feb';
+                break;
+            }
+            case 2: {
+                monthName = 'March';
+                break;
+            }
+            case 3: {
+                monthName = 'April';
+                break;
+            }
+            case 4: {
+                monthName = 'May';
+                break;
+            }
+            case 5: {
+                monthName = 'June';
+                break;
+            }
+            case 6: {
+                monthName = 'July';
+                break;
+            }
+            case 7: {
+                monthName = 'Aug';
+                break;
+            }
+            case 8: {
+                monthName = 'Sep';
+                break;
+            }
+            case 9: {
+                monthName = 'Oct';
+                break;
+            }
+            case 10: {
+                monthName = 'Nov';
+                break;
+            }
+            case 11: {
+                monthName = 'Dec';
+                break;
+            }  
         }
     }
+
 }
 
 function changeDayName(day) {
