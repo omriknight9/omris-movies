@@ -1115,9 +1115,7 @@ function searchTVShows(value) {
                     for (var i = 0; i < total_results; i++) {
 
                         try {
-                            console.log(total_results);
                             let readDate = new Date(topTen[i].first_air_date);
-                            console.log(readDate);
                             let finalMonth = readDate.getMonth() + 1;
                             let finalDay = readDate.getDate();
                 
