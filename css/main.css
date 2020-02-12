@@ -1425,7 +1425,7 @@ button:active {
 @media only screen and (max-width: 470px) {
 
     .playingNowWrapper, .movieWrapper, .tvShowWrapper, .upcomingMovieWrapper {
-        height: 13rem;
+        height: 16rem;
         width: 6rem;
     }
     
