@@ -200,6 +200,29 @@ function getUpcoming() {
             for (let i = 0; i < upcoming_topTen.length; i++) {
                 let movieDateTopTen = new Date(JSON.stringify(upcoming_topTen[i].release_date));
 
+                let readDate = new Date(upcoming_topTen[i].release_date);
+                let finalMonth = readDate.getMonth() + 1;
+                let finalDay = readDate.getDate();
+    
+                if (finalMonth < 10) {
+                    finalMonth = '0' + finalMonth;
+                } else {
+                    finalMonth = finalMonth;
+                }
+    
+                if (finalDay < 10) {
+                    finalDay = '0' + finalDay;
+                } else {
+                    finalDay = finalDay;
+                }
+    
+                let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+
+                
+                if (finalDate == 'NaN/NaN/NaN') {
+                    finalDate = 'No Relese Date';
+                }
+
                 if (movieDateTopTen > today) {
 
                     try {
@@ -231,13 +254,22 @@ function getUpcoming() {
                         let movieTitle = $('<p>', {
                             class: 'movieTitle',
                             text: title
-                        }).appendTo(wrapper)
+                        }).appendTo(wrapper);
+
+                        let imgDateWrapper = $('<p>', {
+                            class: 'imgDateWrapper',
+                        }).appendTo(wrapper);
+
+                        let movieDate = $('<p>', {
+                            class: 'movieDate',
+                            text: finalDate
+                        }).appendTo(imgDateWrapper);
     
                         let img = $('<img>', {
                             class: 'movieImg',
                             src: tmdbPathPosterPath,
                             alt: 'movieImg',
-                        }).appendTo(wrapper);
+                        }).appendTo(imgDateWrapper);
                     }
                     catch(e) {
                         return;
@@ -252,8 +284,6 @@ function getUpcoming() {
             //console.log(err);
         }
     })
-
-
 
     setTimeout(function () {
 
@@ -275,6 +305,29 @@ function getUpcoming() {
                         try {
                             let movieDate = new Date(JSON.stringify(rest[k].release_date));
                             if (movieDate > today) {
+
+                                let readDate = new Date(rest[k].release_date);
+                                let finalMonth = readDate.getMonth() + 1;
+                                let finalDay = readDate.getDate();
+                    
+                                if (finalMonth < 10) {
+                                    finalMonth = '0' + finalMonth;
+                                } else {
+                                    finalMonth = finalMonth;
+                                }
+                    
+                                if (finalDay < 10) {
+                                    finalDay = '0' + finalDay;
+                                } else {
+                                    finalDay = finalDay;
+                                }
+                    
+                                let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+
+                                    
+                                if (finalDate == 'NaN/NaN/NaN') {
+                                    finalDate = 'No Relese Date';
+                                }
     
                                 var path = rest[k].poster_path;
                                 movieId = rest[k].id;
@@ -304,13 +357,22 @@ function getUpcoming() {
                                 var movieTitle = $('<p>', {
                                     class: 'movieTitle',
                                     text: title
-                                }).appendTo(wrapper)
+                                }).appendTo(wrapper);
+
+                                let imgDateWrapper = $('<p>', {
+                                    class: 'imgDateWrapper',
+                                }).appendTo(wrapper);
+
+                                let movieDate = $('<p>', {
+                                    class: 'movieDate',
+                                    text: finalDate
+                                }).appendTo(imgDateWrapper);
         
                                 var img = $('<img>', {
                                     class: 'movieImg',
                                     src: tmdbPathPosterPath,
                                     alt: 'movieImg',
-                                }).appendTo(wrapper);
+                                }).appendTo(imgDateWrapper);
         
                                 movieId = rest[k].id;
                             }
@@ -475,10 +537,12 @@ function getPlayingNow() {
 
             playingNow = data.results;
 
-            let playingNowHeader = $('<h2>', {
-                class: 'playingNowHeader',
-                text: 'Playing Now'
-            }).appendTo('.container');
+            if ($('.playingNowHeader').length == 0) {
+                let playingNowHeader = $('<h2>', {
+                    class: 'playingNowHeader',
+                    text: 'Playing Now'
+                }).appendTo('.container');
+            }
 
             let btnWrapper = $('<div>', {
                 class: 'btnWrapper btnWrapperPlayingNow'
@@ -511,6 +575,28 @@ function getPlayingNow() {
                     var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
                     var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
 
+                    let readDate = new Date(playingNow[i].release_date);
+                    let finalMonth = readDate.getMonth() + 1;
+                    let finalDay = readDate.getDate();
+
+                    if (finalMonth < 10) {
+                        finalMonth = '0' + finalMonth;
+                    } else {
+                        finalMonth = finalMonth;
+                    }
+
+                    if (finalDay < 10) {
+                        finalDay = '0' + finalDay;
+                    } else {
+                        finalDay = finalDay;
+                    }
+
+                    let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+
+                    if (finalDate == 'NaN/NaN/NaN') {
+                        finalDate = 'No Relese Date';
+                    }
+
                     if (path == 'undefined' || path == null) {
                         tmdbPathPosterPath = './images/stock.png';
                     }
@@ -530,13 +616,22 @@ function getPlayingNow() {
                     var movieTitle = $('<p>', {
                         class: 'movieTitle',
                         text: title
-                    }).appendTo(wrapper)
+                    }).appendTo(wrapper);
+
+                    let imgDateWrapper = $('<p>', {
+                        class: 'imgDateWrapper',
+                    }).appendTo(wrapper);
+
+                    let movieDate = $('<p>', {
+                        class: 'movieDate',
+                        text: finalDate
+                    }).appendTo(imgDateWrapper);
 
                     var img = $('<img>', {
                         class: 'movieImg',
                         alt: 'movieImg',
                         src: tmdbPathPosterPath
-                    }).appendTo(wrapper);
+                    }).appendTo(imgDateWrapper);
 
                 } catch (e) {
                     //console.log(e);
@@ -650,7 +745,6 @@ function onPlayerStateChange(event) {
 function searchMovie() {
     window.history.pushState({ "html": location.href, "pageTitle": location.href.pageTitle }, "", location.href.split("?")[0]);
 
-    $('.playingNowHeader').hide();
     $('.inputError').fadeOut(200);
     $('.noMovieError').fadeOut(500);
     var regex = /[^A-Za-z0-9]+/g;
@@ -679,19 +773,18 @@ function searchMovie() {
         $('.container').removeClass('singleMovieContainer');
         $('.logo').css('cursor', 'unset');
         $(document.activeElement).filter(':input:focus').blur();
+        
         if ($('.playingNowHeader').length == 0) {
-            // console.log('NOT EXISTS');
-
             let playingNowHeader = $('<h2>', {
                 class: 'playingNowHeader',
                 text: 'Playing Now'
             }).appendTo('.container');
-
-        } else {
-            // console.log('DOES EXISTS');
         }
+        
+        $('.playingNowHeader').hide();
         $('.playingNowHeader').html('Movies');
         $('.tvShowsHeader').remove();
+        $('.playingNowHeader').hide();
         $('.upcomingHeader').hide();
         $('.bottomSection, .tmdbCertWrapper').hide();
         $('#switchContentBtnWrapper').hide();
@@ -706,7 +799,6 @@ function searchMovie() {
         var id = setInterval(frame, 30);
         function frame() {
             width++;
-
             if (width >= 100) {
                 clearInterval(id);
                 // $('.movieWrapper').css('display', 'block');
@@ -733,52 +825,82 @@ function searchMovie() {
                 total_results = data.total_results;
                 
                 if (total_results == 0) {
-                    getPlayingNow();
-                    $('.noMovieError').fadeIn(500);
-                    $('.playingNowHeader').html('Playing Now');
-                    $('.spinner').hide();
-                }
 
-                for (var i = 0; i < total_results; i++) {
 
-                    try {
-                        var path = topTen[i].poster_path;
-                        title = topTen[i].title;
-                        movieId = topTen[i].id;
-                        movieImage = topTen[i].backdrop_path;
+                } else {
+                    for (var i = 0; i < total_results; i++) {
 
-                        var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
-                        var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
+                        try {
 
-                        if (path == 'undefined' || path == null) {
-                            tmdbPathPosterPath = './images/stock.png';
+                            let readDate = new Date(topTen[i].release_date);
+                            let finalMonth = readDate.getMonth() + 1;
+                            let finalDay = readDate.getDate();
+                
+                            if (finalMonth < 10) {
+                                finalMonth = '0' + finalMonth;
+                            } else {
+                                finalMonth = finalMonth;
+                            }
+                
+                            if (finalDay < 10) {
+                                finalDay = '0' + finalDay;
+                            } else {
+                                finalDay = finalDay;
+                            }
+                
+                            let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+
+                            if (finalDate == 'NaN/NaN/NaN') {
+                                finalDate = 'No Relese Date';
+                            }
+
+                            var path = topTen[i].poster_path;
+                            title = topTen[i].title;
+                            movieId = topTen[i].id;
+                            movieImage = topTen[i].backdrop_path;
+    
+                            var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
+                            var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
+    
+                            if (path == 'undefined' || path == null) {
+                                tmdbPathPosterPath = './images/stock.png';
+                            }
+    
+                            wrapper = $('<div>', {
+                                class: 'movieWrapper',
+                                value: movieId,
+                                backdropSrc: tmbdBackdropPath,
+                                click: function () {
+                                    movieClicked($(this)[0].attributes.value.textContent, $(this));
+                                },
+    
+                            }).appendTo($('.container'));
+    
+                            wrapper.hide();
+    
+                            var movieTitle = $('<p>', {
+                                class: 'movieTitle',
+                                text: title
+                            }).appendTo(wrapper);
+
+                            let imgDateWrapper = $('<p>', {
+                                class: 'imgDateWrapper',
+                            }).appendTo(wrapper);
+    
+                            let movieDate = $('<p>', {
+                                class: 'movieDate',
+                                text: finalDate
+                            }).appendTo(imgDateWrapper);
+    
+                            var img = $('<img>', {
+                                class: 'movieImg',
+                                src: tmdbPathPosterPath,
+                                alt: 'movieImg',
+                            }).appendTo(imgDateWrapper);
+    
+                        } catch (e) {
+                            return;
                         }
-
-                        wrapper = $('<div>', {
-                            class: 'movieWrapper',
-                            value: movieId,
-                            backdropSrc: tmbdBackdropPath,
-                            click: function () {
-                                movieClicked($(this)[0].attributes.value.textContent, $(this));
-                            },
-
-                        }).appendTo($('.container'));
-
-                        wrapper.hide();
-
-                        var movieTitle = $('<p>', {
-                            class: 'movieTitle',
-                            text: title
-                        }).appendTo(wrapper)
-
-                        var img = $('<img>', {
-                            class: 'movieImg',
-                            src: tmdbPathPosterPath,
-                            alt: 'movieImg',
-                        }).appendTo(wrapper);
-
-                    } catch (e) {
-                        return;
                     }
                 }
             },
@@ -800,50 +922,87 @@ function searchMovie() {
                     success: function (data) {
 
                         rest = data.results;
+                        
+                        if (data.total_results == 0) {
+                        } else {
+                            for (var j = 0; j < data.total_results; j++) {
 
-                        for (var j = 0; j < data.total_results; j++) {
+                                try {
 
-                            try {
-                                var path = rest[j].poster_path;
-                                movieId = rest[j].id;
-                                movieImage = rest[i].backdrop_path;
-                                title = rest[j].title;
+                                    let readDate = new Date(data.total_results[j].release_date);
+                                    let finalMonth = readDate.getMonth() + 1;
+                                    let finalDay = readDate.getDate();
+                        
+                                    if (finalMonth < 10) {
+                                        finalMonth = '0' + finalMonth;
+                                    } else {
+                                        finalMonth = finalMonth;
+                                    }
+                        
+                                    if (finalDay < 10) {
+                                        finalDay = '0' + finalDay;
+                                    } else {
+                                        finalDay = finalDay;
+                                    }
+                        
+                                    let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
 
-                                var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
-                                var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
+                                    
+                                    if (finalDate == 'NaN/NaN/NaN') {
+                                        finalDate = 'No Relese Date';
+                                    }
 
-                                if (path == 'undefined' || path == null) {
-                                    tmdbPathPosterPath = './images/stock.png';
+                                    var path = rest[j].poster_path;
+                                    movieId = rest[j].id;
+                                    movieImage = rest[i].backdrop_path;
+                                    title = rest[j].title;
+    
+                                    var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
+                                    var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
+    
+                                    if (path == 'undefined' || path == null) {
+                                        tmdbPathPosterPath = './images/stock.png';
+                                    }
+    
+                                } catch (e) {
+                                    return;
                                 }
-
-                            } catch (e) {
-                                return;
+    
+                                wrapper = $('<div>', {
+                                    class: 'movieWrapper',
+                                    value: movieId,
+                                    backdropSrc: tmbdBackdropPath,
+                                    click: function () {
+                                        movieClicked($(this)[0].attributes.value.textContent, $(this));
+                                    },
+                                }).appendTo($('.container'));
+    
+                                wrapper.hide();
+    
+                                var movieTitle = $('<p>', {
+                                    class: 'movieTitle',
+                                    text: title
+                                }).appendTo(wrapper)
+    
+                                let imgDateWrapper = $('<p>', {
+                                    class: 'imgDateWrapper',
+                                }).appendTo(wrapper);
+        
+                                let movieDate = $('<p>', {
+                                    class: 'movieDate',
+                                    text: finalDate
+                                }).appendTo(imgDateWrapper);
+            
+                                let img = $('<img>', {
+                                    class: 'movieImg',
+                                    src: tmdbPathPosterPath,
+                                    alt: 'movieImg',
+                                }).appendTo(imgDateWrapper);
+    
+                                movieId = rest[j].id;
                             }
-
-                            wrapper = $('<div>', {
-                                class: 'movieWrapper',
-                                value: movieId,
-                                backdropSrc: tmbdBackdropPath,
-                                click: function () {
-                                    movieClicked($(this)[0].attributes.value.textContent, $(this));
-                                },
-                            }).appendTo($('.container'));
-
-                            wrapper.hide();
-
-                            var movieTitle = $('<p>', {
-                                class: 'movieTitle',
-                                text: title
-                            }).appendTo(wrapper)
-
-                            var img = $('<img>', {
-                                class: 'movieImg',
-                                src: tmdbPathPosterPath,
-                                alt: 'movieImg',
-                            }).appendTo(wrapper);
-
-                            movieId = rest[j].id;
                         }
+
                     },
                     error: function (err) {
                         //console.log(err);
@@ -863,6 +1022,7 @@ function searchMovie() {
             $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
             $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
             $('.bottomSection, .tmdbCertWrapper').show();
+            $('.playingNowHeader').show();
         }, 3500)
     }
 }
@@ -907,10 +1067,8 @@ function searchTVShows(value) {
         function frame() {
 
             width++;
-
-            if (width >= 100) {
+            if (width >= 50) {
                 clearInterval(id);
-                // $('.tvShowWrapper').css('display', 'block');
                 $('.tvShowWrapper').css('display', 'flex');
                 width = 1;
             }
@@ -938,51 +1096,101 @@ function searchTVShows(value) {
                 total_pages = data.total_pages
                 total_results = data.total_results;
                 if (total_results == 0) {
-                    $('.tvShowsHeader').hide();
-                }
+                    if ($('.movieWrapper').length == 0) {
+                        getPlayingNow();
+                        $('.noMovieError').fadeIn(500);
+                        $('.spinner').hide();
+                        $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
+                        $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
+                        $('.playingNowHeader').html('Playing Now');
+                        $('.playingNowHeader').show();
+                        $('#switchContentBtnWrapper').show();
+                        $('.tvShowsHeader').hide();
+                    } else {
+                        $('.playingNowHeader').html('Movies');
+                    }
 
-                for (var i = 0; i < total_results; i++) {
+                } else {
 
-                    try {
-                        var path = topTen[i].poster_path;
-                        title = topTen[i].original_name;
-                        tvShowId = topTen[i].id;
-                        tvShowImage = topTen[i].backdrop_path;
+                    for (var i = 0; i < total_results; i++) {
 
-                        var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
-                        var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + tvShowImage;
+                        try {
+                            console.log(total_results);
+                            let readDate = new Date(topTen[i].first_air_date);
+                            console.log(readDate);
+                            let finalMonth = readDate.getMonth() + 1;
+                            let finalDay = readDate.getDate();
+                
+                            if (finalMonth < 10) {
+                                finalMonth = '0' + finalMonth;
+                            } else {
+                                finalMonth = finalMonth;
+                            }
+                
+                            if (finalDay < 10) {
+                                finalDay = '0' + finalDay;
+                            } else {
+                                finalDay = finalDay;
+                            }
+                
+                            let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+                            
+                            
+                            if (finalDate == 'NaN/NaN/NaN') {
+                                finalDate = 'No Relese Date';
+                            }
 
-                        if (path == 'undefined' || path == null) {
-                            tmdbPathPosterPath = './images/stock.png';
+                            var path = topTen[i].poster_path;
+                            title = topTen[i].original_name;
+                            tvShowId = topTen[i].id;
+                            tvShowImage = topTen[i].backdrop_path;
+    
+                            var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
+                            var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + tvShowImage;
+    
+                            if (path == 'undefined' || path == null) {
+                                tmdbPathPosterPath = './images/stock.png';
+                            }
+    
+                            wrapper = $('<div>', {
+                                class: 'tvShowWrapper',
+                                value: tvShowId,
+                                backdropSrc: tmbdBackdropPath,
+                                click: function () {
+                                    tvShowClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
+                                },
+                            }).appendTo($('.container'));
+    
+                            wrapper.hide();
+    
+                            var tvShowTitle = $('<p>', {
+                                class: 'tvShowTitle',
+                                text: title
+    
+                            }).appendTo(wrapper);
+
+                            let imgDateWrapper = $('<p>', {
+                                class: 'imgDateWrapper',
+                            }).appendTo(wrapper);
+    
+                            let movieDate = $('<p>', {
+                                class: 'movieDate',
+                                text: finalDate
+                            }).appendTo(imgDateWrapper);
+    
+                            var img = $('<img>', {
+                                class: 'tvShowImg',
+                                src: tmdbPathPosterPath,
+                                alt: 'tvShowImg',
+                            }).appendTo(imgDateWrapper);
+    
+                        } catch (e) {
+                            return;
                         }
-
-                        wrapper = $('<div>', {
-                            class: 'tvShowWrapper',
-                            value: tvShowId,
-                            backdropSrc: tmbdBackdropPath,
-                            click: function () {
-                                tvShowClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
-                            },
-                        }).appendTo($('.container'));
-
-                        wrapper.hide();
-
-                        var tvShowTitle = $('<p>', {
-                            class: 'tvShowTitle',
-                            text: title
-
-                        }).appendTo(wrapper)
-
-                        var img = $('<img>', {
-                            class: 'tvShowImg',
-                            src: tmdbPathPosterPath,
-                            alt: 'tvShowImg',
-                        }).appendTo(wrapper);
-
-                    } catch (e) {
-                        return;
                     }
                 }
+
+
             },
             error: function (err) {
                 //console.log(err);
@@ -1002,49 +1210,89 @@ function searchTVShows(value) {
                     success: function (data) {
                         rest = data.results;
 
-                        for (var j = 0; j < data.total_results; j++) {
+                        if (data.total_results == 0) {
+                            
+                        } else {
+                            for (var j = 0; j < data.total_results; j++) {
 
-                            try {
-                                var path = rest[j].poster_path;
-                                tvShowId = rest[j].id;
-                                tvShowImage = rest[i].backdrop_path;
-                                title = rest[j].original_name;
+                                try {
 
-                                var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
-                                var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + tvShowImage;
-
-                                if (path == 'undefined' || path == null) {
-                                    tmdbPathPosterPath = './images/stock.png';
+                                    let readDate = new Date(data.rest[j].first_air_date);
+                                    let finalMonth = readDate.getMonth() + 1;
+                                    let finalDay = readDate.getDate();
+                        
+                                    if (finalMonth < 10) {
+                                        finalMonth = '0' + finalMonth;
+                                    } else {
+                                        finalMonth = finalMonth;
+                                    }
+                        
+                                    if (finalDay < 10) {
+                                        finalDay = '0' + finalDay;
+                                    } else {
+                                        finalDay = finalDay;
+                                    }
+                        
+                                    let finalDate = finalMonth + '/' + finalDay + '/' + readDate.getFullYear();
+                                    
+                                    
+                                    if (finalDate == 'NaN/NaN/NaN') {
+                                        finalDate = 'No Relese Date';
+                                    }
+            
+                                    var path = rest[j].poster_path;
+                                    tvShowId = rest[j].id;
+                                    tvShowImage = rest[i].backdrop_path;
+                                    title = rest[j].original_name;
+    
+                                    var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
+                                    var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + tvShowImage;
+    
+                                    if (path == 'undefined' || path == null) {
+                                        tmdbPathPosterPath = './images/stock.png';
+                                    }
+    
+                                } catch (e) {
+                                    return;
                                 }
+    
+                                wrapper = $('<div>', {
+                                    class: 'tvShowWrapper',
+                                    value: tvShowId,
+                                    backdropSrc: tmbdBackdropPath,
+                                    click: function () {
+                                        tvShowClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
+                                    },
+                                }).appendTo($('.container'));
+    
+                                wrapper.hide();
+    
+                                var tvShowTitle = $('<p>', {
+                                    class: 'tvShowTitle',
+                                    text: title
+                                }).appendTo(wrapper);
 
-                            } catch (e) {
-                                return;
+                                
+                                let imgDateWrapper = $('<p>', {
+                                    class: 'imgDateWrapper',
+                                }).appendTo(wrapper);
+
+                                let movieDate = $('<p>', {
+                                    class: 'movieDate',
+                                    text: finalDate
+                                }).appendTo(imgDateWrapper);
+    
+                                var img = $('<img>', {
+                                    class: 'tvShowImg',
+                                    src: tmdbPathPosterPath,
+                                    alt: 'tvShowImg',
+                                }).appendTo(imgDateWrapper);
+    
+                                tvShowId = rest[j].id;
                             }
-
-                            wrapper = $('<div>', {
-                                class: 'tvShowWrapper',
-                                value: tvShowId,
-                                backdropSrc: tmbdBackdropPath,
-                                click: function () {
-                                    tvShowClicked($(this)[0].attributes.value.textContent, $(this), $(this)[0].attributes.backdropSrc.textContent);
-                                },
-                            }).appendTo($('.container'));
-
-                            wrapper.hide();
-
-                            var tvShowTitle = $('<p>', {
-                                class: 'tvShowTitle',
-                                text: title
-                            }).appendTo(wrapper)
-
-                            var img = $('<img>', {
-                                class: 'tvShowImg',
-                                src: tmdbPathPosterPath,
-                                alt: 'tvShowImg',
-                            }).appendTo(wrapper);
-
-                            tvShowId = rest[j].id;
                         }
+
+
                     },
                     error: function (err) {
                         //console.log(err);
@@ -1054,13 +1302,19 @@ function searchTVShows(value) {
         }, 500)
 
         setTimeout(function () {
-            $('.playingNowHeader').show();
-        }, 1000)
+            if ($('.movieWrapper').length == 0 && $('.tvShowWrapper').length > 0) {
+                $('.playingNowHeader').hide();
+            } else {
+                $('.playingNowHeader').show();
+            }
+        }, 2000)
 
         setTimeout(function () {
             if (total_results !== 0) {
                 $('.tvShowsHeader').show();
             }
+            $('.noMovieError').fadeOut(500);
+
         }, 2000)
 
         $('#searchMovie').val('');
@@ -1503,6 +1757,7 @@ function tvShowClicked(tvShowId, div) {
     $('.spinner').fadeIn('fast');
     $('.bottomSection').hide();
     $('.tmdbCertWrapper').hide();
+    $('.imgDateWrapper').hide();
     $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
     $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
 
@@ -1750,6 +2005,7 @@ function movieClicked(movieId, div) {
     $('.spinner').fadeIn('fast');
     $('.bottomSection').hide();
     $('.tmdbCertWrapper').hide();
+    $('.imgDateWrapper').hide();
     $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
     $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
   
