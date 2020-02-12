@@ -601,6 +601,7 @@ button:active {
     -webkit-transition: .3s;
     -moz-transition: .3s;
     -o-transition: .3s;
+    cursor: pointer;
 }
 
 .imgDateWrapper {
