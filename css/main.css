@@ -378,6 +378,7 @@ body {
     text-align: center;
     position: absolute;
     color: red;
+    top: 7.2rem;
 }
 
 .noMovieError {
@@ -386,6 +387,7 @@ body {
     position: absolute;
     text-align: center;
     color: red;
+    top: 7.2rem;
 }
 
 .container {
@@ -580,6 +582,7 @@ button:active {
 }
 
 .playingNowWrapper, .movieWrapper, .tvShowWrapper, .upcomingMovieWrapper {
+    position: relative;
     display: flex;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -598,6 +601,19 @@ button:active {
     -webkit-transition: .3s;
     -moz-transition: .3s;
     -o-transition: .3s;
+}
+
+.imgDateWrapper {
+    position: relative;
+}
+
+.movieDate {
+    position: absolute;
+    top: -2.5rem;
+    border-radius: 5px;
+    width: 100%;
+    margin: 0;
+    background-image: linear-gradient(-180deg,rgba(200, 200, 200, .3), rgba(200,200,200,.3));
 }
 
 .actorCreditsContainer {
@@ -1303,6 +1319,10 @@ button:active {
 
 @media only screen and (max-width: 600px) {
 
+    .imgDateWrapper {
+        margin: 0;
+    }
+
     .imdbImage {
         width: 400px;
         height: 200px;
@@ -1335,12 +1355,17 @@ button:active {
         width: 9rem;
     }
 
-    .playingNowWrapper > p, .movieWrapper > p, .tvShowWrapper p, .upcomingMovieWrapper p {
+    .playingNowWrapper p, .movieWrapper p, .tvShowWrapper p, .upcomingMovieWrapper p {
         font-size: 1rem;
     }
 
     .movieImg, .tvShowImg {
         height: 244px;
+    }
+
+    .playingNowWrapper .movieDate, .movieWrapper .movieDate, .tvShowWrapper .movieDate, .upcomingMovieWrapper .movieDate {
+        font-size: .7rem;
+        top: -1.2rem;
     }
 }
 
