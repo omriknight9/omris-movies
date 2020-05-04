@@ -27,18 +27,15 @@ let clickCounter = 0;
 let counter = 1;
 
 let upcoming;
-let upcoming_total_results;
+// let upcoming_total_results;
+// let upcoming_total_pages;
 let upcoming_topTen;
-let upcoming_total_pages
 
 const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
 
 let imdb = 'https://www.imdb.com/title/';
-//var baseUrl = "https://sg.media-imdb.com/suggests/";
 const baseUrl = "https://v2.sg.media-imdb.com/suggests/";
 const youtubeVideo = 'https://www.youtube.com/embed/';
-
-// var upcomingUrl = "https://api.themoviedb.org/3/movie/upcoming?api_key=" + tmdbKey + "&language=en-US&page=1";
 const upcomingUrl = "https://api.themoviedb.org/3/movie/upcoming?api_key=" + tmdbKey + "&language=en-US&page=";
 const nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + tmdbKey + "&language=en-US&page=1";
 const searchMovieUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdbKey + "&query=";
@@ -150,57 +147,58 @@ function switchContent(type) {
     }
 }
 
-function getUpcoming() {
+function getUpcomingMovies(type, times) {
+    let finalUrl;
+
+    if (type == 1) {
+        finalUrl = upcomingUrl;
+    } else {
+        finalUrl = upcomingUrl + times; 
+    }
+
     $.ajax({
         type: 'GET',
         crossDomain: true,
-        url: upcomingUrl,
+        url: finalUrl,
         dataType: "jsonp",
         ifModified: true,
         success: function (data) {
 
-            upcoming_topTen = data.results;
-            upcoming_total_pages = data.total_pages
-            upcoming_total_results = data.total_results;
-
-            // if (total_results == 0) {
-            //     getPlayingNow();
-            //     $('.noMovieError').fadeIn(500);
-            //     $('.playingNowHeader').html('Playing Now');
-            //     $('.spinnerWrapper').css('display', 'none');
-            // }
+            let param = data.results;
 
             let today = new Date();
 
-            let upcomingHeader = $('<h2>', {
-                class: 'upcomingHeader',
-                text: 'Upcoming Movies'
-            }).appendTo('.container');
+            if (type == 1) {
+                let upcomingHeader = $('<h2>', {
+                    class: 'upcomingHeader',
+                    text: 'Upcoming Movies'
+                }).appendTo('.container');
+    
+                let btnWrapper = $('<div>', {
+                    class: 'btnWrapper btnWrapperUpcoming'
+                }).appendTo('.container')
+    
+                let dateSortBtn = $('<button>', {
+                    class: 'dateSortBtn',
+                    text: 'Sort By Date',
+                    click: function() {
+                        sortMovies('releaseDate', 1, 2);
+                    }
+                }).appendTo(btnWrapper);
+    
+                let titleSortBtn = $('<button>', {
+                    class: 'titleSortBtn',
+                    text: 'Sort By Name',
+                    click: function() {
+                        sortMovies('movieTitle', 2, 2);
+                    }
+                }).appendTo(btnWrapper);
+            }
 
-            let btnWrapper = $('<div>', {
-                class: 'btnWrapper btnWrapperUpcoming'
-            }).appendTo('.container')
-
-            let dateSortBtn = $('<button>', {
-                class: 'dateSortBtn',
-                text: 'Sort By Date',
-                click: function() {
-                    sortMovies('releaseDate', 1, 2);
-                }
-            }).appendTo(btnWrapper);
-
-            let titleSortBtn = $('<button>', {
-                class: 'titleSortBtn',
-                text: 'Sort By Name',
-                click: function() {
-                    sortMovies('movieTitle', 2, 2)
-                }
-            }).appendTo(btnWrapper);
-
-            for (let i = 0; i < upcoming_topTen.length; i++) {
-                let movieDateTopTen = new Date(JSON.stringify(upcoming_topTen[i].release_date));
-
-                let readDate = new Date(upcoming_topTen[i].release_date);
+            for (let i = 0; i < param.length; i++) {
+                let movieDateTopTen = new Date(JSON.stringify(param[i].release_date));
+            
+                let readDate = new Date(param[i].release_date);
                 let finalMonth = readDate.getMonth() + 1;
                 let finalDay = readDate.getDate();
     
@@ -209,19 +207,17 @@ function getUpcoming() {
 
                 let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
 
-                
                 if (finalDate == 'NaN/NaN/NaN') {
                     finalDate = 'No Relese Date';
                 }
 
                 if (movieDateTopTen > today) {
-
                     try {
     
-                        let path = upcoming_topTen[i].poster_path;
-                        title = upcoming_topTen[i].title;
-                        movieId = upcoming_topTen[i].id;
-                        movieImage = upcoming_topTen[i].backdrop_path;
+                        let path = param[i].poster_path;
+                        title = param[i].title;
+                        movieId = param[i].id;
+                        movieImage = param[i].backdrop_path;
     
                         let tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
                         let tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
@@ -234,7 +230,7 @@ function getUpcoming() {
                             class: 'upcomingMovieWrapper',
                             value: movieId,
                             backdropSrc: tmbdBackdropPath,
-                            releaseDate: upcoming_topTen[i].release_date,
+                            releaseDate: param[i].release_date,
                             movieTitle: title,
                             click: function () {
                                 movieClicked($(this)[0].attributes.value.textContent, $(this));
@@ -242,10 +238,50 @@ function getUpcoming() {
     
                         }).appendTo($('.container'));
     
-                        let movieTitle = $('<p>', {
+                        let finalName;
+
+                        if (title.length > 40) {
+                            finalName = title.substring(40, 0) + '...';
+                            $(wrapper).addClass('longNameWrapper');
+                        } else {
+                            finalName = title;
+                        }
+
+                        var movieTitle = $('<p>', {
                             class: 'movieTitle',
-                            text: title
+                            text: finalName
                         }).appendTo(wrapper);
+
+                        if ($(wrapper).hasClass('longNameWrapper')) {
+                            $(movieTitle).addClass('longName');
+                
+                            let movieFullNameWrapper = $('<div>', {
+                                class: 'movieFullNameWrapper',
+                            }).appendTo(wrapper);
+                
+                            let movieFullName = $('<p>', {
+                                class: 'movieFullName',
+                                text: title
+                            }).appendTo(movieFullNameWrapper);
+                
+                            if ($(window).width() > 765) {
+                                $('.longName').hover(
+                                    function() {
+                                        $(this).css('opacity', '.5');
+                                        $(this).parent().find('.movieFullNameWrapper').fadeIn();
+                                    }
+                                );
+                
+                                $(wrapper).hover(
+                                    function() {
+                
+                                    }, function() {
+                                        $(this).find($('.longName')).css('opacity', '1');
+                                        $(this).find('.movieFullNameWrapper').fadeOut();
+                                    }
+                                );
+                            }   
+                        }  
 
                         let imgDateWrapper = $('<p>', {
                             class: 'imgDateWrapper',
@@ -275,102 +311,31 @@ function getUpcoming() {
             //console.log(err);
         }
     })
-
-    setTimeout(function () {
-
-        for (var j = 2; j <= 4; j++) {
-
-            $.ajax({
-                type: 'GET',
-                crossDomain: true,
-                url: upcomingUrl + j,
-                dataType: "jsonp",
-                ifModified: true,
-                success: function (data) {
-
-                    rest = data.results;
-
-                    let today = new Date();
-
-                    for (var k = 0; k < data.total_results; k++) {
-                        try {
-                            let movieDate = new Date(JSON.stringify(rest[k].release_date));
-                            if (movieDate > today) {
-
-                                let readDate = new Date(rest[k].release_date);
-                                let finalMonth = readDate.getMonth() + 1;
-                                let finalDay = readDate.getDate();
-                    
-                                changeMonthName(finalMonth - 1, 2);
-                                changeDayName(finalDay);
-            
-                                let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
-
-                                    
-                                if (finalDate == 'NaN/NaN/NaN') {
-                                    finalDate = 'No Relese Date';
-                                }
-    
-                                var path = rest[k].poster_path;
-                                movieId = rest[k].id;
-                                movieImage = rest[k].backdrop_path;
-                                title = rest[k].title;
-
-                                var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
-                                var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
-
-                                if (path == 'undefined' || path == null) {
-                                    tmdbPathPosterPath = './images/stock.png';
-                                }
-
-                                wrapper = $('<div>', {
-                                    class: 'upcomingMovieWrapper',
-                                    value: movieId,
-                                    backdropSrc: tmbdBackdropPath,
-                                    releaseDate: rest[k].release_date,
-                                    movieTitle: title,
-                                    click: function () {
-                                        movieClicked($(this)[0].attributes.value.textContent, $(this));
-                                    },
-                                }).appendTo($('.container'));
-        
-                                // wrapper.css('display', 'none');
-        
-                                var movieTitle = $('<p>', {
-                                    class: 'movieTitle',
-                                    text: title
-                                }).appendTo(wrapper);
-
-                                let imgDateWrapper = $('<p>', {
-                                    class: 'imgDateWrapper',
-                                }).appendTo(wrapper);
-
-                                let movieDate = $('<p>', {
-                                    class: 'movieDate',
-                                    text: finalDate
-                                }).appendTo(imgDateWrapper);
-        
-                                var img = $('<img>', {
-                                    class: 'movieImg',
-                                    src: tmdbPathPosterPath,
-                                    alt: 'movieImg',
-                                }).appendTo(imgDateWrapper);
-        
-                                movieId = rest[k].id;
-                            }
-                        } catch (error) {
-                            
-                        }
-                    }
-                },
-                error: function (err) {
-                    //console.log(err);
-                }
-            });
-        }
-    }, 500)
 }
 
+function getUpcoming() {
+    var promise1 = new Promise(function (resolve) {
+        resolve(getUpcomingMovies(1, 0));
+    });
+    
+    setTimeout(function() {
+        promise1.then(function () {
+            getUpcomingMovies(2, 2);
+        });
+    }, 300);
+
+    setTimeout(function() {
+        promise1.then(function () {
+            getUpcomingMovies(2, 3);
+        });
+    }, 600);
+
+    setTimeout(function() {
+        promise1.then(function () {
+            getUpcomingMovies(2, 4);
+        });
+    }, 900);
+}
 
 function showResults() {
     $(document).mouseup(function (e) {
@@ -586,10 +551,50 @@ function getPlayingNow() {
 
                     }).appendTo($('.container'));
 
+                    let finalName;
+
+                    if (title.length > 40) {
+                        finalName = title.substring(40, 0) + '...';
+                        $(wrapper).addClass('longNameWrapper');
+                    } else {
+                        finalName = title;
+                    }
+
                     var movieTitle = $('<p>', {
                         class: 'movieTitle',
-                        text: title
+                        text: finalName
                     }).appendTo(wrapper);
+
+                    if ($(wrapper).hasClass('longNameWrapper')) {
+                        $(movieTitle).addClass('longName');
+            
+                        let movieFullNameWrapper = $('<div>', {
+                            class: 'movieFullNameWrapper',
+                        }).appendTo(wrapper);
+            
+                        let movieFullName = $('<p>', {
+                            class: 'movieFullName',
+                            text: title
+                        }).appendTo(movieFullNameWrapper);
+            
+                        if ($(window).width() > 765) {
+                            $('.longName').hover(
+                                function() {
+                                    $(this).css('opacity', '.5');
+                                    $(this).parent().find('.movieFullNameWrapper').fadeIn();
+                                }
+                            );
+            
+                            $(wrapper).hover(
+                                function() {
+            
+                                }, function() {
+                                    $(this).find($('.longName')).css('opacity', '1');
+                                    $(this).find('.movieFullNameWrapper').fadeOut();
+                                }
+                            );
+                        }   
+                    } 
 
                     let imgDateWrapper = $('<p>', {
                         class: 'imgDateWrapper',
@@ -796,7 +801,7 @@ function searchMovie() {
                 topTen = data.results;
                 total_pages = data.total_pages
                 total_results = data.total_results;
-                
+   
                 if (total_results == 0) {
 
 
@@ -841,11 +846,51 @@ function searchMovie() {
                             }).appendTo($('.container'));
     
                             wrapper.hide();
-    
+
+                            let finalName;
+
+                            if (title.length > 40) {
+                                finalName = title.substring(40, 0) + '...';
+                                $(wrapper).addClass('longNameWrapper');
+                            } else {
+                                finalName = title;
+                            }
+
                             var movieTitle = $('<p>', {
                                 class: 'movieTitle',
-                                text: title
+                                text: finalName
                             }).appendTo(wrapper);
+
+                            if ($(wrapper).hasClass('longNameWrapper')) {
+                                $(movieTitle).addClass('longName');
+                    
+                                let movieFullNameWrapper = $('<div>', {
+                                    class: 'movieFullNameWrapper',
+                                }).appendTo(wrapper);
+                    
+                                let movieFullName = $('<p>', {
+                                    class: 'movieFullName',
+                                    text: title
+                                }).appendTo(movieFullNameWrapper);
+                    
+                                if ($(window).width() > 765) {
+                                    $('.longName').hover(
+                                        function() {
+                                            $(this).css('opacity', '.5');
+                                            $(this).parent().find('.movieFullNameWrapper').fadeIn();
+                                        }
+                                    );
+                    
+                                    $(wrapper).hover(
+                                        function() {
+                    
+                                        }, function() {
+                                            $(this).find($('.longName')).css('opacity', '1');
+                                            $(this).find('.movieFullNameWrapper').fadeOut();
+                                        }
+                                    );
+                                }   
+                            }               
 
                             let imgDateWrapper = $('<p>', {
                                 class: 'imgDateWrapper',
@@ -933,11 +978,51 @@ function searchMovie() {
                                 }).appendTo($('.container'));
     
                                 wrapper.hide();
+
+                                let finalName;
+
+                                if (title.length > 40) {
+                                    finalName = title.substring(40, 0) + '...';
+                                    $(wrapper).addClass('longNameWrapper');
+                                } else {
+                                    finalName = title;
+                                }
     
                                 var movieTitle = $('<p>', {
                                     class: 'movieTitle',
-                                    text: title
-                                }).appendTo(wrapper)
+                                    text: finalName
+                                }).appendTo(wrapper);
+    
+                                if ($(wrapper).hasClass('longNameWrapper')) {
+                                    $(movieTitle).addClass('longName');
+                        
+                                    let movieFullNameWrapper = $('<div>', {
+                                        class: 'movieFullNameWrapper',
+                                    }).appendTo(wrapper);
+                        
+                                    let movieFullName = $('<p>', {
+                                        class: 'movieFullName',
+                                        text: title
+                                    }).appendTo(movieFullNameWrapper);
+                        
+                                    if ($(window).width() > 765) {
+                                        $('.longName').hover(
+                                            function() {
+                                                $(this).css('opacity', '.5');
+                                                $(this).parent().find('.movieFullNameWrapper').fadeIn();
+                                            }
+                                        );
+                        
+                                        $(wrapper).hover(
+                                            function() {
+                        
+                                            }, function() {
+                                                $(this).find($('.longName')).css('opacity', '1');
+                                                $(this).find('.movieFullNameWrapper').fadeOut();
+                                            }
+                                        );
+                                    }   
+                                } 
     
                                 let imgDateWrapper = $('<p>', {
                                     class: 'imgDateWrapper',
@@ -1257,19 +1342,13 @@ function searchTVShows(value) {
 }
 
 function goHome() {
-    
     if (page !== 0) {
         $('.container').empty();
-        // $('.container, #switchContentBtnWrapper').hide();
         $('.container').removeClass('singleMovieContainer');
         switchContent(2);
         window.history.pushState({ "html": location.href, "pageTitle": location.href.pageTitle }, "", location.href.split("?")[0]);
         $('.playingNowHeader').html('Playing Now');
         page = 0;
-        // location.reload();
-        // setTimeout(function() {
-        //     $('.container, #switchContentBtnWrapper').show();
-        // }, 1000)
     }
 }
 
@@ -2496,7 +2575,6 @@ function changeMonthName(month, type) {
             }  
         }
     }
-
 }
 
 function changeDayName(day) {
