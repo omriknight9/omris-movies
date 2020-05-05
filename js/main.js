@@ -223,7 +223,7 @@ function getUpcomingMovies(type, times) {
                         let tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
     
                         if (path == 'undefined' || path == null) {
-                            tmdbPathPosterPath = './images/stock.png';
+                            tmdbPathPosterPath = './images/stock.webp';
                         }
     
                         wrapper = $('<div>', {
@@ -408,7 +408,7 @@ function showResults() {
                                 var posterUrl =
                                     "http://i.embed.ly/1/display/resize?key=798c38fecaca11e0ba1a4040d3dc5c07&url="
                                     + imdbPoster
-                                    + "&height=54&width=40&errorurl=http%3A%2F%2Flalwanivikas.github.io%2Fimdb-autocomplete%2Fimg%2Fnoimage.png&grow=true"
+                                    + "&height=54&width=40&errorurl=http%3A%2F%2Flalwanivikas.github.io%2Fimdb-autocomplete%2Fimg%2Fnoimage.webp&grow=true"
                                 poster.setAttribute('src', imdbPoster);
                             }
 
@@ -536,7 +536,7 @@ function getPlayingNow() {
                     }
 
                     if (path == 'undefined' || path == null) {
-                        tmdbPathPosterPath = './images/stock.png';
+                        tmdbPathPosterPath = './images/stock.webp';
                     }
 
                     wrapper = $('<div>', {
@@ -832,7 +832,7 @@ function searchMovie() {
                             var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
     
                             if (path == 'undefined' || path == null) {
-                                tmdbPathPosterPath = './images/stock.png';
+                                tmdbPathPosterPath = './images/stock.webp';
                             }
     
                             wrapper = $('<div>', {
@@ -961,7 +961,7 @@ function searchMovie() {
                                     var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
     
                                     if (path == 'undefined' || path == null) {
-                                        tmdbPathPosterPath = './images/stock.png';
+                                        tmdbPathPosterPath = './images/stock.webp';
                                     }
     
                                 } catch (e) {
@@ -1178,7 +1178,7 @@ function searchTVShows(value) {
                             var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + tvShowImage;
     
                             if (path == 'undefined' || path == null) {
-                                tmdbPathPosterPath = './images/stock.png';
+                                tmdbPathPosterPath = './images/stock.webp';
                             }
     
                             wrapper = $('<div>', {
@@ -1269,7 +1269,7 @@ function searchTVShows(value) {
                                     var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + tvShowImage;
     
                                     if (path == 'undefined' || path == null) {
-                                        tmdbPathPosterPath = './images/stock.png';
+                                        tmdbPathPosterPath = './images/stock.webp';
                                     }
     
                                 } catch (e) {
@@ -1378,13 +1378,13 @@ function getCredits(objectId, kind) {
 
                         switch (data.cast[i].gender) {
                             case 0:
-                                actorImgPath = './images/actor.png';
+                                actorImgPath = './images/actor.webp';
                                 break;
                             case 1:
-                                actorImgPath = './images/actress.png';
+                                actorImgPath = './images/actress.webp';
                                 break;
                             case 2:
-                                actorImgPath = './images/actor.png';
+                                actorImgPath = './images/actor.webp';
                                 break;
                         }
                     }
@@ -1446,7 +1446,7 @@ function getCredits(objectId, kind) {
                     }).appendTo(linksWrapper);
 
                     var imdbLink = $('<img>', {
-                        src: './images/imdb.png',
+                        src: './images/imdb.webp',
                         alt: 'imdbImg',
                         class: 'imdbLink',
                         id: data.cast[i].id,
@@ -1460,7 +1460,7 @@ function getCredits(objectId, kind) {
                     }).appendTo(linksWrapper);
 
                     var instagramLink = $('<img>', {
-                        src: './images/instagram.png',
+                        src: './images/instagram.webp',
                         alt: 'instagramImg',
                         class: 'instagramLink',
                         id: data.cast[i].id,
@@ -1504,7 +1504,7 @@ function getImages(objectId, kind) {
 
                 if (galleryImg == null || galleryImg == '') {
 
-                    galleryImgPath = './images/noImage.png';
+                    galleryImgPath = './images/noImage.webp';
                 } else {
                     galleryImgPath = 'https://image.tmdb.org/t/p/w500/' + galleryImg;
                 }
@@ -2175,31 +2175,30 @@ function goToMovieImdb(imdbActorId, that, name) {
 
     var actorCreditsWrapper = $('<div>', {
         class: 'actorCreditsWrapper'
-    }).appendTo(actorCreditsContainer)
+    }).appendTo(actorCreditsContainer);
 
     var actorCredits = $('<div>', {
         class: 'actorCredits'
-    }).appendTo(actorCreditsWrapper)
+    }).appendTo(actorCreditsWrapper);
 
     var closeWrapper = $('<div>', {
         class: 'closeWrapper',
-        src: './images/closeBtn.png',
-    }).appendTo(actorCreditsWrapper)
+    }).appendTo(actorCreditsWrapper);
 
     var closeBtn = $('<img>', {
         class: 'closeBtn',
-        src: './images/closeBtn.png',
+        src: './images/closeBtn.webp',
         alt: 'closeBtn',
         click: function () {
             $('.actorCreditsWrapper').remove();
             $('body').css({'opacity': '1', 'pointer-events': 'all'});
         }
-    }).appendTo(closeWrapper)
+    }).appendTo(closeWrapper);
 
     var actorCreditsName = $('<p>', {
         class: 'actorCreditsName',
         text: name + "'s Credits"
-    }).appendTo(closeWrapper)
+    }).appendTo(closeWrapper);
 
     $.ajax({
         type: 'GET',
@@ -2251,7 +2250,7 @@ function goToMovieImdb(imdbActorId, that, name) {
                 }
 
                 if (path == 'undefined' || path == null) {
-                    path = './images/stock.png';
+                    path = './images/stock.webp';
                 } else {
                     path = 'https://image.tmdb.org/t/p/w500/' + array[j].poster_path;
                 }
@@ -2354,7 +2353,7 @@ function getSimilar(objectId, kind) {
 
                     if (data.results[i].poster_path == 'undefined' || data.results[i].poster_path == null || data.results[i].poster_path == '') {
 
-                        img = './images/stock.png';
+                        img = './images/stock.webp';
                     }
 
                     var similarMovie = $('<div>', {
