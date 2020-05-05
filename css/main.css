@@ -61,7 +61,7 @@ body {
     width: 160px;
     border-radius: 100px;
     box-shadow: 0 1px 5px #4caf50;
-    background: black url("../images/movie.png") no-repeat center center;
+    background: black url("../images/movie.webp") no-repeat center center;
     background-size: contain;
     z-index: 3;
 }
@@ -484,7 +484,7 @@ h2 {
     height: 281px;
     border-radius: 5px;
     box-shadow: 0 3px 8px 3px #848484;
-    cursor: url('../images/imdb_small.png'), auto;
+    cursor: url('../images/imdb_small.webp'), auto;
 }
 
 .movieImg, .tvShowImg {
@@ -690,7 +690,7 @@ button:active {
     position: absolute;
     top: -3rem;
     left: -14%;
-    background: url(../images/titleBox.png);
+    background: url(../images/titleBox.webp);
     width: 120%;
     background-size: 100% 6rem;
     background-repeat: no-repeat;
@@ -800,7 +800,7 @@ button:active {
 }
 
 .similarMovieImg {
-    cursor: url('../images/imdb_small.png'), auto;
+    cursor: url('../images/imdb_small.webp'), auto;
 }
 
 
@@ -836,7 +836,7 @@ button:active {
     height: 212px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    cursor: url('../images/imdb_small.png'), auto;
+    cursor: url('../images/imdb_small.webp'), auto;
 }
 
 .castName > span, .actorMovie > span, .similarMovie span {
@@ -920,7 +920,7 @@ button:active {
     -webkit-transition: .3s;
     -moz-transition: .3s;
     -o-transition: .3s;
-    cursor: url('../images/cursor2.png'), auto;
+    cursor: url('../images/cursor2.webp'), auto;
 }
 
 .movieVideo {
@@ -1045,7 +1045,7 @@ button:active {
     position: absolute;
     width:25px;
     height:25px;
-    background:url(../images/closeBtn.png) no-repeat top center;
+    background:url(../images/closeBtn.webp) no-repeat top center;
     background-Size:100% auto;
     top: 1em;
     right: 1em;
