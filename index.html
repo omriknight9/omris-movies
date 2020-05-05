@@ -5,13 +5,13 @@
     <title>The Movies</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="description" content="Search Info About Movies And TV Shows">
-    <link rel="shortcut icon" type="image/x-icon" href="images/popcorn.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="images/popcorn.webp" />
     <link href="https://fonts.googleapis.com/css?family=Palanquin+Dark:600" rel="stylesheet">
-    <link href="css/main.min.css" rel="stylesheet" />
+    <link href="css/main.min.css" rel="stylesheet" defer/>
     <link href="https://fonts.googleapis.com/css?family=Kurale&display=swap" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="js/main.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous" defer></script>
+    <script src="js/main.min.js" defer></script>
 
     <!-- Hotjar Tracking Code for https://omriknight9.github.io/omris-movies/ -->
     <script>
@@ -41,16 +41,16 @@
             <div class="logo" onclick="goHome()"></div>
         </div>
         <div class="imgWrapper">
-            <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImg" src="images/tmdb.png" alt="Tmdb Img" /></a>
+            <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImg" src="images/tmdb.webp" alt="Tmdb Img" /></a>
         </div>
     </div>
 
     <div class="spidermanWrapper">
-        <img class="spiderman" src="images/spiderman.png" alt="" />
+        <img class="spiderman" src="images/spiderman.webp" alt="spiderman" />
     </div>
 
     <div class="ironmanWrapper">
-        <img class="ironman" src="images/ironman.png" alt="" />
+        <img class="ironman" src="images/ironman.webp" alt="ironman" />
     </div>
 
     <div id="searchBox">
@@ -60,7 +60,7 @@
                 <span class="focus-border"></span>
                 <p class="inputError">Input Is Empty</p>
                 <p class="noMovieError">No movies Or TV Shows Were Found</p>
-                <img src="images/search.png" alt="search" id="searchImg" onclick="searchMovie();" />
+                <img src="images/search.webp" alt="search" id="searchImg" onclick="searchMovie();" />
                 
             </div>
 
@@ -83,23 +83,23 @@
 
     <div class="bottomSection">
         <div class="captainmarvelWrapper">
-            <img class="captainmarvel" src="images/captainmarvel.png" alt="" />
+            <img class="captainmarvel" src="images/captainmarvel.webp" alt="captain marvel" />
         </div>
         <footer class="footer">
             <div class="boardWrapper">
-                <img class="board" src="images/board2.png" alt="" />
+                <img class="board" src="images/board2.webp" alt="board" />
             </div>
 
             <div class="contactWrapper">
                 <div class="contact">
                     <a href="https://www.linkedin.com/in/omri-shalev-8b3515119/" target="_blank" rel="noopener">
-                        <img class="footerImg" src="images/linkedin.png" alt="linkedin img" />
+                        <img class="footerImg" src="images/linkedin.webp" alt="linkedin" />
                     </a>
                     <a href="https://www.facebook.com/omri.shalev.31" target="_blank" rel="noopener">
-                        <img class="footerImg" src="images/facebook.png" alt="facebook img" />
+                        <img class="footerImg" src="images/facebook.webp" alt="facebook" />
                     </a>
                     <a href="https://github.com/omriknight9" target="_blank" rel="noopener">
-                        <img class="footerImg" src="images/github.png" alt="github img" rel="noopener" />
+                        <img class="footerImg" src="images/github.webp" alt="github" rel="noopener" />
                     </a>
                 </div>
             </div>
@@ -108,9 +108,9 @@
 
     <div class="tmdbCertWrapper">
         <p id="tmdbCert">This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
-        <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImgFooter" src="images/tmdb.png" alt="Tmdb Img" /></a>
+        <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImgFooter" src="images/tmdb.webp" alt="Tmdb" /></a>
     </div>
-    <img src="images/upBtn.png" alt="up arrow" class="goToTopBtn" onclick="goToTop()" />
+    <img src="images/upBtn.webp" alt="up arrow" class="goToTopBtn" onclick="goToTop()" />
 
     <!-----------------Popups--------------->
 
