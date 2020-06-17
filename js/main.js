@@ -1567,6 +1567,7 @@ function getVideos(objectId, kind) {
 
 function getObjectInfo(objectId, kind, titleToSend) {
 
+    arr = [];
     var inputVal2;
     var url;
     var tmdbUrl;
