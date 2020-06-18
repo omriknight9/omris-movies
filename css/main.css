@@ -207,13 +207,18 @@ body {
 
 .imgWrapper {
     position: absolute;
-    top: -103px;
-    left: -75px;
+    top: -2rem;
+    left: -4rem;
     transform: scale(.3);
     -webkit-transform: scale(.3);
     -moz-transform: scale(.3);
     -ms-transform: scale(.3);
     -o-transform: scale(.3);
+}
+
+#tmdbImg {
+    width: 250px;
+    height: 150px;
 }
 
 .header > h1 {
@@ -961,7 +966,7 @@ button:active {
 
 #tmdbImgFooter {
     margin-left: 1rem;
-    width: 50px;
+    width: 70px;
     height: 50px;
 }
 
@@ -1201,13 +1206,13 @@ button:active {
     }
 
     .imgWrapper {
-        top: -115px;
-        left: -109px;
-        transform: scale(.2);
-        -webkit-transform: scale(.2);
-        -moz-transform: scale(.2);
-        -ms-transform: scale(.2);
-        -o-transform: scale(.2);
+        top: -1rem;
+        left: -3rem;
+    }
+
+    #tmdbImg {
+        width: 200px;
+        height: 100px;
     }
 
     .spiderman {
