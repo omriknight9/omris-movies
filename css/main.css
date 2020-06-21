@@ -171,13 +171,15 @@ body {
 
 .goToTopBtn {
     display: none;
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
     cursor: pointer;
     position: fixed;
-    bottom: 6rem;
+    bottom: 4rem;
     right: 1.5rem;
     z-index: 999;
+    border-radius: 100%;
+    filter: drop-shadow(0 1px 4px rgba(200, 200, 200, 0.8));
 }
 
 .ironmanWrapper {
@@ -207,7 +209,7 @@ body {
 
 .imgWrapper {
     position: absolute;
-    top: -2rem;
+    top: -2.5rem;
     left: -4rem;
     transform: scale(.3);
     -webkit-transform: scale(.3);
@@ -218,7 +220,7 @@ body {
 
 #tmdbImg {
     width: 250px;
-    height: 150px;
+    height: 170px;
 }
 
 .header > h1 {
@@ -967,7 +969,7 @@ button:active {
 #tmdbImgFooter {
     margin-left: 1rem;
     width: 70px;
-    height: 50px;
+    height: 45px;
 }
 
 .footerImg {
@@ -1206,13 +1208,13 @@ button:active {
     }
 
     .imgWrapper {
-        top: -1rem;
+        top: -2.2rem;
         left: -3rem;
     }
 
     #tmdbImg {
         width: 200px;
-        height: 100px;
+        height: 150px;
     }
 
     .spiderman {
@@ -1548,6 +1550,10 @@ button:active {
     
     .movieImg {
         height: 190px;
+    }
+
+    #tmdbCert {
+        font-size: .9rem;
     }
 }
 
