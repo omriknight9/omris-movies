@@ -196,20 +196,23 @@ function getUpcomingMovies(type, times) {
             }
 
             for (let i = 0; i < param.length; i++) {
-                let movieDateTopTen = new Date(JSON.stringify(param[i].release_date));
-            
-                let readDate = new Date(param[i].release_date);
-                let finalMonth = readDate.getMonth() + 1;
-                let finalDay = readDate.getDate();
-    
-                changeMonthName(finalMonth - 1, 2);
-                changeDayName(finalDay);
 
-                let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
+                let finalDate;
 
-                if (finalDate == 'NaN/NaN/NaN') {
-                    finalDate = 'No Relese Date';
+                if (param[i].release_date == '') {
+                    finalDate = 'No Release Date';
+                } else {
+                    let readDate = new Date(param[i].release_date);
+                    let finalMonth = readDate.getMonth() + 1;
+                    let finalDay = readDate.getDate();
+        
+                    changeMonthName(finalMonth - 1, 2);
+                    changeDayName(finalDay);
+
+                    finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear(); 
                 }
+
+                let movieDateTopTen = new Date(JSON.stringify(param[i].release_date));
 
                 if (movieDateTopTen > today) {
                     try {
@@ -410,12 +413,17 @@ function showResults() {
                                     + imdbPoster
                                     + "&height=54&width=40&errorurl=http%3A%2F%2Flalwanivikas.github.io%2Fimdb-autocomplete%2Fimg%2Fnoimage.webp&grow=true"
                                 poster.setAttribute('src', imdbPoster);
+                            } else {
+                                var posterUrl = './images/noImage.webp';
+                                poster.setAttribute('src', posterUrl);
                             }
 
                             var description = document.createElement('div');
                             description.setAttribute('class', 'description');
                             var name = document.createElement('h4');
                             var snippet = document.createElement('h5');
+                            $(resultRow).append(posterWrapper);
+                            $(posterWrapper).append(poster);
 
                             if (category === "tt" && result.d[i].y) {
                                 name.innerHTML = result.d[i].l + " (" + result.d[i].y + ")";
@@ -426,8 +434,7 @@ function showResults() {
 
                             $(description).append(name);
                             $(description).append(snippet);
-                            $(resultRow).append(posterWrapper);
-                            $(posterWrapper).append(poster);
+
                             $(resultRow).append(description);
                             $('.results').append(resultRow);
                         }
@@ -522,17 +529,20 @@ function getPlayingNow() {
                     var tmdbPathPosterPath = 'https://image.tmdb.org/t/p/w500' + path;
                     var tmbdBackdropPath = 'https://image.tmdb.org/t/p/w500' + movieImage;
 
-                    let readDate = new Date(playingNow[i].release_date);
-                    let finalMonth = readDate.getMonth() + 1;
-                    let finalDay = readDate.getDate();
 
-                    changeMonthName(finalMonth - 1, 2);
-                    changeDayName(finalDay);
+                    let finalDate;
 
-                    let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
-
-                    if (finalDate == 'NaN/NaN/NaN') {
-                        finalDate = 'No Relese Date';
+                    if (playingNow[i].release_date == '') {
+                        finalDate = 'No Release Date';
+                    } else {
+                        let readDate = new Date(playingNow[i].release_date);
+                        let finalMonth = readDate.getMonth() + 1;
+                        let finalDay = readDate.getDate();
+            
+                        changeMonthName(finalMonth - 1, 2);
+                        changeDayName(finalDay);
+    
+                        finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear(); 
                     }
 
                     if (path == 'undefined' || path == null) {
@@ -810,17 +820,19 @@ function searchMovie() {
 
                         try {
 
-                            let readDate = new Date(topTen[i].release_date);
-                            let finalMonth = readDate.getMonth() + 1;
-                            let finalDay = readDate.getDate();
-                
-                            changeMonthName(finalMonth - 1, 2);
-                            changeDayName(finalDay);
-        
-                            let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
+                            let finalDate;
 
-                            if (finalDate == 'NaN/NaN/NaN') {
-                                finalDate = 'No Relese Date';
+                            if (topTen[i].release_date == '') {
+                                finalDate = 'No Release Date';
+                            } else {
+                                let readDate = new Date(topTen[i].release_date);
+                                let finalMonth = readDate.getMonth() + 1;
+                                let finalDay = readDate.getDate();
+                    
+                                changeMonthName(finalMonth - 1, 2);
+                                changeDayName(finalDay);
+            
+                                finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear(); 
                             }
 
                             var path = topTen[i].poster_path;
@@ -938,18 +950,19 @@ function searchMovie() {
 
                                 try {
 
-                                    let readDate = new Date(data.total_results[j].release_date);
-                                    let finalMonth = readDate.getMonth() + 1;
-                                    let finalDay = readDate.getDate();
-                        
-                                    changeMonthName(finalMonth - 1, 2);
-                                    changeDayName(finalDay);
-                
-                                    let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
+                                    let finalDate;
 
-                                    
-                                    if (finalDate == 'NaN/NaN/NaN') {
-                                        finalDate = 'No Relese Date';
+                                    if (data.total_results[j].release_date == '') {
+                                        finalDate = 'No Release Date';
+                                    } else {
+                                        let readDate = new Date(data.total_results[j].release_date);
+                                        let finalMonth = readDate.getMonth() + 1;
+                                        let finalDay = readDate.getDate();
+                            
+                                        changeMonthName(finalMonth - 1, 2);
+                                        changeDayName(finalDay);
+                    
+                                        finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear(); 
                                     }
 
                                     var path = rest[j].poster_path;
@@ -1155,18 +1168,20 @@ function searchTVShows(value) {
                     for (var i = 0; i < total_results; i++) {
 
                         try {
-                            let readDate = new Date(topTen[i].first_air_date);
-                            let finalMonth = readDate.getMonth() + 1;
-                            let finalDay = readDate.getDate();
-                
-                            changeMonthName(finalMonth - 1, 2);
-                            changeDayName(finalDay);
-        
-                            let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
                             
-                            
-                            if (finalDate == 'NaN/NaN/NaN') {
-                                finalDate = 'No Relese Date';
+                            let finalDate;
+
+                            if (topTen[i].first_air_date == '') {
+                                finalDate = 'No Release Date';
+                            } else {
+                                let readDate = new Date(topTen[i].first_air_date);
+                                let finalMonth = readDate.getMonth() + 1;
+                                let finalDay = readDate.getDate();
+                    
+                                changeMonthName(finalMonth - 1, 2);
+                                changeDayName(finalDay);
+            
+                                finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear(); 
                             }
 
                             var path = topTen[i].poster_path;
@@ -1246,18 +1261,19 @@ function searchTVShows(value) {
 
                                 try {
 
-                                    let readDate = new Date(data.rest[j].first_air_date);
-                                    let finalMonth = readDate.getMonth() + 1;
-                                    let finalDay = readDate.getDate();
-                        
-                                    changeMonthName(finalMonth - 1, 2);
-                                    changeDayName(finalDay);
-                
-                                    let finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear();
-                                    
-                                    
-                                    if (finalDate == 'NaN/NaN/NaN') {
-                                        finalDate = 'No Relese Date';
+                                    let finalDate;
+
+                                    if (data.rest[j].first_air_date == '') {
+                                        finalDate = 'No Release Date';
+                                    } else {
+                                        let readDate = new Date(data.rest[j].first_air_date);
+                                        let finalMonth = readDate.getMonth() + 1;
+                                        let finalDay = readDate.getDate();
+                            
+                                        changeMonthName(finalMonth - 1, 2);
+                                        changeDayName(finalDay);
+                    
+                                        finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear(); 
                                     }
             
                                     var path = rest[j].poster_path;
@@ -1672,14 +1688,17 @@ function getObjectInfo(objectId, kind, titleToSend) {
                 alt: 'imdbImage',
             }).appendTo(imdbLink);
 
-            var descriptionWrapper = $('<div>', {
-                class: 'descriptionWrapper',
-            }).appendTo(detailsWrapper);
+            if (data.overview !== '') {
 
-            var description = $('<p>', {
-                class: 'objectDescription',
-                text: data.overview,
-            }).appendTo(descriptionWrapper);
+                var descriptionWrapper = $('<div>', {
+                    class: 'descriptionWrapper',
+                }).appendTo(detailsWrapper);
+
+                var description = $('<p>', {
+                    class: 'objectDescription',
+                    text: data.overview,
+                }).appendTo(descriptionWrapper);
+            }
 
             var objectDetails = $('<div>', {
                 class: 'objectDetails',
@@ -1709,10 +1728,12 @@ function getObjectInfo(objectId, kind, titleToSend) {
                 }).appendTo(objectDetails);
             }
 
-            var releaseDate = $('<p>', {
-                class: 'releaseDate',
-                text: 'Release Date: ' + monthName + ' ' + dayName + ' ' + year,
-            }).appendTo(objectDetails);
+            if (data.release_date !== '') {
+                var releaseDate = $('<p>', {
+                    class: 'releaseDate',
+                    text: 'Release Date: ' + monthName + ' ' + dayName + ' ' + year,
+                }).appendTo(objectDetails);
+            }
 
             var objectGenreWrapper = $('<div>', {
                 class: 'objectGenreWrapper',
