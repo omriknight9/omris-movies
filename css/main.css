@@ -310,21 +310,22 @@ body {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     justify-content: space-around;
+    align-items: center;
     border-bottom: 1.3px solid #4caf50;
 }
 
 .resultRow .description {
     width: 70%;
+    text-align: center;
+}
+
+.resultRow .description p {
+    font-weight: 600;
 }
 
 .posterWrapper {
-    width: 25%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-
-.resultRow h5 {
-    margin-bottom: 1rem;
+    padding-top: 4rem;
+    padding-bottom: 3rem;
 }
 
 .poster {
@@ -499,7 +500,14 @@ h2 {
     height: 320px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    box-shadow: 0 3px 3px #848484;
+    clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+    -ms-clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+    -o-clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+    -webkit-clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+}
+
+.imgDateWrapper {
+    filter: drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
 }
 
 .descriptionWrapper {
