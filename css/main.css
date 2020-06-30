@@ -1,13 +1,15 @@
 
-body {
+html, body {
+    position: relative;
     font-family: 'Kurale', sans-serif;
     font-weight: 500;
-    background-color: white;
-    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
     margin: 0;
+    background-color: white;
     -webkit-appearance: none;
     -webkit-tap-highlight-color: transparent;
-    overflow-x: hidden;
 }
 
 ::-webkit-scrollbar-track {
@@ -325,7 +327,7 @@ h2 {
 .spinnerWrapper {
     position: absolute;
     width: 100%;
-    top: 7rem;
+    top: 12rem;
 }
 
 .spinner {
@@ -416,8 +418,8 @@ h2 {
     width: 100%;
 }
 
-.chosenMovie > p {
-    margin-top: 4rem;
+#chosenMovieTitle {
+    margin-top: 2rem;
     font-size: 2rem;
 }
 
@@ -828,6 +830,7 @@ button:active {
 .bottomSection {
     width: 100%;
     margin-top: 30rem;
+    margin-bottom: 6rem;
     position: relative;
 }
 
@@ -899,6 +902,7 @@ button:active {
 
 .tmdbCertWrapper {
     position: absolute;
+    bottom: 0;
     display: flex;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -1378,12 +1382,11 @@ button:active {
     
     .container {
         margin: 0;
-        margin-top: -7rem !important;
+        margin-top: -7rem;
     }
 
     .singleMovieContainer {
         margin: 0 2rem 34rem 2rem;
-        margin-top: -2rem !important;
     }
 }
 
