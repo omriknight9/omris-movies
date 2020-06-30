@@ -54,8 +54,10 @@ $(document).ready(function () {
         nameToSend = nameToSend.split('%20').join(' ');
         fromMovieSite = true;
         fromOtherSite(valToSend, nameToSend.toString(), 1);
+        $('html').css('overflow-y', 'unset');  
     } else {
         getPlayingNow();
+        $('html').css('overflow-y', 'unset');  
     }
 
     page = 0;
@@ -94,12 +96,11 @@ $(document).ready(function () {
 function switchContent(type) {
     $('.chosenMovieSection').empty();
     $('#chosenMovieTitle').remove();
-    $('.container, #switchContentBtnWrapper').hide();
+    $('.container, #switchContentBtnWrapper, .bottomSection').hide();
     $('.spinner').fadeIn('fast');
     $('body').css('pointer-events', 'none');
-    $('.bottomSection, .tmdbCertWrapper').hide();
-    $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
-    $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, #switchContentBtnWrapper, .headerWrapper').css('opacity', '.5');
+    // $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
+    $('body').css('opacity', '.5');
 
     if (type == 1) {
         getUpcoming();
@@ -110,8 +111,8 @@ function switchContent(type) {
             $('.spinner').hide();
             $('body').css('pointer-events', 'all');
             $('.container, #switchContentBtnWrapper').show();
-            $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, #switchContentBtnWrapper, .headerWrapper').css('opacity', '1');
-            $('.bottomSection, .tmdbCertWrapper').show();
+            $('body').css('opacity', '1');
+            $('.bottomSection').show();
         }, 1000);
     } else {
         getPlayingNow();
@@ -122,9 +123,8 @@ function switchContent(type) {
             $('.spinner').hide();
             $('body').css('pointer-events', 'all');
             $('.container, #switchContentBtnWrapper').show();
-            $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
-            $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, #switchContentBtnWrapper, .headerWrapper').css('opacity', '1');
-            $('.bottomSection, .tmdbCertWrapper').show();
+            $('body').css('opacity', '1');
+            $('.bottomSection').show();
         }, 1000);
     }
 }
@@ -718,8 +718,8 @@ function goHome() {
         $('#chosenMovieTitle').remove();
         $('.chosenMovie').hide();
         $('.container').removeClass('singleMovieContainer');
-        // $('.results').fadeOut('fast');
         $('#searchMovie').val('');
+        $('.logo').css('cursor', 'auto');
         switchContent(2);
         window.history.pushState({ "html": location.href, "pageTitle": location.href.pageTitle }, "", location.href.split("?")[0]);
         page = 0;
@@ -779,11 +779,13 @@ function getObjectInfo(objectId, movieTitle, kind) {
                 date = new Date(tvShowReleaseDate);
             }
 
+            var finalImg;
+
             if (objectImage == null) {
                 finalImg = data.poster_path;
                 setTimeout(function () {
                     $('.imdbImage').css('width', '200px');
-                }, 1500)
+                }, 1500);
             } else {
                 finalImg = objectImage;
             }
@@ -791,7 +793,7 @@ function getObjectInfo(objectId, movieTitle, kind) {
             var month = date.getMonth();
             var year = date.getFullYear();
             var day = date.getDate();
-            var finalImg;
+
 
             changeMonthName(month, 1);
             changeDayName(day);
@@ -1160,15 +1162,12 @@ function characterClick(movieId, movieName) {
 async function fromOtherSite(id, name, type) {
     $('body').css('pointer-events', 'none');
     $('.container').addClass('singleMovieContainer');
-    $('.container').hide();
+    $('.container, .bottomSection').hide();
     $('.spinner').fadeIn('fast');
-    $('.bottomSection').hide();
-    $('.tmdbCertWrapper').hide();
     $('#switchContentBtnWrapper').hide();
     $('.movieWrapper').remove();
     $('.movieImg').remove();
-    $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
-    $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
+    $('body').css('opacity', '.5');
 
     var title = $('<p>', {
         text: name,
@@ -1182,13 +1181,11 @@ async function fromOtherSite(id, name, type) {
         width++;
         if (width >= 100) {
             clearInterval(id2);
-            $('.bottomSection').show();
-            $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
-            $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
+            $('body').css('opacity', '1');
             $('.container').fadeIn('slow');
-            $('.tmdbCertWrapper').css('display', 'flex');
             $('.movieWrapper').css('display', 'flex');
             $('.chosenMovie').fadeIn('slow');
+            $('.bottomSection').show();
             width = 1;
         }
     }
@@ -1235,11 +1232,8 @@ async function objectClicked(id, movieTitle, type) {
     $('body').css('pointer-events', 'none');
     $('.container').addClass('singleMovieContainer');
     $('.spinner').fadeIn('fast');
-    $('.bottomSection').hide();
-    $('.tmdbCertWrapper').hide();
-    $('.imgDateWrapper').hide();
-    $('.spinnerWrapper').css({'position': 'unset', 'margin-top': '2rem', 'margin-bottom': '2rem'});
-    $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '.5');
+    $('.imgDateWrapper, .bottomSection').hide();
+    $('body').css('opacity', '.5');
     $('#searchMovie').val('');
 
     var title = $('<p>', {
@@ -1251,12 +1245,8 @@ async function objectClicked(id, movieTitle, type) {
     $('.btnWrapper').hide();
     $('.playingNowWrapper').remove();
     $('.upcomingMovieWrapper').remove();
-
     $('.movieWrapper').remove();
-
-
     $('.movieImg').remove();
- 
 
     var width = 1;
     var id2 = setInterval(frame, 30);
@@ -1265,10 +1255,8 @@ async function objectClicked(id, movieTitle, type) {
         width++;
         if (width >= 100) {
             clearInterval(id2);
+            $('body').css('opacity', '1');
             $('.bottomSection').show();
-            $('.tmdbCertWrapper').css('display', 'flex');
-            $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
-            $('.inputWrapper, .spidermanWrapper, .ironmanWrapper, .container, .headerWrapper').css('opacity', '1');
             $('.chosenMovie').fadeIn('slow');
             width = 1;
         }
@@ -1309,8 +1297,8 @@ async function objectClicked(id, movieTitle, type) {
     setTimeout(function () {
         $('body').css('pointer-events', 'all');
         $('.spinner').hide();
-        $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
-    }, 3500)
+        // $('.spinnerWrapper').css({'position': 'absolute', 'margin-top': 'unset', 'margin-bottom': 'unset'});
+    }, 3500);
 }
 
 function goToActorImdb(imdbActorId, that, linkNum) {
