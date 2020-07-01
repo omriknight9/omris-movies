@@ -200,7 +200,26 @@ function getUpcomingMovies(type, times) {
 
                 if (movieDateTopTen > today) {
                     try {
-    
+
+
+                        
+
+                        param[i].vote_average = JSON.stringify(param[i].vote_average);
+
+                        let finalVoteText;
+
+                        if ((param[i].vote_average.length == 1 && param[i].vote_average !== '0') || param[i].vote_average == '10') {
+                            finalVoteText = param[i].vote_average + '0'
+                        } else {
+                            finalVoteText = param[i].vote_average;
+                        }
+
+                        finalVoteText = finalVoteText.replace('.', '') + '%';
+                        
+                        if (finalVoteText == '0%' && movieDateTopTen > today) {
+                            finalVoteText = 'TBD';
+                        }
+
                         let path = param[i].poster_path;
                         title = param[i].title;
                         movieId = param[i].id;
@@ -270,9 +289,23 @@ function getUpcomingMovies(type, times) {
                             }   
                         }  
 
-                        let imgDateWrapper = $('<p>', {
+                        let imgDateWrapper = $('<div>', {
                             class: 'imgDateWrapper',
                         }).appendTo(wrapper);
+
+                        if (finalVoteText !== 'TBD') {
+                            
+                            let starImg = $('<img>', {
+                                class: 'starImg',
+                                alt: 'star',
+                                src: './images/star.webp'
+                            }).appendTo(imgDateWrapper);
+
+                            let vote = $('<span>', {
+                                class: 'vote',
+                                text: finalVoteText
+                            }).appendTo(imgDateWrapper);
+                        }
 
                         let movieDate = $('<p>', {
                             class: 'movieDate',
@@ -347,6 +380,8 @@ function showResults() {
                 jsonp: false,
                 success: function (result) {
 
+                    let todayDate = new Date();
+
                     if (result == 'undefind' || result == null) {
                         return;
                     }
@@ -386,6 +421,30 @@ function showResults() {
                             changeDayName(finalDay);
         
                             finalDate = monthName + ' ' + dayName + ' ' + readDate.getFullYear(); 
+
+                            let finalReleaseDate;
+
+                            if (result.results[i].media_type == 'tv') {
+                                finalReleaseDate = result.results[i].first_air_date;
+                            } else if (result.results[i].media_type == 'movie') {
+                                finalReleaseDate = result.results[i].release_date;
+                            }
+    
+                            result.results[i].vote_average = JSON.stringify(result.results[i].vote_average);
+
+                            let finalVoteText;
+        
+                            if ((result.results[i].vote_average.length == 1 && result.results[i].vote_average !== '0') || result.results[i].vote_average == '10') {
+                                finalVoteText = result.results[i].vote_average + '0'
+                            } else {
+                                finalVoteText = result.results[i].vote_average;
+                            }
+        
+                            finalVoteText = finalVoteText.replace('.', '') + '%';
+                            
+                            if (finalVoteText == '0%' && JSON.stringify(finalReleaseDate > todayDate)) {
+                                finalVoteText = 'TBD';
+                            }
     
                             let posterUrl;
     
@@ -436,6 +495,21 @@ function showResults() {
                                 class: 'resultMovieTitle',
                                 text: finalTitle
                             }).appendTo(movieDescription);
+
+                            
+                            if (finalVoteText !== 'TBD') {
+                            
+                                let searchStarImg = $('<img>', {
+                                    class: 'searchStarImg',
+                                    alt: 'star',
+                                    src: './images/star.webp'
+                                }).appendTo(resultWrapper);
+        
+                                let searchVote = $('<span>', {
+                                    class: 'searchVote',
+                                    text: finalVoteText
+                                }).appendTo(resultWrapper);
+                            }
     
                             if ((result.results[i].release_date !== null && result.results[i].release_date !== 'undefined' && result.results[i].release_date !== undefined &&
                             result.results[i].release_date !== '') || (result.results[i].first_air_date !== null && result.results[i].first_air_date !== 'undefined' &&
@@ -501,6 +575,7 @@ function getPlayingNow() {
         ifModified: true,
         success: function (data) {
 
+            let todayDate = new Date();
             playingNow = data.results;
             $('.btnWrapperUpcoming').remove();
 
@@ -529,6 +604,23 @@ function getPlayingNow() {
             for (var i = 0; i < data.results.length; i++) {
 
                 try {
+
+                    playingNow[i].vote_average = JSON.stringify(playingNow[i].vote_average);
+
+                    let finalVoteText;
+
+                    if ((playingNow[i].vote_average.length == 1 && playingNow[i].vote_average !== '0') || playingNow[i].vote_average == '10') {
+                        finalVoteText = playingNow[i].vote_average + '0'
+                    } else {
+                        finalVoteText = playingNow[i].vote_average;
+                    }
+
+                    finalVoteText = finalVoteText.replace('.', '') + '%';
+                    
+                    if (finalVoteText == '0%' && JSON.stringify(playingNow[i].release_date > todayDate)) {
+                        finalVoteText = 'TBD';
+                    }
+
                     var path = playingNow[i].poster_path;
 
                     title = playingNow[i].title;
@@ -613,9 +705,23 @@ function getPlayingNow() {
                         }   
                     } 
 
-                    let imgDateWrapper = $('<p>', {
+                    let imgDateWrapper = $('<div>', {
                         class: 'imgDateWrapper',
                     }).appendTo(wrapper);
+
+                    if (finalVoteText !== 'TBD') {
+                            
+                        let starImg = $('<img>', {
+                            class: 'starImg',
+                            alt: 'star',
+                            src: './images/star.webp'
+                        }).appendTo(imgDateWrapper);
+
+                        let vote = $('<span>', {
+                            class: 'vote',
+                            text: finalVoteText
+                        }).appendTo(imgDateWrapper);
+                    }
 
                     let movieDate = $('<p>', {
                         class: 'movieDate',
@@ -1165,7 +1271,7 @@ async function fromOtherSite(id, name, type) {
     $('.container, .bottomSection').hide();
     $('.spinner').fadeIn('fast');
     $('#switchContentBtnWrapper').hide();
-    $('.movieWrapper').remove();
+    // $('.movieWrapper').remove();
     $('.movieImg').remove();
     $('body').css('opacity', '.5');
 
@@ -1183,7 +1289,7 @@ async function fromOtherSite(id, name, type) {
             clearInterval(id2);
             $('body').css('opacity', '1');
             $('.container').fadeIn('slow');
-            $('.movieWrapper').css('display', 'flex');
+            // $('.movieWrapper').css('display', 'flex');
             $('.chosenMovie').fadeIn('slow');
             $('.bottomSection').show();
             width = 1;
@@ -1245,7 +1351,7 @@ async function objectClicked(id, movieTitle, type) {
     $('.btnWrapper').hide();
     $('.playingNowWrapper').remove();
     $('.upcomingMovieWrapper').remove();
-    $('.movieWrapper').remove();
+    // $('.movieWrapper').remove();
     $('.movieImg').remove();
 
     var width = 1;
