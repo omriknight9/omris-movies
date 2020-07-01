@@ -248,6 +248,17 @@ html, body {
     font-weight: 600;
 }
 
+.searchStarImg {
+    width: 70px;
+}
+
+.searchVote {
+    position: absolute;
+    right: 3rem;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
 .posterWrapper {
     padding-top: 4rem;
     padding-bottom: 3rem;
@@ -412,6 +423,24 @@ h2 {
     filter: drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
 }
 
+.starImg {
+    width: 70px;
+    position: absolute;
+    top: 0;
+    right: .5rem;
+    z-index: 1;
+    filter: drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
+}
+
+.vote {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 1;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
 .chosenMovie {
     display: none;
     text-align: center;
@@ -487,7 +516,7 @@ button:active {
     -o-transform: translateY(4px);
 }
 
-.playingNowWrapper, .upcomingMovieWrapper, .movieWrapper {
+.playingNowWrapper, .upcomingMovieWrapper {
     position: relative;
     display: flex;
     box-sizing: border-box;
@@ -520,8 +549,14 @@ button:active {
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     width: 100.01%;
+    font-size: 1.5rem;
     margin: 0;
     background-image: linear-gradient(-180deg,rgba(200, 200, 200, .3), rgba(200,200,200,.3));
+}
+
+.movieTitle {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
 }
 
 .actorCreditsContainer {
@@ -587,12 +622,6 @@ button:active {
     border-radius: 5px;
 }
 
-.playingNowWrapper > p, .upcomingMovieWrapper p, .movieWrapper > p {
-    width: 100%;
-    font-size: 1.5rem;
-    text-align: center;
-}
-
 .movieFullNameWrapper {
     display: none;
     position: absolute;
@@ -616,7 +645,7 @@ button:active {
     margin-right: auto;
 }
 
-.playingNowWrapper > .movieImg, .upcomingMovieWrapper > .movieImg, .movieWrapper > .movieImg {
+.playingNowWrapper > .movieImg, .upcomingMovieWrapper > .movieImg {
     cursor: pointer;
 }
 
@@ -1006,7 +1035,7 @@ button:active {
 
 @media only screen and (max-width: 1040px) {
 
-    .inputColumn {
+    .inputColumn, .results {
         width: 40%;
     }
 
@@ -1059,14 +1088,6 @@ button:active {
     }
 
     .upcomingMovieWrapper:hover {
-        transform: scale(1.1);
-        -webkit-transform: scale(1.1);
-        -moz-transform: scale(1.1);
-        -ms-transform: scale(1.1);
-        -o-transform: scale(1.1);
-    }
-
-    .movieWrapper:hover {
         transform: scale(1.1);
         -webkit-transform: scale(1.1);
         -moz-transform: scale(1.1);
@@ -1302,12 +1323,12 @@ button:active {
         margin: 0 2rem 34rem 2rem;
     }
 
-    .playingNowWrapper, .upcomingMovieWrapper, .movieWrapper {
+    .playingNowWrapper, .upcomingMovieWrapper {
         margin-top: 1rem;
         width: 9rem;
     }
 
-    .playingNowWrapper p, .upcomingMovieWrapper p, .movieWrapper p {
+    .playingNowWrapper p, .upcomingMovieWrapper p{
         font-size: 1rem;
         margin-bottom: 2rem;
     }
@@ -1316,9 +1337,22 @@ button:active {
         height: 244px;
     }
 
-    .playingNowWrapper .movieDate, .upcomingMovieWrapper .movieDate, .movieWrapper .movieDate {
+    .playingNowWrapper .movieDate, .upcomingMovieWrapper .movieDate {
         font-size: .7rem;
         top: -1rem;
+    }
+
+    .starImg {
+        width: 50px;
+        top: 0;
+        right: .5rem;
+    }
+    
+    .vote {
+        top: 1rem;
+        right: 1.1rem;
+        font-size: .7rem;
+        font-weight: 600;
     }
 }
 
@@ -1391,8 +1425,17 @@ button:active {
 }
 
 @media only screen and (max-width: 450px) {
-    .inputColumn {
+    .inputColumn, .results {
         width: 90%;
+    }
+
+    .searchStarImg {
+        width: 50px;
+    }
+
+    .searchVote {
+        right: 2.5rem;
+        font-size: .8rem;
     }
 
     .actorCreditsName {
@@ -1409,6 +1452,9 @@ button:active {
 }
 
 @media only screen and (max-width: 400px) {
+    .resultRow .description p {
+        font-size: .8rem;
+    }
 
     .similarMoviesHeader, .castHeader {
         font-size: 1.9rem;
@@ -1452,7 +1498,7 @@ button:active {
         width: 280px;
     }
 
-    .playingNowWrapper, .upcomingMovieWrapper, .movieWrapper {
+    .playingNowWrapper, .upcomingMovieWrapper {
         width: 7.5rem;
     }
     
