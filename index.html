@@ -5,14 +5,17 @@
     <title>The Movies</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="description" content="Search Info About Movies And TV Shows">
-    <link rel="shortcut icon" type="image/x-icon" href="images/popcorn.webp" />
-    <link href="https://fonts.googleapis.com/css?family=Palanquin+Dark:600" rel="stylesheet">
-    <link href="css/main.min.css" rel="stylesheet" defer/>
+    <link type="image/x-icon" rel="shortcut icon" href="images/popcorn.webp" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Palanquin+Dark:600" >
+    <link type="text/css" rel="stylesheet" href="css/main.min.css"/>
+    <link type="text/css" rel="stylesheet" href="css/registration.min.css">
     <link href="https://fonts.googleapis.com/css?family=Kurale&display=swap" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous" defer></script>
-    <script src="js/main.min.js" defer></script>
-    <script src="js/utils.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/main.min.js"></script>
+    <script type="text/javascript" src="js/utils.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/parse/dist/parse.min.js"></script>
+    <script type="text/javascript" src="js/userManagment.min.js"></script>
 
     <!-- Hotjar Tracking Code for https://omriknight9.github.io/omris-movies/ -->
     <script>
@@ -33,6 +36,7 @@
     <div class="headerWrapper">
         <div class="header">
             <h1>The Movies</h1>
+            <img src="./images/user.png" id="user" onclick="goToSignUp()" alt="">
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="myBar"></div>
@@ -43,6 +47,25 @@
         </div>
         <div class="imgWrapper">
             <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImg" src="images/tmdb.webp" alt="Tmdb Img" /></a>
+        </div>
+    </div>
+
+    <div class="menuOpenWrapper" onclick="toggleClass($('#toggle')[0], 'on')">
+        <div href="#menu" id="toggle">
+            <span class="menuSpan"></span>
+            <span class="menuSpan"></span>
+            <span class="menuSpan"></span>
+            <span class="menuSpan"></span>
+            <span class="menuSpan"></span>
+            <span class="menuSpan"></span>
+        </div>
+        <div id="menu">
+            <p id="usernameMenu"></p>
+            <ul>
+                <li onclick="goToMyAccount()">My Account</li>
+                <li onclick="showFavorites(1)" id="favoritesBtn">Favorites</li>
+                <li onclick="logOut()">Logout</li>
+            </ul>
         </div>
     </div>
 
@@ -86,10 +109,13 @@
             <div id="galleryWrapper" class="chosenMovieSection"></div>
             <div id="videosWrapper" class="chosenMovieSection"></div>
         </div>
-
     </div>
 
+    <div id="userWrapper"></div>
+    <div id="myAccountWrapper"></div>
+
     <div class="bottomSection">
+        <p id="addToFavorites"></p>
         <div class="captainmarvelWrapper" onclick="characterClick('299537', 'Captain Marvel')">
             <img class="captainmarvel" src="images/captainmarvel.webp" alt="captain marvel" />
         </div>
