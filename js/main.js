@@ -25,8 +25,6 @@ let counter = 1;
 let upcoming;
 let upcoming_topTen;
 
-const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
-
 let imdb = 'https://www.imdb.com/title/';
 const baseUrl = "https://v2.sg.media-imdb.com/suggests/";
 const youtubeVideo = 'https://www.youtube.com/embed/';
