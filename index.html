@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>The Movies</title>
+    <title>MovieInfo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="description" content="Search Info About Movies And TV Shows">
     <link type="image/x-icon" rel="shortcut icon" href="images/popcorn.webp" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Palanquin+Dark:600" >
     <link type="text/css" rel="stylesheet" href="css/main.min.css"/>
-    <link type="text/css" rel="stylesheet" href="css/registration.min.css">
+    <link type="text/css" rel="stylesheet" href="css/registration.css">
     <link href="https://fonts.googleapis.com/css?family=Kurale&display=swap" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -37,24 +37,24 @@
 
 <body>
 
-    <div class="headerWrapper">
-        <div class="header">
-            <h1>The Movies</h1>
+    <div id="headerWrapper">
+        <div id="header">
+            <h1>MovieInfo</h1>
             <img src="images/user.png" id="user" onclick="goToSignUp()" alt="">
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="myBar"></div>
         </div>
 
-        <div class="logoWrapper">
+        <div id="logoWrapper">
             <div class="logo" onclick="goHome()"></div>
         </div>
-        <div class="imgWrapper">
+        <div id="imgWrapper">
             <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImg" src="images/tmdb.webp" alt="Tmdb Img" /></a>
         </div>
     </div>
 
-    <div class="menuOpenWrapper" onclick="toggleClass($('#toggle')[0], 'on')">
+    <div id="menuOpenWrapper" onclick="toggleClass($('#toggle')[0], 'on')">
         <div href="#menu" id="toggle">
             <span class="menuSpan"></span>
             <span class="menuSpan"></span>
@@ -73,12 +73,12 @@
         </div>
     </div>
 
-    <div class="spidermanWrapper" onclick="characterClick('315635', 'Spiderman: Homecoming')">
-        <img class="spiderman" src="images/spiderman.webp" alt="spiderman" />
+    <div id="spidermanWrapper" onclick="characterClick('315635', 'Spiderman: Homecoming')">
+        <img id="spiderman" src="images/spiderman.webp" alt="spiderman" />
     </div>
 
-    <div class="ironmanWrapper" onclick="characterClick('1726', 'Iron Man')">
-        <img class="ironman" src="images/ironman.webp" alt="ironman" />
+    <div id="ironmanWrapper" onclick="characterClick('1726', 'Iron Man')">
+        <img id="ironman" src="images/ironman.webp" alt="ironman" />
     </div>
 
     <div id="searchBox">
@@ -89,11 +89,11 @@
                 <img src="images/search.webp" alt="search" id="searchImg" />
             </div>
 
-            <div class="results"></div>
+            <div id="results"></div>
         </div>
 
-        <div class="spinnerWrapper">
-            <div class="spinner">
+        <div id="spinnerWrapper">
+            <div id="spinner">
                 <div class="circle circle-1"></div>
                 <div class="circle circle-2"></div>
             </div>
@@ -107,8 +107,8 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="chosenMovie">
+    <div id="container">
+        <div id="chosenMovie">
             <div id="detailsWrapper" class="chosenMovieSection"></div>
             <div id="castWrapper" class="chosenMovieSection"></div>
             <div id="similarWrapper" class="chosenMovieSection"></div>
@@ -122,14 +122,14 @@
 
     <div class="bottomSection">
         <p id="addToFavorites"></p>
-        <div class="captainmarvelWrapper">
-            <img class="captainmarvel" src="images/captainmarvel.webp" alt="captain marvel" onclick="characterClick('299537', 'Captain Marvel')"/>
+        <div id="captainmarvelWrapper">
+            <img id="captainmarvel" src="images/captainmarvel.webp" alt="captain marvel" onclick="characterClick('299537', 'Captain Marvel')"/>
         </div>
-        <footer class="footer">
-            <div class="boardWrapper">
-                <img class="board" src="images/board2.webp" alt="board" />
-                <div class="contactWrapper">
-                    <div class="contact">
+        <footer id="footer">
+            <div id="boardWrapper">
+                <img id="board" src="images/board2.webp" alt="board" />
+                <div id="contactWrapper">
+                    <div id="contact">
                         <a href="https://www.linkedin.com/in/omri-shalev-8b3515119/" target="_blank" rel="noopener">
                             <img class="footerImg" src="images/linkedin.webp" alt="linkedin" />
                         </a>
@@ -143,16 +143,14 @@
                     </div>
                 </div>
             </div>
-
-
         </footer>
     </div>
 
-    <div class="tmdbCertWrapper">
+    <div id="tmdbCertWrapper">
         <p id="tmdbCert">This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
         <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImgFooter" src="images/tmdb.webp" alt="Tmdb" /></a>
     </div>
-    <img src="images/upBtn.webp" alt="up arrow" class="goToTopBtn" onclick="goToTop()" />
+    <img src="images/upBtn.webp" alt="up arrow" id="goToTopBtn" onclick="goToTop()" />
 
     <!-----------------Popups--------------->
 
