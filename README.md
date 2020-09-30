@@ -1,7 +1,7 @@
 # omris-movies
-Search Info About Movies
+Search Info About Movies, TV Shows And People
 
-1. Search a movie/ TV Show.
-2. Click on it.
-3. Get info: actors, images, videos, similar movies/ TV Shows.
-4. All actors have IMDB and Instagram links. And when you click on an actor you get the movies that he acted in (past and future). And also tv shows.
+1. Search A Movie,TV Show Or Person.
+2. Click On It.
+3. Get Info: Actors, Images, Videos, Similar Movies/ TV Shows.
+4. All Actors Have IMDB And Some Instagram links.
