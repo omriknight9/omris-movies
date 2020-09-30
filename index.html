@@ -46,6 +46,9 @@
             <div class="progress-bar" id="myBar"></div>
         </div>
 
+        <img src="images/usFlag.webp" alt="usa" id="usFlag" onclick="changeLang(2)">
+        <img src="images/isFlag.webp" alt="israel" id="isFlag" onclick="changeLang(1)">
+
         <div id="logoWrapper">
             <div class="logo" onclick="goHome()"></div>
         </div>
@@ -66,9 +69,9 @@
         <div id="menu">
             <p id="usernameMenu"></p>
             <ul>
-                <li onclick="goToMyAccount()">My Account</li>
+                <li onclick="goToMyAccount()" id="myAccountBtn">My Account</li>
                 <li onclick="showFavorites(1)" id="favoritesBtn">Favorites</li>
-                <li onclick="logOut()">Logout</li>
+                <li onclick="logOut()" id="logoutBtn">Logout</li>
             </ul>
         </div>
     </div>
@@ -100,9 +103,9 @@
         </div>
 
         <div id="switchContentBtnWrapper">
-            <button id="switchContentBtn3" onclick="switchContent(2)">Show Playing Now</button>
-            <button id="switchContentBtn2" onclick="switchContent(3)">Show Trending</button>
-            <button id="switchContentBtn" onclick="switchContent(1)">Show Upcoming</button>
+            <button id="switchContentBtn3" onclick="switchContent(2)">Playing Now</button>
+            <button id="switchContentBtn2" onclick="switchContent(3)">Trending</button>
+            <button id="switchContentBtn" onclick="switchContent(1)">Upcoming</button>
             <h2 id="currentHeader">Playing Now</h2>
         </div>
     </div>
@@ -154,6 +157,18 @@
     <img src="images/upBtn.webp" alt="up arrow" id="goToTopBtn" onclick="goToTop()" />
 
     <!-----------------Popups--------------->
+
+    <!-----------Hebrew Change--------->
+    <div id="hebrewLang" class="popUpInfo">
+        <div class="popupCont">
+            <div class="Xbtn"></div>
+            <h2>שינוי לעברית</h2>
+            <p>חלק מהאתר ישאר באנגלית כפי שמתקבל במקור</p>
+            <div class="popupBtnsWrapper">
+                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">סגור </button>
+            </div>
+        </div>
+    </div>
 
     <!-----------No Imdb--------->
     <div id="noImdbPop" class="popUpInfo">
