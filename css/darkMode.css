@@ -1,0 +1,150 @@
+
+/*---------------Dark Mode---------------*/
+
+/* html, body {
+    background-color: #6b6b6b;
+} */
+
+#header > h1 {
+    color: #d4d4d4;
+}
+
+h2 {
+    color: #d4d4d4 !important;
+}
+
+button {
+    background: #323538;
+    /* box-shadow: 0 1px 3px 3px #e4e3e3; */
+    color: #d4d4d4
+}
+
+#searchMovie::placeholder {
+    color: #595C60;
+}
+
+#results {
+    background-color: #595C60;
+}
+
+.movieTitle, .popularPersonName, #chosenMovieTitle {
+    color: #d4d4d4;
+}
+
+.movieDate {
+    background-image: linear-gradient(-180deg,rgba(255, 255, 255, .6), rgba(255,255,255, .6)) !important;
+}
+
+.directorWrapper, .castWrapper {
+    background-color: unset !important;
+}
+
+.similarMoviesWrapper, .creditsWrapper, .cast, .similarMovies, .credit, .descriptionWrapper, #personDetailWrapper, .objectDetails, .objectReview {
+    background-color: #323538;
+    filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 1px 2px);
+}
+
+.descriptionWrapper, #personDetailWrapper, .objectDetails, .objectReview {
+    color: #d4d4d4;
+}
+
+
+.castName:nth-child(odd), .actorMovie:nth-child(odd), .similarMovie:nth-child(odd), .creditName:nth-child(odd) {
+    background-color: gray;
+}
+
+.directorName {
+    background-color: #595C60;;
+}
+
+/* .castName > span, .actorMovie > span, .similarMovie span, .creditName > span {
+    color: black;
+} */
+
+
+
+.personInfo p, .reviewContent {
+    color: #d4d4d4
+}
+
+.personInfo p:first-line, .reviewContent:first-line {
+    color: #d4d4d4;
+}
+
+.personInfo p, .reviewContent {
+    color: black;
+}
+
+.darkModeColor {
+    color: #d4d4d4 !important;
+}
+
+.cast::-webkit-scrollbar-track {
+    width: 50%;
+    background-color: #d4d4d4;
+    border-radius: 5px;
+}
+
+.cast::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 12px;
+    background-color: #F5F5F5;
+    border-radius: 5px;
+    height: 1rem;
+}
+
+.cast::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius: 2px;
+}
+
+.credit::-webkit-scrollbar-track {
+    width: 50%;
+    background-color: #d4d4d4;
+    border-radius: 5px;
+}
+
+.credit::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 12px;
+    background-color: #F5F5F5;
+    border-radius: 5px;
+    height: 1rem;
+}
+
+.credit::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius: 2px;
+}
+
+.similarMovies::-webkit-scrollbar-track {
+    width: 50%;
+    background-color: #d4d4d4;
+    border-radius: 5px;
+}
+
+.similarMovies::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 12px;
+    background-color: #F5F5F5;
+    border-radius: 5px;
+    height: 1rem;
+}
+
+.similarMovies::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius: 2px;
+}
+
+.popupCont {
+    background-color: #323538;
+}
+
+.popupCont p {
+    color: #d4d4d4;
+}
+
+.popupBtn {
+    background-color: #323538;
+    color: #d4d4d4;
+}
