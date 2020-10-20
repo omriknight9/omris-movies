@@ -11,18 +11,26 @@ h2 {
 
 button {
     background: #323538;
-    color: #d4d4d4
+    color: #d4d4d4;
+}
+
+#menu {
+    background: #323538;
+}
+
+#menu li, #usernameMenu {
+    color: #d4d4d4; 
 }
 
 #searchMovie::placeholder {
-    color: #595C60;
+    color: #d4d4d4;
 }
 
 #results {
     background-color: #595C60;
 }
 
-.movieTitle, .popularPersonName, #chosenMovieTitle {
+.movieTitle, .popularPersonName, #chosenMovieTitle, .description {
     color: #d4d4d4;
 }
 
