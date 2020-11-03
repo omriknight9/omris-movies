@@ -53,7 +53,6 @@ button {
 
 .similarMoviesWrapper, .creditsWrapper, .cast, .similarMovies, .credit, .descriptionWrapper, #personDetailWrapper, .objectDetails, .objectReview {
     background-color: #323538;
-    filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 1px 2px);
 }
 
 .descriptionWrapper, #personDetailWrapper, .objectDetails, .objectReview {
