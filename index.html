@@ -38,7 +38,6 @@
 </head>
 
 <body>
-    
     <div id="spinnerWrapper">
         <div id="spinner">
             <div></div>
@@ -212,5 +211,18 @@
             </div>
         </div>
     </div>
+
+        <!-----------Chane Username--------->
+        <div id="changeUsernamePop" class="popUpInfo">
+            <div class="popupCont">
+                <div class="Xbtn"></div>
+                <h2>Username Change</h2>
+                <p id="changeNameDesc">Change Username From <span id="prevName"></span> To <span id="nextName"></span>?</p>
+                <div class="popupBtnsWrapper">
+                    <button class="popupBtn" id="closeUserPopBtn" onclick="closeCurrentPopup($(this))">Close </button>
+                    <button class="popupBtn" id="changeUserPopBtn" onclick="changeUsername()">Change Name</button>
+                </div>
+            </div>
+        </div>
 </body>
 </html>
