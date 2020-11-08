@@ -153,3 +153,12 @@ button {
 .detailIcon {
     color: #d4d4d4;
 }
+
+.voteWrapper {
+    background-color: #323538;
+    border: 1px solid white;
+}
+
+.vote {
+    color: white;
+}
