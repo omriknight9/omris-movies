@@ -159,6 +159,11 @@ button {
     border: 1px solid white;
 }
 
+.voteTextContent {
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+}
+
 .vote {
     color: white;
+    text-shadow: 0 1px 10px black;
 }
