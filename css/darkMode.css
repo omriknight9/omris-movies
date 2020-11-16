@@ -171,3 +171,7 @@ button {
 #descriptionArrow, .reviewArrow {
     background-color: #323538;
 }
+
+.tagline {
+    color: #d4d4d4;
+}
