@@ -97,7 +97,7 @@
         <div id="searchBox">
             <div class="inputWrapper">
                 <div class="inputColumn">
-                    <input id="searchMovie" placeholder="Search a Movie, Person or TV Show" maxlength="25" onclick="backColor(this)" aria-label="Search" name="asd">     
+                    <input id="searchMovie" placeholder="Search a Movie, Person or TV Show" maxlength="25" onclick="backColor(this)" aria-label="Search" name="asd" autocomplete="no">     
                     <span class="focus-border"></span>
                     <img src="images/search.webp" alt="search" id="searchImg" />
                 </div>
@@ -186,6 +186,51 @@
             <p>חלק מהאתר יוצג באנגלית כפי שמתקבל במקור</p>
             <div class="popupBtnsWrapper">
                 <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">סגור </button>
+            </div>
+        </div>
+    </div>
+
+    <!-----------No Genre Movies--------->
+    <div id="genrePop" class="popUpInfo">
+        <div class="popupCont">
+            <div class="Xbtn"></div>
+            <h2>Pick A Genre</h2>
+            <div id="genreWrapper">
+                <button id="actionBtn" onclick="pickGenre(28)">Action</button>
+                <button id="adventureBtn" onclick="pickGenre(12)">Adventure</button>
+                <button id="animationBtn" onclick="pickGenre(16)">Animation</button>
+                <button id="comedyBtn" onclick="pickGenre(35)">Comedy</button>
+                <button id="crimeBtn" onclick="pickGenre(80)">Crime</button>
+                <button id="documentaryBtn" onclick="pickGenre(99)">Documentary</button>
+                <button id="dramaBtn" onclick="pickGenre(18)">Drama</button>
+                <button id="familyBtn" onclick="pickGenre(10751)">Family</button>
+                <button id="fantasyBtn" onclick="pickGenre(14)">Fantasy</button>
+                <button id="historyBtn" onclick="pickGenre(36)">History</button>
+                <button id="horrorBtn" onclick="pickGenre(27)">Horror</button>
+                <button id="musicBtn" onclick="pickGenre(10402)">Music</button>
+                <button id="mysteryBtn" onclick="pickGenre(9648)">Mystery</button>
+                <button id="romanceBtn" onclick="pickGenre(10749)">Romance</button>
+                <button id="scienceFictionBtn" onclick="pickGenre(878)">Science Fiction</button>
+                <button id="tVMovieFictionBtn" onclick="pickGenre(10770)">TV Movie</button>
+                <button id="thrillerBtn" onclick="pickGenre(53)">Thriller</button>
+                <button id="warBtn" onclick="pickGenre(10752)">War</button>
+                <button id="westernBtn" onclick="pickGenre(37)">Western</button>
+            </div>
+
+            <div class="popupBtnsWrapper">
+                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close </button>
+            </div>
+        </div>
+    </div>
+
+    <!-----------No Genre Movies--------->
+    <div id="noGenrePop" class="popUpInfo">
+        <div class="popupCont">
+            <div class="Xbtn"></div>
+            <h2>No Results</h2>
+            <p id="genreDesc"> No <span id="pickedGenre"></span> Movies</p>
+            <div class="popupBtnsWrapper">
+                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close </button>
             </div>
         </div>
     </div>
