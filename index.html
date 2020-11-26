@@ -258,17 +258,29 @@
         </div>
     </div>
 
-        <!-----------Change Username--------->
-        <div id="changeUsernamePop" class="popUpInfo">
+        <!-----------No Favorites--------->
+        <div id="noFavoritesPop" class="popUpInfo">
             <div class="popupCont">
                 <div class="Xbtn"></div>
-                <h2>Username Change</h2>
-                <p id="changeNameDesc">Change Username From <span id="prevName"></span> To <span id="nextName"></span>?</p>
+                <h2>No Favorites</h2>
+                <p>Add Some Favorites Movies / TV Shows To Your List</p>
                 <div class="popupBtnsWrapper">
-                    <button class="popupBtn" id="closeUserPopBtn" onclick="closeCurrentPopup($(this))">Close </button>
-                    <button class="popupBtn" id="changeUserPopBtn" onclick="changeUsername()">Change Name</button>
+                    <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close </button>
                 </div>
             </div>
         </div>
+
+    <!-----------Change Username--------->
+    <div id="changeUsernamePop" class="popUpInfo">
+        <div class="popupCont">
+            <div class="Xbtn"></div>
+            <h2>Username Change</h2>
+            <p id="changeNameDesc">Change Username From <span id="prevName"></span> To <span id="nextName"></span>?</p>
+            <div class="popupBtnsWrapper">
+                <button class="popupBtn" id="closeUserPopBtn" onclick="closeCurrentPopup($(this))">Close </button>
+                <button class="popupBtn" id="changeUserPopBtn" onclick="changeUsername()">Change Name</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
