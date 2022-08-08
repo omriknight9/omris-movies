@@ -1,0 +1,19 @@
+<div *ngIf="localData.length > 0" class="recentContainer">
+    <h2>Recently Viewed</h2>
+    <div class="recentViewedCont">
+        <ng-container *ngFor="let item of localData">
+            <div class="recentViewed">
+                <a class="routerLink" [routerLink]="item.link + item.id">
+                    <div *ngIf="item.poster_path != null; then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock>
+                        <img class="recentViewedPoster" [src]="imagesSizes.medium + item.poster_path" [alt]="item.title">
+                    </ng-template>
+                    <ng-template #elseBlock>
+                        <img class="recentViewedPoster" src="{{currentEnvironment.imagesSrc}}stock.png" [alt]="item.title">
+                    </ng-template>
+                </a>
+                <span>{{item.title}}</span>
+            </div>
+        </ng-container>
+    </div>
+</div>

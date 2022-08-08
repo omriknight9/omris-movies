@@ -1,0 +1,55 @@
+
+@import '../../../styles/colors';
+
+.recentContainer {
+    background-color: $bgColorLight;
+    padding: .5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.recentViewedCont {
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.recentViewed {
+    margin: 0 .5rem;
+    width: 10rem;
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    span {
+        font-size: 1rem;
+        margin-top: .5rem;
+        text-align: center;
+    }
+
+    .recentViewedPoster {
+        width: 100%;
+        border-radius: 5px;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .recentViewed {
+        width: 7rem;
+
+        span {
+            font-size: .8rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .recentViewed {
+        width: 6rem;
+    }
+}

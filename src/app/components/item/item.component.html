@@ -1,0 +1,86 @@
+<ng-container *ngIf="!showContent">
+    <p-skeleton height=16rem class="skeleton" shape="rectangle"></p-skeleton>
+</ng-container>
+
+<ng-container *ngIf="showContent">
+    <ng-container *ngIf="itemData">
+        <a class="movie-item" [routerLink]="'/movie/' + itemData.id">
+            <div class="movie-item-rating">
+                <i class="app-icon">star</i>
+                <div *ngIf="itemData.vote_average > 0; then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock>
+                    <span>{{itemData.vote_average.toPrecision(2)}}</span>/10
+                </ng-template>
+                <ng-template #elseBlock>
+                    <span>N/A</span>
+                </ng-template>
+            </div>
+            <div class="movie-item-image">
+                <div *ngIf="itemData.poster_path != null; then thenBlock2 else elseBlock2"></div>
+                <ng-template #thenBlock2>
+                    <img [src]="imagesSizes.medium + itemData.poster_path" class="carousel-image" [alt]="itemData.title">
+                </ng-template>
+                <ng-template #elseBlock2>
+                    <img src="{{currentEnvironment.imagesSrc}}stock.png" class="carousel-image" [alt]="itemData.title">
+                </ng-template>
+            </div>
+            <div class="movie-item-title">
+                <span>{{itemData.title}}</span>
+            </div>
+            <div class="movie-item-date">{{itemData.release_date}}</div>
+        </a>
+    </ng-container>
+    
+    <ng-container *ngIf="itemDataTv">
+        <a class="movie-item" [routerLink]="'/tv/' + itemDataTv.id">
+            <div class="movie-item-rating">
+                <i class="app-icon">star</i>
+                <div *ngIf="itemDataTv.vote_average > 0; then thenBlock3 else elseBlock3"></div>
+                <ng-template #thenBlock3>
+                    <span>{{itemDataTv.vote_average.toPrecision(2)}}</span>/10
+                </ng-template>
+                <ng-template #elseBlock3>
+                    <span>N/A</span>
+                </ng-template>
+            </div>
+            <div class="movie-item-image">
+                <div *ngIf="itemDataTv.poster_path != null; then thenBlock4 else elseBlock4"></div>
+                <ng-template #thenBlock4>
+                    <img [src]="imagesSizes.medium + itemDataTv.poster_path" class="carousel-image" [alt]="itemDataTv.name">
+                </ng-template>
+                <ng-template #elseBlock4>
+                    <img src="{{currentEnvironment.imagesSrc}}stock.png" class="carousel-image" [alt]="itemDataTv.name">
+                </ng-template>
+            </div>
+            <div class="movie-item-title">
+                <span>{{itemDataTv.name}}</span>
+            </div>
+            <ng-container *ngIf="itemDataTv.first_air_date">
+                <div class="movie-item-date">{{itemDataTv.first_air_date}}</div>
+            </ng-container>
+        </a>
+    </ng-container>
+    
+    <ng-container *ngIf="itemDataPerson">
+        <a class="movie-item" [routerLink]="'/person/' + itemDataPerson.id">
+            <div class="movie-item-image-person">
+                <div *ngIf="itemDataPerson.profile_path != null; then thenBlock5 else elseBlock5"></div>
+                <ng-template #thenBlock5>
+                    <img [src]="imagesSizes.medium + itemDataPerson.profile_path" [alt]="itemDataPerson.name">
+                </ng-template>
+                <ng-template #elseBlock5>
+                    <div *ngIf="itemDataPerson.gender == 1; then thenBlock6 else elseBlock6"></div>
+                            <ng-template #thenBlock6>
+                                <img src="{{currentEnvironment.imagesSrc}}actress.jpg" [alt]="itemDataPerson.name">
+                            </ng-template>
+                            <ng-template #elseBlock6>
+                                <img src="{{currentEnvironment.imagesSrc}}actor.jpg" [alt]="itemDataPerson.name">
+                            </ng-template>
+                </ng-template>
+            </div>
+            <div class="movie-item-title">
+                <span>{{itemDataPerson.name}}</span>
+            </div>
+        </a>
+    </ng-container>
+</ng-container>

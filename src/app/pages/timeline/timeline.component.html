@@ -1,0 +1,29 @@
+<div class="{{storageClass}}">
+    <p-timeline [value]="events" align="alternate" styleClass="customized-timeline">
+        <ng-template pTemplate="marker" let-event>
+            <span class="custom-marker shadow-2" [style.backgroundColor]="event.color">
+                <i [ngClass]="event.icon"></i>
+            </span>
+        </ng-template>
+        <ng-template pTemplate="content" let-event>
+            <p-card [header]="event.status" [subheader]="event.date">
+                <img *ngIf="event.image" [src]="imagesSizes.large + event.image" [alt]="event.status" class="shadow-2" />
+                <img *ngIf="!event.image && event.poster" [src]="imagesSizes.large + event.poster" [alt]="event.status" class="shadow-2 timelinePoster" />
+                <div *ngIf="!event.showDesc then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock>
+                    <p class="overview">{{event.desc | slice: 0:200}}
+                        <span class="changeReading" (click)="changeDesc(event)">...Read More</span>
+                    </p>
+                </ng-template>
+                <ng-template #elseBlock>
+                    <p *ngIf="!event.showDescText" class="overview">{{event.desc}}</p>
+                </ng-template>
+                <p *ngIf="event.showDescText" class="overview">{{event.desc}}
+                    <span class="changeReading" (click)="changeDesc(event)">Less</span>
+                </p>
+                <a [routerLink]="'../../movie/' + event.id" class="p-button-text">Go To Movie</a>
+            </p-card>
+        </ng-template>
+    </p-timeline>
+</div>
+

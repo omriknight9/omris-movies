@@ -1,0 +1,60 @@
+@import '../../../styles/colors';
+
+.gridContBlock {
+    position: relative;
+}
+
+.balloons {
+    width: 75px;
+    position: absolute;
+    top: -4rem;
+}
+
+.poster {
+    max-width: 100%;
+}
+
+.overview {
+    line-height: 1.5;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 15px;
+
+    .label {
+        width: 170px;
+        font-weight: bold;
+    }
+
+    .value {
+        color: $orangeColor;
+    }
+
+    .app-icon {
+        margin-right: 5px;
+        color: $orangeColor;
+        font-size: 1.2rem;
+        vertical-align: sub;
+    }
+}
+
+.carouselHeader {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.itemBlock {
+    .releaseDate {
+        color: chocolate;
+    }
+}
+
+@media only screen and (max-width: 765px) {
+    .balloons {
+        position: static;
+    }
+}

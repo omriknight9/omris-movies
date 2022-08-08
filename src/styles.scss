@@ -1,0 +1,474 @@
+@import './styles/init-css';
+@import './styles/colors';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import '~primeflex/primeflex.css';
+@import '~primeicons/primeicons.css';
+@import '~primeng/resources/themes/arya-orange/theme.css';
+@import '~primeng/resources/primeng.min.css';
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: $white;
+    background-color: var(--body-bg-color);
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 7rem;
+}
+
+h2 {
+    text-align: center;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    box-shadow: inset 0 0 5px rgba(50, 50, 50, .1); 
+    border-radius: 100px;
+  }
+::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-image: linear-gradient(180deg, #e77000 0%, #ff8f26 99%);
+  }
+
+::-webkit-scrollbar-thumb:hover {
+    background: #e26d00; 
+}
+
+a {
+    text-decoration: none;
+    color: $white;
+}
+
+button {
+    background: none;
+    border: none;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.app-icon {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+.hoverEffect {
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -o-transition: .2s;
+}
+
+.container {
+    margin: .5rem;
+    padding: .5rem;
+}
+
+.content {
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.contentItem {
+    width: 9rem;
+    margin: 1rem;
+    text-align: center;
+    transition: .2s;
+    filter: drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
+}
+
+.contentVideo {
+    margin: 1rem;
+    text-align: center;
+    transition: .2s;
+    filter: drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
+}
+
+.contentVideo iframe {
+    width: 420px;
+    height: 315px;
+}
+
+.contentImg {
+    filter: none;
+}
+
+.contentImg img {
+    border-radius: 5px;
+    filter: drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
+}
+
+.contentImgMovie, .contentImgTvShow {
+    width: 20rem;
+}
+
+.carousel-item {
+    &-content {
+        border-radius: 3px;
+        margin: .3rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .carousel-image {
+        width: 80%;
+        max-width: 12rem;
+        border-radius: 5px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+    .actorName {
+        color: $orangeColor;
+        display: block;
+        line-height: 1.6;
+    }
+
+    .releaseDate {
+        color: chocolate;
+        display: block;
+        line-height: 1.6;
+    }
+}
+
+.noStorage {
+    margin-bottom: 3rem;
+}
+
+.homeCarousel {
+    .carousel-image {
+        border-radius: unset;
+        border-bottom-left-radius: 5px;
+    }
+}
+
+.p-tabview-nav {
+    justify-content: center;
+}
+
+.p-tabview-title {
+    color: $orangeColor;
+}
+
+.p-link:focus, .p-carousel .p-carousel-content .p-carousel-prev:focus, .p-carousel .p-carousel-content .p-carousel-next:focus {
+    box-shadow: 0 0 0 1px $orangeColor;
+}
+
+.p-tabview .p-tabview-nav-btn.p-link {
+    color: $orangeColor;
+    display: none;
+}
+
+.p-tabview .p-tabview-nav-btn.p-link:focus {
+    box-shadow: unset;
+    border-bottom: 1px solid $orangeColor;
+}
+
+.p-carousel-item {
+    position: relative;
+    padding-top: 2rem;
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    border-color: $orangeColor;
+    background-color: #3f3f3f;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+    box-shadow: none;
+}
+
+.p-image-preview {
+    max-width: 50vw;
+    max-height: 50vh;
+}
+
+.p-tabview .p-tabview-nav li:not(.p-highlight):not(.p-disabled):hover .p-tabview-nav-link {
+    border-color: $orangeColor;
+}
+
+
+.p-carousel .p-carousel-indicators .p-carousel-indicator.p-highlight button {
+    background-color: $orangeColor;
+}
+
+.p-inputtext:enabled:focus {
+    box-shadow: 0 0 0 1px $orangeColor;
+    border-color: $orangeColor;
+}
+
+.p-inputtext:enabled:hover {
+    border-color: $orangeColor;
+}
+
+.p-card .p-card-body {
+    text-align: left;
+}
+
+.routerLink {
+    color: $orangeColor;
+}
+
+.clickable {
+    color: $clickableColor;
+    font-weight: 600;
+}
+
+.keywordLink {
+    color: $orangeColor;
+    font-weight: 600;
+}
+
+.changeReading {
+    color: rgb(85, 85, 255);
+}
+
+.contentPeople img {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.itemGrid {
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.gridCont {
+    width: 40%;
+}
+
+.gridContBlock {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.poster {
+    width: 15rem;
+    border-radius: 5px;
+}
+
+.listImg {
+    border-radius: 5px;
+    width: 4rem;
+}
+
+.listBigImg {
+    border-radius: 5px;
+    width: 50%;
+}
+
+.listItem {
+    padding: .5rem;
+    text-align: center;
+}
+
+.listItemDescription {
+    color: $orangeColor;
+    display: block;
+    line-height: 1.6;
+}
+
+.dataViewHeader {
+    font-size: 2rem;
+    margin: 0;
+    text-align: center;
+}
+
+.imdb {
+    width: 4rem;
+    margin-top: 1rem;
+}
+
+.productionCompanies {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.4));
+
+    img {
+        width: 6rem;
+        margin: 1rem;
+    }
+}
+
+.backBtn {
+    margin: 1rem 0;
+}
+
+.backBtn a {
+    color: $orangeColor;
+}
+
+.itemBlock {
+    text-align: center;
+    padding: 10px;
+    img {
+        width: 11rem;
+        border-radius: 5px;
+    }
+    span {
+        text-align: center;
+        display: block;
+        line-height: 1.6;
+    }
+
+    .actorName {
+        color: $orangeColor;
+    }
+}
+
+.noPadding {
+    padding: 0;
+}
+
+@media only screen and (min-width: 765px) {
+
+    button, .routerLink, .backBtn a, .dark-light, .changeReading {
+        cursor: pointer;
+    }
+
+    .hoverEffect:hover {
+        transform: perspective(800px) rotateY(20deg) scale(1.05);
+        -webkit-transform: perspective(800px) rotateY(20deg) scale(1.05);
+        -moz-transform: perspective(800px) rotateY(20deg) scale(1.05);
+        -ms-transform: perspective(800px) rotateY(20deg) scale(1.05);
+        -o-transform: perspective(800px) rotateY(20deg) scale(1.05);
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .contentImgMovie, .contentImgTvShow {
+        width: 15rem;
+    }
+
+    .contentVideo iframe {
+        width: 370px;
+        height: 270px;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .contentImgMovie, .contentImgTvShow {
+        width: 12rem;
+    }
+
+    .contentVideo iframe {
+        width: 320px;
+        height: 220px;
+    }
+}
+
+@media only screen and (max-width: 765px) {
+
+    body {
+        padding-bottom: 9rem;
+    }
+
+    .p-tabview-nav {
+        justify-content: start;
+    }
+
+    .p-carousel-item {
+        padding-top: unset;
+    }
+
+    .itemGrid {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .gridCont {
+        width: 100%;
+        text-align: center;
+    }
+
+    .stat {
+        flex-direction: column;
+    }
+
+    .stat .app-icon {
+        margin-right: 0;
+        display: block;
+    }
+
+    .stat .value {
+        margin-top: .5rem;
+    }
+
+    .poster {
+        width: 12rem;
+    }
+
+    .itemBlock {
+        img {
+            width: 7rem;
+        }
+    }
+
+    .contentImgMovie, .contentImgTvShow {
+        width: 10rem;
+    }
+
+    .actorSocials {
+        display: unset !important;
+        width: 100%;
+        text-align: center;
+        border: none !important;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .p-tabview .p-tabview-nav-btn.p-link {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 430px) {
+    .contentImgMovie, .contentImgTvShow {
+        width: 100%;
+        height: unset;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .contentVideo iframe {
+        width: 294px;
+        height: 220px;
+    }
+}

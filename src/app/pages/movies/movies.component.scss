@@ -1,0 +1,28 @@
+@import '../../../styles/colors';
+
+.searchWrapper {
+    position: relative;
+}
+
+.refreshMovies {
+    position: absolute;
+    top: .6rem;
+    right: .5rem;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.sortingContainer {
+    text-align: center;
+    i {
+        font-size: 2rem;
+    }
+
+    i:nth-child(odd) {
+        margin-right: 1rem;
+    }
+
+    i:nth-child(even) {
+        margin-left: 1rem;
+    }
+}

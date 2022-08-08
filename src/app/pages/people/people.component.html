@@ -1,0 +1,22 @@
+<div class="{{storageClass}}">
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-6">
+            <div class="p-fluid searchWrapper">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="text" pInputText placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchChanged()"/>
+                </span>
+                <i class="pi pi-refresh refreshPeople" (click)="resetResults()"></i>
+            </div>
+        </div>
+    </div>
+    <div class="content contentPeople">
+        <div *ngFor="let person of people" class="contentItem hoverEffect">
+            <item [itemDataPerson]="person"></item>
+        </div>
+    </div>
+    <div>
+        <p-paginator [rows]="20" [totalRecords]="100" (onPageChange)="paginate($event)"></p-paginator>
+    </div>
+</div>
+

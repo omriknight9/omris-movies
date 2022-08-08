@@ -1,0 +1,184 @@
+<p-tabView *ngIf="person" class="tabView">
+    <div class="backBtn" >
+        <a (click)="backClicked()">Back</a>
+    </div>
+    <p-tabPanel header="Biography">
+        <div class="itemGrid">
+            <div class="gridCont">
+                <div class="gridContBlock">
+                    <img *ngIf="person.birthdayToday" class="balloons" src="{{currentEnvironment.imagesSrc}}balloons.png" alt="balloons">
+                    <h2>{{person.name}}</h2>
+                    <div *ngIf="person.profile_path != null; then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock>
+                        <img class="poster" [src]="imagesSizes.medium + person.profile_path" [alt]="person.name">
+                    </ng-template>
+                    <ng-template #elseBlock>
+                        <div *ngIf="person.gender == 1; then thenBlock2 else elseBlock2"></div>
+                        <ng-template #thenBlock2>
+                            <img class="poster" src="{{currentEnvironment.imagesSrc}}actress.jpg" [alt]="person.name">
+                        </ng-template>
+                        <ng-template #elseBlock2>
+                            <img class="poster" src="{{currentEnvironment.imagesSrc}}actor.jpg" [alt]="person.name">
+                        </ng-template>
+                    </ng-template>
+                    <a *ngIf="person.imdb_id" href="https://www.imdb.com/name/{{person.imdb_id}}" target="_blank">
+                        <img class="imdb" src="{{currentEnvironment.imagesSrc}}imdb.png">
+                    </a>
+                </div>
+            </div>
+            <div class="gridCont">
+                <ng-container *ngIf="person.biography || person.birthday || person.deathday || person.place_of_birth">
+                    <h2>Biography</h2>
+                    <div *ngIf="!showOverview then thenBlock3 else elseBlock3"></div>
+                    <ng-template #thenBlock3>
+                        <p class="overview">{{person.biography | slice: 0:200}}
+                            <span class="changeReading" (click)="changeOverview()">...Read More</span>
+                        </p>
+                    </ng-template>
+
+                    <ng-template #elseBlock3>
+                        <p *ngIf="!showOverviewText" class="overview">{{person.biography}}</p>
+                    </ng-template>
+                    <p *ngIf="showOverviewText" class="overview">{{person.biography}}
+                        <span class="changeReading" (click)="changeOverview()">Less</span>
+                    </p>  
+      
+                    <div *ngIf="person.birthday" class="stat">
+                        <div class="label">
+                            <i class="app-icon">date_range</i>
+                            Birth Date:
+                        </div>
+                        <div class="value">
+                        <div *ngIf="person.deathday then thenBlock4 else elseBlock4"></div>
+                            <ng-template #thenBlock4>
+                                {{person.birthday}}
+                            </ng-template>
+                            <ng-template #elseBlock4>
+                                {{person.birthday}} (Age: {{person.age}})  
+                            </ng-template>
+                        </div>
+                    </div>
+    
+                    <div *ngIf="person.deathday" class="stat">
+                        <div class="label">
+                            <i class="app-icon">event_busy</i>
+                            Death Date:
+                        </div>
+                        <div class="value">
+                            {{person.deathday}} (Age: {{person.deathAge}})  
+                        </div>
+                    </div>
+                    <div *ngIf="person.place_of_birth" class="stat">
+                        <div class="label">
+                            <i class="app-icon">home</i>
+                            Hometown:
+                        </div>
+                        <div class="value">
+                            {{person.place_of_birth}}
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </p-tabPanel>
+
+    <p-tabPanel *ngIf="personCredits && personCredits?.cast?.length" header="Credits">
+        <p-carousel *ngIf="personCredits && !isMobile" [value]="personCredits.cast | slice:0:40" [numVisible]="6" [numScroll]="6" [circular]="true" [responsiveOptions]="responsiveOptions">
+            <ng-template pTemplate="header">
+                <p class="carouselHeader">Credits</p>
+            </ng-template>
+            <ng-template let-credit pTemplate="item">
+                <a [routerLink]="'../../' + credit.media_type + '/' + credit.id">   
+                    <div class="carousel-item">
+                        <div class="carousel-item-content">
+                            <div class="mb-3">
+                                <div *ngIf="credit.poster_path != null; then thenBlock5 else elseBlock5"></div>
+                                <ng-template #thenBlock5>
+                                    <img [src]="imagesSizes.medium + credit.poster_path" class="carousel-image" [alt]="credit.name || credit.title">
+                                </ng-template>
+                                <ng-template #elseBlock5>
+                                    <img src="{{currentEnvironment.imagesSrc}}stock.png" class="carousel-image" [alt]="credit.name || credit.title">
+                                </ng-template>
+                            </div>
+                            <div>
+                                <span class="mb-1 actorName">{{credit.name || credit.title}}</span>
+                                <span>{{credit.character}}</span>
+                                <span class="mt-0 mb-3 releaseDate">{{credit.release_date || credit.first_air_date}}</span>   
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </ng-template>
+        </p-carousel>
+    
+        <p-dataView *ngIf="isMobile && personCredits" layout="list" [value]="personCredits.cast | slice:0:40" [paginator]="true" (onPage)="paginate($event)" [rows]="10" filterBy="name">
+            <ng-template pTemplate="header">
+                <p class="dataViewHeader">Credits</p>
+            </ng-template>
+            <ng-template let-listItem pTemplate="listItem">
+                <div class="col-12">
+                    <a [routerLink]="'../../' + listItem.media_type + '/' + listItem.id">   
+                        <div class="carousel-item">
+                            <div class="carousel-item-content">
+                                <div class="mb-3">
+                                    <div *ngIf="listItem.backdrop_path != null; then thenBlock6 else elseBlock6"></div>
+                                    <ng-template #thenBlock6>
+                                        <img [src]="imagesSizes.large + listItem.backdrop_path" class="listBigImg" [alt]="listItem.name || listItem.title">
+                                    </ng-template>
+                                    <ng-template #elseBlock6>
+                                        <img src="{{currentEnvironment.imagesSrc}}stockMovie.jpg" class="listBigImg" [alt]="listItem.name || listItem.title">
+                                    </ng-template>
+                                </div>
+                                <div>
+                                    <span class="mb-1 actorName">{{listItem.name || listItem.title}}</span>
+                                    <span>{{listItem.character}}</span>
+                                    <span class="mt-0 mb-3 releaseDate">{{listItem.release_date || listItem.first_air_date}}</span>   
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </ng-template>
+        </p-dataView>
+    </p-tabPanel>
+
+    <p-tabPanel *ngIf="personCredits && personCredits?.crew?.length" header="Credits">
+        <p-carousel *ngIf="personCredits" [value]="personCredits.crew | slice:0:21" [numVisible]="6" [numScroll]="6" [circular]="true" [responsiveOptions]="responsiveOptions">
+            <ng-template pTemplate="header">
+                <p class="carouselHeader">Credits</p>
+            </ng-template>
+            <ng-template let-credit pTemplate="item">
+                <a [routerLink]="'../../../' + credit.media_type + '/' + credit.id">   
+                    <div class="carousel-item">
+                        <div class="carousel-item-content">
+                            <div class="mb-3">
+                                <div *ngIf="credit.poster_path != null; then thenBlock7 else elseBlock7"></div>
+                                <ng-template #thenBlock7>
+                                    <img [src]="imagesSizes.medium + credit.poster_path" class="carousel-image" [alt]="credit.name || credit.title">
+                                </ng-template>
+                                <ng-template #elseBlock7>
+                                    <img src="{{currentEnvironment.imagesSrc}}stock.png" class="carousel-image" [alt]="credit.name || credit.title">
+                                </ng-template>
+                            </div>
+                            <div>
+                                <span class="mb-1 actorName">{{credit.name || credit.title}}</span>
+                                <span>{{credit.job}}</span>
+                                <span class="mt-0 mb-3 releaseDate">{{credit.release_date || credit.first_air_date}}</span>   
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </ng-template>
+        </p-carousel>
+    </p-tabPanel>
+
+    <p-tabPanel *ngIf="personImages?.profiles?.length" header="Images">
+        <div class="content">
+            <ng-container *ngFor="let personImg of personImages?.profiles | slice:0:10">
+                <div class="contentItem contentImg contentImgPerson">
+                    <p-image [src]="imagesSizes.medium+ personImg.file_path" [alt]="person.name" width="100%" [preview]="true"></p-image>
+                </div>
+            </ng-container>
+        </div>
+    </p-tabPanel>
+</p-tabView>

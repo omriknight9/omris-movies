@@ -1,0 +1,395 @@
+<p-tabView *ngIf="tvShow"[scrollable]="true" class="tabView">
+    <div class="backBtn" >
+        <a (click)="backClicked()">Back</a>
+    </div>
+    <p-tabPanel header="Overview">
+        <div class="itemGrid">
+            <div class="gridCont">
+            <div class="gridContBlock">
+                <h2>{{tvShow.name}}</h2>
+                <div *ngIf="tvShow.poster_path != null; then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock>
+                    <img class="poster" [src]="imagesSizes.medium + tvShow.poster_path" [alt]="tvShow.name">
+                </ng-template>
+                <ng-template #elseBlock>
+                    <img class="poster" src="{{currentEnvironment.imagesSrc}}stock.png" [alt]="tvShow.name">
+                </ng-template>
+
+                <a *ngIf="tvShowExternalIds?.imdb_id" href="https://www.imdb.com/title/{{tvShowExternalIds?.imdb_id}}" target="_blank">
+                    <img class="imdb" src="{{currentEnvironment.imagesSrc}}imdb.png">
+                </a>        
+            </div>
+
+            </div>
+            <div class="gridCont">
+                <h2>Overview</h2>
+                <p *ngIf="tvShow.tagline" class="tagline">{{tvShow.tagline}}</p>
+                <div *ngIf="!showOverview then thenBlock2 else elseBlock2"></div>
+                <ng-template #thenBlock2>
+
+                    <p class="overview">{{tvShow.overview | slice: 0:200}}
+                        <span class="changeReading" (click)="changeOverview()">...Read More</span>
+                    </p>
+    
+                </ng-template>
+
+                <ng-template #elseBlock2>
+                        <p *ngIf="!showOverviewText" class="overview">{{tvShow.overview}}</p>
+                </ng-template>
+    
+                    <p *ngIf="showOverviewText" class="overview">{{tvShow.overview}}
+                        <span class="changeReading" (click)="changeOverview()">Less</span>
+                    </p>
+
+                <div *ngIf="tvShow.first_air_date !== ''" class="stat">
+                    <div class="label">
+                        <i class="app-icon">date_range</i>
+                        Release Date:
+                    </div>
+                    <div class="value">
+                        {{tvShow.first_air_date}}
+                    </div>
+                </div>
+
+                <div *ngIf="tvShow.vote_average !== 0" class="stat">
+                    <div class="label">
+                        <i class="app-icon">star</i>
+                        Rating:
+                    </div>
+                    <div class="value">
+                        {{ tvShow.vote_average.toPrecision(2) }}/10
+                    </div>
+                </div>
+
+                <div *ngIf="tvShow.original_language" class="stat">
+                    <div class="label">
+                        <i class="app-icon">g_translate</i>
+                        Language:
+                    </div>
+                    <div class="value">
+                        {{ tvShow.original_language | uppercase }}
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="label">
+                        <i class="app-icon">ballot</i>
+                        Status:
+                    </div>
+                    <div class="value">
+                        {{ tvShow.status }}
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="label">
+                        <i class="app-icon">tv</i>
+                        Seasons:
+                    </div>
+                    <div class="value">
+                        {{ tvShow.number_of_seasons }}
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="label">
+                        <i class="app-icon">video_library</i>
+                        Episodes:
+                    </div>
+                    <div class="value">
+                        {{ tvShow.number_of_episodes }}
+                    </div>
+                </div>
+
+                <div *ngIf="tvShow.homepage" class="stat">
+                    <div class="label">
+                        <i class="app-icon">public</i>
+                        Home Page:
+                    </div>
+                    <div class="value">
+                        <a class="clickable" href={{tvShow.homepage}} target="_blank">
+                            Go To WebSite
+                        </a>
+                    </div>
+                </div>
+
+                <div *ngIf="tvShow.genres.length > 0" class="stat">
+                    <div class="label">
+                        <i class="app-icon">filter_none</i>
+                        Genres:
+                    </div>
+                    <div class="value">
+                        <ng-container *ngFor="let genre of tvShow.genres; first as isFirst">
+                            <a class="clickable" [routerLink]="'../../tv/genres/' + genre.id">
+                                <span *ngIf="isFirst">{{genre.name}}</span>
+                            </a>
+                            <a class="clickable" [routerLink]="'../../tv/genres/' + genre.id">
+                                <span *ngIf="!isFirst">, {{genre.name}}</span>
+                            </a>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="tvShow.number_of_seasons > 0">
+                    <button *ngIf="!showSeasons" class="routerLink noPadding" (click)="toggleDisplay()">View All Seasons</button>
+                    <ng-container *ngIf="showSeasons">
+                        <button class="routerLink noPadding" (click)="toggleDisplay()">Back</button>
+                        <span class="tvShowDescBtn">Pick A Season</span>
+                        <ng-container *ngFor="let item of tvShowSeasons; first as isFirst">
+                            <button [ngClass]="{noMarginLeft: isFirst}" class="routerLink tvShowBtn" (click)="getTvShowSeasonDetails(tvShow.id, item)">{{item}}</button>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngIf="showEpisodes">
+                        <span class="tvShowDescBtn">Pick An Episode</span>   
+                        <button *ngFor="let item of tvShowEpisodes; first as isFirst" [ngClass]="{noMarginLeft: isFirst}" class="routerLink tvShowBtn" (click)="getEpisodeInfo(item)">{{item}}</button>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+
+        <ng-container *ngIf="showEpisodes">
+            <ng-container *ngFor="let item of chosenTvShowEpisodesData">
+                <p *ngIf="item.overview" class="episodeOverview">{{item.overview}}</p>
+                <ng-container *ngIf="tvShowGuestStars && tvShowGuestStars?.guest_stars?.length">Z
+                    <p-carousel *ngIf="item && !isMobile" [value]="tvShowGuestStars.guest_stars | slice:0:21" [numVisible]="6" [numScroll]="6" [circular]="true" [responsiveOptions]="responsiveOptions">
+                        <ng-template pTemplate="header">
+                            <p class="carouselHeader">Guest Cast</p>                       
+                        </ng-template>
+                        <ng-template let-actor pTemplate="item">
+                            <a [routerLink]="'../../person/' + actor.id">            
+                                <div class="carousel-item">
+                                    <div class="carousel-item-content">
+                                        <div class="mb-3">
+                                            <div *ngIf="actor.profile_path != null; then thenBlock3 else elseBlock3"></div>
+                                            <ng-template #thenBlock3>
+                                                <img [src]="imagesSizes.medium + actor.profile_path" class="carousel-image" [alt]="actor.name">
+                                            </ng-template>
+                                            <ng-template #elseBlock3>
+                                                <div *ngIf="actor.gender == 1; then thenBlock4 else elseBlock4"></div>
+                                                <ng-template #thenBlock4>
+                                                    <img src="{{currentEnvironment.imagesSrc}}actress.jpg" class="carousel-image" [alt]="actor.name">
+                                                </ng-template>
+                                                <ng-template #elseBlock4>
+                                                    <img src="{{currentEnvironment.imagesSrc}}actor.jpg" class="carousel-image" [alt]="actor.name">
+                                                </ng-template>
+                                            </ng-template>
+                                        </div>
+                                        <div>
+                                            <span class="actorName">{{actor.name}}</span>
+                                            <span>{{actor.character | reduceString}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </ng-template>
+                    </p-carousel>
+            
+                    <p-dataView *ngIf="isMobile" layout="list" [value]="tvShowGuestStars.guest_stars | slice:0:21" [paginator]="true" (onPage)="paginate($event)" [rows]="10" filterBy="name">
+                        <ng-template pTemplate="header">
+                            <p class="dataViewHeader">Guest Cast</p>
+                        </ng-template>
+                        <ng-template let-listItem pTemplate="listItem">
+                            <div class="col-12">
+                                <a [routerLink]="'../../person/' + listItem.id">            
+                                    <div class="carousel-item">
+                                        <div class="carousel-item-content">
+                                            <div class="mb-3">
+                                                <div *ngIf="listItem.profile_path != null; then thenBlock5 else elseBlock5"></div>
+                                                <ng-template #thenBlock5>
+                                                    <img [src]="imagesSizes.medium + listItem.profile_path" class="listImg" [alt]="listItem.name">
+                                                </ng-template>
+                                                <ng-template #elseBlock5>
+                                                    <div *ngIf="listItem.gender == 1; then thenBlock6 else elseBlock6"></div>
+                                                    <ng-template #thenBlock6>
+                                                        <img src="{{currentEnvironment.imagesSrc}}actress.jpg" class="listImg" [alt]="listItem.name">
+                                                    </ng-template>
+                                                    <ng-template #elseBlock6>
+                                                        <img src="{{currentEnvironment.imagesSrc}}actor.jpg" class="listImg" [alt]="listItem.name">
+                                                    </ng-template>
+                                                </ng-template>
+                                            </div>
+                                            <div>
+                                                <span class="actorName">{{listItem.name}}</span>
+                                                <span>{{listItem.character | reduceString}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </ng-template>
+                    </p-dataView>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </p-tabPanel>
+
+    <p-tabPanel *ngIf="tvShowCredits && tvShowCredits?.cast?.length" header="Cast">
+        <p-carousel *ngIf="tvShowCredits && !isMobile" [value]="tvShowCredits.cast | slice:0:21" [numVisible]="6" [numScroll]="6" [circular]="true" [responsiveOptions]="responsiveOptions">
+            <ng-template pTemplate="header">
+                <p class="carouselHeader">Cast</p>
+            </ng-template>
+            <ng-template let-actor pTemplate="item">
+                <ng-container *ngIf="actor.imdb_id || actor.instagram_id">
+                    <div class="actorSocials">
+                        <ng-container *ngIf="actor.imdb_id">
+                            <a class="actorSocialBtn" href="https://www.imdb.com/name/{{actor.imdb_id}}" target="_blank">
+                                <img class="imdb" src="{{currentEnvironment.imagesSrc}}imdb.png">
+                            </a>
+                        </ng-container>
+                        
+                        <ng-container *ngIf="actor.instagram_id">
+                            <a class="actorSocialBtn" href="https://www.instagram.com/{{actor.instagram_id}}" target="_blank">
+                                <img class="imdb" src="{{currentEnvironment.imagesSrc}}instagram.png">
+                            </a>
+                        </ng-container>
+                    </div>
+                </ng-container>
+
+                <a [routerLink]="'../../person/' + actor.id">            
+                    <div class="carousel-item">
+                        <div class="carousel-item-content">
+                            <div class="mb-3">
+                                <div *ngIf="actor.profile_path != null; then thenBlock7 else elseBlock7"></div>
+                                <ng-template #thenBlock7>
+                                    <img [src]="imagesSizes.medium + actor.profile_path" class="carousel-image" [alt]="actor.name">
+                                </ng-template>
+                                <ng-template #elseBlock7>
+                                    <div *ngIf="actor.gender == 1; then thenBlock8 else elseBlock8"></div>
+                                    <ng-template #thenBlock8>
+                                        <img src="{{currentEnvironment.imagesSrc}}actress.jpg" class="carousel-image" [alt]="actor.name">
+                                    </ng-template>
+                                    <ng-template #elseBlock8>
+                                        <img src="{{currentEnvironment.imagesSrc}}actor.jpg" class="carousel-image" [alt]="actor.name">
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <div>
+                                <span class="actorName">{{actor.name}}</span>
+                                <span>{{actor.character | reduceString}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </ng-template>
+        </p-carousel>
+
+        <p-dataView *ngIf="isMobile" layout="list" [value]="tvShowCredits.cast | slice:0:21" [paginator]="true" (onPage)="paginate($event)" [rows]="10" filterBy="name">
+            <ng-template pTemplate="header">
+                <p class="dataViewHeader">Cast</p>
+            </ng-template>
+            <ng-template let-listItem pTemplate="listItem">
+                <div *ngIf="listItem.imdb_id || listItem.instagram_id" class="actorSocials">
+                    <a *ngIf="listItem.imdb_id" class="actorSocialBtn" href="https://www.imdb.com/name/{{listItem.imdb_id}}" target="_blank">
+                        <img class="imdb" src="{{currentEnvironment.imagesSrc}}imdb.png">
+                    </a>
+    
+                    <a *ngIf="listItem.instagram_id" class="actorSocialBtn" href="https://www.instagram.com/{{listItem.instagram_id}}" target="_blank">
+                        <img class="imdb" src="{{currentEnvironment.imagesSrc}}instagram.png">
+                    </a>   
+                </div>
+        
+                <div class="col-12">
+                    <a [routerLink]="'../../person/' + listItem.id">  
+                        <div class="listItem">
+                            <div *ngIf="listItem.profile_path != null; then thenBlock9 else elseBlock9"></div>
+                            <ng-template #thenBlock9>
+                                <img [src]="imagesSizes.medium + listItem.profile_path" class="listImg" [alt]="listItem.name">
+                            </ng-template>
+                            <ng-template #elseBlock9>
+                                <div *ngIf="listItem.gender == 1; then thenBlock10 else elseBlock10"></div>
+                                <ng-template #thenBlock10>
+                                    <img src="{{currentEnvironment.imagesSrc}}actress.jpg" class="listImg" [alt]="listItem.name">
+                                </ng-template>
+                                <ng-template #elseBlock10>
+                                    <img src="{{currentEnvironment.imagesSrc}}actor.jpg" class="listImg" [alt]="listItem.name">
+                                </ng-template>
+                            </ng-template>
+                            <div class="listItemDetail">
+                                <div class="listItemName">{{listItem.name}}</div>
+                                <div class="listItemDescription">{{listItem.character | reduceString}}</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </ng-template>
+        </p-dataView>
+    </p-tabPanel>
+
+    <p-tabPanel *ngIf="tvShowImages?.backdrops?.length" header="Images">
+        <div class="content">
+            <ng-container *ngFor="let tvShowImg of tvShowImages?.backdrops | slice:0:10">
+                <div class="contentItem contentImg contentImgTvShow">
+                    <p-image [src]="imagesSizes.large + tvShowImg.file_path" [alt]="tvShow.name" width="100%" [preview]="true"></p-image>
+                </div>
+            </ng-container>
+        </div>
+    </p-tabPanel>
+
+    <p-tabPanel *ngIf="tvShowVideos?.results?.length" header="Videos">
+        <div class="content">
+            <ng-container *ngFor="let tvShowVideo of tvShowVideos?.results | slice:0:5">
+                <div class="contentVideo">
+                    <video-embed [key]="tvShowVideo.key" [site]="tvShowVideo.site"></video-embed>
+                </div>
+            </ng-container>
+        </div>
+    </p-tabPanel>
+
+    <p-tabPanel *ngIf="tvShowSimilar?.results?.length" header="Similar TV Shows">
+        <p-carousel *ngIf="tvShowSimilar && !isMobile" [value]="tvShowSimilar.results | slice:0:21" [numVisible]="6" [numScroll]="6" [circular]="true" [responsiveOptions]="responsiveOptions">
+            <ng-template pTemplate="header">
+                <p class="carouselHeader">Similar TV Shows</p>
+            </ng-template>
+            <ng-template let-similarTvShow pTemplate="item">
+                <a [routerLink]="'../../tv/' + similarTvShow.id"> 
+                    <div class="carousel-item">
+                        <div class="carousel-item-content">
+                            <div class="mb-3">
+                                <div *ngIf="similarTvShow.poster_path != null; then thenBlock11 else elseBlock11"></div>
+                                <ng-template #thenBlock11>
+                                    <img [src]="imagesSizes.medium + similarTvShow.poster_path" class="carousel-image" [alt]="similarTvShow.name">
+                                </ng-template>
+                                <ng-template #elseBlock11>
+                                    <img src="{{currentEnvironment.imagesSrc}}stock.png" class="carousel-image" [alt]="similarTvShow.title">
+                                </ng-template>
+                            </div>
+                            <div>
+                                <span class="mb-1 actorName">{{similarTvShow.name}}</span>
+                                <span class="mt-0 mb-3 similarMoviesDate">{{similarTvShow.first_air_date}}</span>   
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </ng-template>
+        </p-carousel>
+
+        <p-dataView *ngIf="isMobile && tvShowSimilar" layout="list" [value]="tvShowSimilar.results | slice:0:21" [paginator]="true" (onPage)="paginate($event)" [rows]="10" filterBy="name">
+            <ng-template pTemplate="header">
+                <p class="dataViewHeader">Similar TV Shows</p>
+            </ng-template>
+            <ng-template let-listItem pTemplate="listItem">
+                <div class="col-12">
+                    <a [routerLink]="'../../tv/' + listItem.id"> 
+                        <div class="carousel-item">
+                            <div class="carousel-item-content">
+                                <div class="mb-3">
+                                    <div *ngIf="listItem.backdrop_path != null; then thenBlock12 else elseBlock12"></div>
+                                    <ng-template #thenBlock12>
+                                        <img [src]="imagesSizes.large + listItem.backdrop_path" class="listBigImg" [alt]="listItem.name">
+                                    </ng-template>
+                                    <ng-template #elseBlock12>
+                                        <img src="{{currentEnvironment.imagesSrc}}stockMovie.jpg" class="listBigImg" [alt]="listItem.title">
+                                    </ng-template>
+                                </div>
+                                <div>
+                                    <span class="mb-1 actorName">{{listItem.name}}</span>
+                                    <span class="mt-0 mb-3 similarMoviesDate">{{listItem.first_air_date}}</span>   
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </ng-template>
+        </p-dataView>
+    </p-tabPanel>
+</p-tabView>

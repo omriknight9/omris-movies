@@ -1,0 +1,13 @@
+@import '../../../styles/colors';
+
+.searchWrapper {
+    position: relative;
+}
+
+.refreshPeople {
+    position: absolute;
+    top: .6rem;
+    right: .5rem;
+    cursor: pointer;
+    z-index: 1;
+}

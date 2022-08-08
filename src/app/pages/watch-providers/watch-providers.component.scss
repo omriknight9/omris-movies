@@ -1,0 +1,21 @@
+.providerImg {
+    width: 10rem;
+}
+
+.watchCont {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+
+    a {
+        margin: .5rem;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .providerImg {
+        width: 7rem;
+    }
+}

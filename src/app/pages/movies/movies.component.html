@@ -1,0 +1,28 @@
+<div class="{{storageClass}}">
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-6">
+            <div class="p-fluid searchWrapper">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input class="searchMovie" type="text" pInputText placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchChanged()"/>
+                </span>
+                <i class="pi pi-refresh refreshMovies" (click)="resetResults()"></i>
+            </div>
+        </div>
+    </div>
+    <h2>{{titleHeader}}</h2>
+    <div class="sortingContainer">
+        <i *ngIf="dateDown" class="pi pi-calendar-minus routerLink" (click)="fromNewToOld()"></i>
+        <i *ngIf="dateUp" class="pi pi-calendar-plus routerLink" (click)="fromOldToNew()"></i>
+        <i *ngIf="aToZ" class="pi pi-sort-alpha-down routerLink" (click)="fromAToZ()"></i>
+        <i *ngIf="zToA" class="pi pi-sort-alpha-down-alt routerLink" (click)="fromZToA()"></i>
+    </div>
+    <div class="content">
+        <div *ngFor="let movie of movies" class="contentItem hoverEffect">
+            <item [itemData]="movie"></item>
+        </div>
+    </div>
+    <div>
+        <p-paginator [rows]="20" [totalRecords]="100" [pageLinkSize]="3" (onPageChange)="paginate($event)"></p-paginator>
+    </div>
+</div>

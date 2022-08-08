@@ -1,0 +1,64 @@
+@import '../../../styles/colors';
+
+:host ::ng-deep {
+    .p-card-content {
+        img {
+            width: 30rem;
+            border-radius: 5px;
+        }
+    }
+}
+
+.timelinePoster {
+    width: 13rem !important;
+}
+
+.p-button-text {
+    color: $orangeColor
+}
+
+@media only screen and (max-width: 1100px) {
+    :host ::ng-deep {
+        .customized-timeline .p-timeline-event-opposite {
+            flex: 0;
+            padding: 0 .5rem;
+        }
+
+        .p-timeline-event {
+            min-height: 40px;
+        }
+
+        .customized-timeline .p-card {
+            margin-top: 1rem;
+        }
+
+        .customized-timeline .p-timeline-event:nth-child(even) {
+            flex-direction: row !important;
+        }
+
+        .p-timeline-vertical.p-timeline-alternate .p-timeline-event:nth-child(even) .p-timeline-event-content {
+            text-align: left;
+        }
+
+        .p-card-content {
+            img {
+                width: 17rem;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 765px) {
+    :host ::ng-deep {
+        .p-card-content {
+            text-align: center;
+            img {
+                width: 100%;
+            }
+        }
+    }
+
+    .timelinePoster {
+        width: 50% !important;
+    }
+}

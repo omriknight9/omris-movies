@@ -1,0 +1,67 @@
+@import '../../../styles/colors';
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: .5rem 1rem;
+    background-color: $bgColorLight;
+    margin: 0;
+}
+
+.socials {
+    margin: 1rem 0;
+
+    a {
+        margin: 0 .5rem; 
+        i {
+            font-size: 1.5rem;
+            color: $orangeColor;
+            transition: .2s;
+            -webkit-transition: .2s;
+            -moz-transition: .2s;
+            -o-transition: .2s;
+        }
+    }
+}
+
+.tmdb {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-around;
+    align-items: center;
+
+    span {
+        margin-right: 1rem;
+    }
+
+    img {
+        width: 8rem;
+        display: inline-block;
+    }
+}
+
+@media only screen and (min-width: 765px) {
+    .socials {
+        a:hover {
+            i {
+                color: white;
+                transform: rotate(-25deg);
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 765px) {
+
+    .tmdb {
+        flex-direction: column;
+        justify-content: center;
+
+        span {
+            margin: 0 0 .5rem 0;
+            text-align: center;
+        }
+    }
+}

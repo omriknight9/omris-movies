@@ -1,0 +1,73 @@
+@import '../../../styles/colors';
+
+.skeleton {
+    width: 9rem;
+    margin: 1rem;
+    text-align: center;
+}
+
+.movie-item {
+    &-image-person {
+        img {
+            width: 100%;
+            border-radius: 5px;
+            clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+            -ms-clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+            -o-clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+            -webkit-clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+        }
+    }
+
+    position: relative;
+    width: 9rem;
+    margin: 1rem;
+    text-align: center;
+    transition: .2s;
+    filter: drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
+
+    &-image {
+        img {
+            width: 100%;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+            -ms-clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+            -o-clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+            -webkit-clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
+        }
+    }
+
+    &-rating {
+        max-width: 12rem;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        background-color: $bgColorLight;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding: 5px 10px;
+
+        .app-icon {
+            margin-right: 5px;
+            color: #d4af37;
+        }
+    }
+
+    &-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin: .5rem;
+
+        span:first-letter {
+            font-size: 1.2rem;
+            color: $orangeColor;
+        }    
+    }
+
+    &-date {
+        padding: .5rem 0 0 0;
+        font-weight: bold;
+    }
+}

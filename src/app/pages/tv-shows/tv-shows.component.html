@@ -1,0 +1,23 @@
+<div class="{{storageClass}}">
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-6">
+            <div class="p-fluid searchWrapper">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="text" pInputText placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchChanged()"/>
+                </span>
+                <i class="pi pi-refresh refreshTvShows" (click)="resetResults()"></i>
+            </div>
+        </div>
+    </div>
+    <h2>{{titleHeader}}</h2>
+    <div class="content">
+        <div *ngFor="let tvShow of tvShows" class="contentItem hoverEffect">
+            <item [itemDataTv]="tvShow"></item>
+        </div>
+    </div>
+    <div>
+        <p-paginator [rows]="20" [totalRecords]="100" (onPageChange)="paginate($event)"></p-paginator>
+    </div>
+</div>
+

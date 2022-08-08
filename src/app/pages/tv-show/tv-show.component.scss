@@ -1,0 +1,86 @@
+@import '../../../styles/colors';
+
+.overview {
+    line-height: 1.5;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 15px;
+
+    .label {
+        width: 170px;
+        font-weight: bold;
+    }
+
+    .value {
+        color: $orangeColor;
+    }
+
+    .app-icon {
+        margin-right: 5px;
+        color: $orangeColor;
+        font-size: 1.2rem;
+        vertical-align: sub;
+    }
+}
+
+.tvShowBtn.noMarginLeft {
+    margin-left: 0;
+}
+
+.tvShowBtn {
+    background: $orangeColor;
+    color: black;
+    border-radius: 50px;
+    margin: .5rem;
+}
+
+.tvShowDescBtn {
+    display: block;
+    margin: .5rem 0;
+}
+
+.episodeOverview {
+    line-height: 1.6;
+}
+
+.carouselHeader {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.actorSocials {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    .actorSocialBtn {
+        margin: 0 .5rem;
+        img {
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+}
+
+.tagline {
+    color: $orangeColor;
+}
+
+@media only screen and (max-width: 765px) {
+    .episodeOverview {
+        text-align: center;
+    }
+
+    .actorSocials {
+        position: static;
+    }
+}

@@ -1,0 +1,73 @@
+<div class="{{storageClass}}">
+    <h2>Popular Movies</h2>
+    <p-carousel *ngIf="popularMovies" [value]="popularMovies | slice:0:21" [numVisible]="6" [numScroll]="6" [circular]="true" [responsiveOptions]="responsiveOptions">
+        <ng-template let-item pTemplate="item">
+            <div class="carousel-item homeCarousel">
+                <div class="carousel-item-content">
+                    <div class="mb-3 hoverEffect">
+                        <item [itemData]="item"></item>  
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+
+    <a class="routerLink" [routerLink]="'/movies/popular'">For More Popular Movies</a>
+    
+    <h2>Upcoming Movies</h2>
+    <p-carousel *ngIf="popularMovies" [value]="upcomingMovies | slice:0:21" [numVisible]="6" [numScroll]="6" [circular]="true" [responsiveOptions]="responsiveOptions">
+        <ng-template let-item pTemplate="item">
+            <div class="carousel-item homeCarousel">
+                <div class="carousel-item-content">
+                    <div class="mb-3 hoverEffect">
+                        <item [itemData]="item"></item>  
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+    
+    <a class="routerLink" [routerLink]="'/movies/upcoming'">For More Upcoming Movies</a>
+
+    <h2>This Week's Trending Movies</h2>
+    <p-carousel *ngIf="trendingWeekMovies" [value]="trendingWeekMovies | slice:0:21" [numVisible]="6" [numScroll]="6" [circular]="true" [responsiveOptions]="responsiveOptions">
+        <ng-template let-item pTemplate="item">
+            <div class="carousel-item homeCarousel">
+                <div class="carousel-item-content">
+                    <div class="mb-3 hoverEffect">
+                        <item [itemData]="item"></item>  
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+
+    <h2>This Week's Trending TV Shows</h2>
+    <p-carousel *ngIf="trendingWeekTvShows" [value]="trendingWeekTvShows | slice:0:21" [numVisible]="6" [numScroll]="6" [circular]="true" [responsiveOptions]="responsiveOptions">
+        <ng-template let-item pTemplate="item">
+            <div class="carousel-item homeCarousel">
+                <div class="carousel-item-content">
+                    <div class="mb-3 hoverEffect">
+                        <item [itemDataTv]="item"></item>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+
+    <h2>This Week's Trending People</h2>
+    <p-carousel *ngIf="trendingWeekPeople" [value]="trendingWeekPeople | slice:0:21" [numVisible]="6" [numScroll]="6" [circular]="true" [responsiveOptions]="responsiveOptions">
+        <ng-template let-item pTemplate="item">
+            <div class="carousel-item homeCarousel">
+                <div class="carousel-item-content">
+                    <div class="mb-3 hoverEffect">
+                        <item [itemDataPerson]="item"></item>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+
+    <a class="routerLink" [routerLink]="'/people'">For More Trending People</a>
+
+</div>

@@ -1,0 +1,20 @@
+$bgColor: #141414;
+$bgColorLight: #212121;
+$white: #fff;
+$lightGray: #999;
+$orangeColor: #ff8c00;
+$clickableColor: #5555ff;
+
+:root {
+    --body-bg-color: #141414;
+    --header-bg-color: #323a4b;
+}
+
+.dark-mode {
+    --body-bg-color: #f2f2f2;
+    --header-bg-color: #fff;
+    --theme-bg-color: #212835;
+    --border-color: #393f50;
+    --main-color: #fefffd;
+    --body-color: #dddee0;
+}
